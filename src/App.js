@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles.css';
+import { GlobalStyle } from './config';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
+import { Sidebar, Main } from './components';
+
+import { Summary, Home, Calculator, Food } from './pages';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const location = useLocation();
+
+	return (
+		<>
+			<GlobalStyle />
+			<Sidebar />
+			<Main>
+				<TransitionGroup>
+					<CSSTransition
+						key={location.pathname}
+						timeout={500}
+						classNames='page'
+					>
+						<Routes location={location}>
+							<Route path='/' element={<Home />} />
+							<Route path='/summary' element={<Summary />} />
+							<Route path='/calculator' element={<Calculator />} />
+							<Route path='/food' element={<Food />} />
+						</Routes>
+					</CSSTransition>
+				</TransitionGroup>
+			</Main>
+		</>
+	);
 }
 
 export default App;
