@@ -56,23 +56,30 @@ Chart.register(
 
 export const Graph = () => {
 	const [chartData, setChartData] = useState({});
+	const [labelData, setLabelData] = useState([]);
 
 	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*:{00..04}:.*?find[dateString][$lte]=2021-12-19T03:05:00.000Z&find[dateString][$gte]=2021-12-18T03:00:00.000Z&count=24`;
 
 	const fetchData = () => {
 		let dataArray = [];
+		let labelsArray = [];
 
 		axios
 			.get(fetchUrl)
 			.then((res) => {
-				console.log(res.data);
+				for (let i = 0; i < res.data.length; i++) {
+					let time = `${new Date(res.data[i].dateString)}`;
+					labelsArray.push(time.slice(16, 18));
+				}
 
 				for (let i = 0; i < res.data.length; i++) {
 					dataArray.push(res.data[i].sgv);
 				}
 
+				labelsArray.reverse();
 				dataArray.reverse();
 
+				setLabelData(labelsArray);
 				setChartData(dataArray);
 			})
 			.catch((err) => {
@@ -91,32 +98,7 @@ export const Graph = () => {
 				width={2000}
 				height={400}
 				data={{
-					labels: [
-						'00h',
-						'01h',
-						'02h',
-						'03h',
-						'04h',
-						'05h',
-						'06h',
-						'07h',
-						'08h',
-						'09h',
-						'10h',
-						'11h',
-						'12h',
-						'13h',
-						'14h',
-						'15h',
-						'16h',
-						'17h',
-						'18h',
-						'19h',
-						'20h',
-						'21h',
-						'22h',
-						'23h',
-					],
+					labels: labelData,
 					datasets: [
 						{
 							label: 'BG reading',
@@ -131,6 +113,7 @@ export const Graph = () => {
 
 					scales: {
 						x: {
+							bounds: 'ticks',
 							display: 'auto',
 						},
 						y: {
