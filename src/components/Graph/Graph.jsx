@@ -57,10 +57,11 @@ Chart.register(
 export const Graph = () => {
 	const [chartData, setChartData] = useState({});
 
-	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*:{00..04}:.*?find[dateString][$lte]=2021-12-18T03:00:00.000Z&count=24`;
+	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*:{00..04}:.*?find[dateString][$lte]=2021-12-19T03:05:00.000Z&find[dateString][$gte]=2021-12-18T03:00:00.000Z&count=24`;
 
 	const fetchData = () => {
 		let dataArray = [];
+
 		axios
 			.get(fetchUrl)
 			.then((res) => {
