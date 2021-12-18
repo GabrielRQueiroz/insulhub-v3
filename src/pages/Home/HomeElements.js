@@ -106,7 +106,7 @@ export const HomeMainSection = styled.section`
 `;
 
 export const HomeGraphContainer = styled.div`
-	height: fit-content;
+	max-height: 600px;
 	max-width: 100%;
 
 	padding: 32px;

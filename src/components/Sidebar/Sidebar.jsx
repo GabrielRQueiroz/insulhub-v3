@@ -1,19 +1,15 @@
 import React from 'react';
-
-import LogoSource from '../../assets/images/logo.svg';
-// import bgSource from '../../assets/videos/bg.mp4';
-
-import { FaHome, FaRegClipboard, FaCalculator, FaCarrot } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-
+// import bgSource from '../../assets/videos/bg.mp4';
+import { FaCalculator, FaCarrot, FaHome, FaRegClipboard } from 'react-icons/fa';
+import LogoSource from '../../assets/images/logo.svg';
 import {
-	SidebarWrapper,
 	SidebarBrand,
-	SidebarLogo,
-	SidebarTitle,
 	SidebarItems,
 	SidebarLink,
-	// SidebarBG,
+	SidebarLogo,
+	SidebarTitle,
+	SidebarWrapper,
 } from './SidebarElements';
 
 export const Sidebar = () => {

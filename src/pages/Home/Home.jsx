@@ -1,27 +1,17 @@
 import React from 'react';
-
-import {
-	FaRegClipboard,
-	FaCalculator,
-	FaCarrot,
-	FaPencilAlt,
-} from 'react-icons/fa';
-
 import { EditText } from 'react-edit-text';
-
+import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard } from 'react-icons/fa';
+import { Graph, PageHeader } from '../../components';
 import {
-	HomeContainer,
-	HomeGreetings,
-	HomeHeader,
-	HomeCardsContainer,
 	HomeCard,
+	HomeCardsContainer,
 	HomeCardTitle,
-	// MainSectionWrapper,
-	// HomeMainSection,
-	// HomeGraphContainer,
+	HomeContainer,
+	HomeGraphContainer,
+	HomeGreetings,
+	HomeMainSection,
+	MainSectionWrapper,
 } from './HomeElements';
-
-import { PageHeader } from '../../components';
 
 export const Home = () => {
 	return (
@@ -29,10 +19,7 @@ export const Home = () => {
 			<PageHeader heading='Principal'>
 				<HomeGreetings>
 					Olá,{' '}
-					<EditText
-						style={{ display: 'inline', cursor: 'pointer' }}
-						placeholder='usuário'
-					/>
+					<EditText style={{ display: 'inline', cursor: 'pointer' }} placeholder='usuário' />
 					! <FaPencilAlt />
 				</HomeGreetings>
 			</PageHeader>
@@ -50,21 +37,13 @@ export const Home = () => {
 					<FaCarrot />
 				</HomeCard>
 			</HomeCardsContainer>
-			{/* <MainSectionWrapper>
+			<MainSectionWrapper>
 				<HomeMainSection>
 					<HomeGraphContainer>
-						Consectetur in cupidatat aliquip id irure laborum cupidatat.
-						Irure magna amet anim exercitation ex magna voluptate veniam
-						voluptate minim laboris. Veniam ea tempor Lorem exercitation
-						sit velit cillum ea tempor est. Velit labore dolor ipsum ad
-						ullamco irure qui. Exercitation aliquip amet officia culpa
-						voluptate pariatur consectetur aliquip nostrud ullamco irure
-						amet in. Do excepteur ea in elit ipsum commodo sit officia
-						cupidatat. Non excepteur dolor nulla sit magna consequat
-						adipisicing.
+						<Graph />
 					</HomeGraphContainer>
 				</HomeMainSection>
-			</MainSectionWrapper> */}
+			</MainSectionWrapper>
 		</HomeContainer>
 	);
 };

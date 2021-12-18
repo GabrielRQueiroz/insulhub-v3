@@ -1,8 +1,8 @@
 import React from 'react';
-
+import { PageHeader } from '../../components';
 import { CalculatorContainer } from './CalculatorElements';
 
-import { PageHeader } from '../../components';
+
 
 export const Calculator = () => {
 	return (
