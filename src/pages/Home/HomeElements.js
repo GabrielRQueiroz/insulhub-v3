@@ -106,6 +106,11 @@ export const HomeMainSection = styled.section`
 `;
 
 export const HomeGraphContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-items: space-between;
+
+	height: 400px;
 	max-height: 600px;
 	max-width: 100%;
 

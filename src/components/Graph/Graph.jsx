@@ -58,7 +58,7 @@ export const Graph = () => {
 	const [chartData, setChartData] = useState({});
 	const [labelData, setLabelData] = useState([]);
 
-	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*:{00..04}:.*?find[dateString][$lte]=2021-12-19T03:05:00.000Z&find[dateString][$gte]=2021-12-18T03:00:00.000Z&count=24`;
+	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*?find[dateString][$gte]=2021-12-18T03:00:00.000&find[dateString][$lte]=2021-12-19T03:00:00.000&count=300`;
 
 	const fetchData = () => {
 		let dataArray = [];
@@ -69,7 +69,9 @@ export const Graph = () => {
 			.then((res) => {
 				for (let i = 0; i < res.data.length; i++) {
 					let time = `${new Date(res.data[i].dateString)}`;
-					labelsArray.push(time.slice(16, 18));
+					let labeledTime = time.slice(16, 21);
+
+					labelsArray.push(labeledTime);
 				}
 
 				for (let i = 0; i < res.data.length; i++) {
@@ -78,6 +80,8 @@ export const Graph = () => {
 
 				labelsArray.reverse();
 				dataArray.reverse();
+
+				console.log(labelsArray);
 
 				setLabelData(labelsArray);
 				setChartData(dataArray);
@@ -96,7 +100,7 @@ export const Graph = () => {
 			{/* <button type='button'>Mudar data</button> */}
 			<Line
 				width={2000}
-				height={400}
+				height={300}
 				data={{
 					labels: labelData,
 					datasets: [
@@ -111,14 +115,24 @@ export const Graph = () => {
 				options={{
 					responsive: true,
 
+					pointRadius: 2.5,
+
+					plugins: {
+						legend: false,
+					},
+
 					scales: {
 						x: {
+							min: 0,
 							bounds: 'ticks',
-							display: 'auto',
+							display: true,
 						},
 						y: {
 							max: 300,
 							beginAtZero: true,
+							ticks: {
+								stepSize: 40,
+							},
 						},
 					},
 					maintainAspectRatio: false,
