@@ -54,11 +54,14 @@ Chart.register(
 	Tooltip
 );
 
-export const Graph = () => {
+export const Graph = ({ time }) => {
 	const [chartData, setChartData] = useState({});
 	const [labelData, setLabelData] = useState([]);
 
-	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*?find[dateString][$gte]=2021-12-18T03:00:00.000&find[dateString][$lte]=2021-12-19T03:00:00.000&count=300`;
+	let timeString = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;
+	let timeStringAhead = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate() + 1}`;
+
+	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
 
 	const fetchData = () => {
 		let dataArray = [];
@@ -81,8 +84,6 @@ export const Graph = () => {
 				labelsArray.reverse();
 				dataArray.reverse();
 
-				console.log(labelsArray);
-
 				setLabelData(labelsArray);
 				setChartData(dataArray);
 			})
@@ -93,14 +94,17 @@ export const Graph = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [time]);
+
+	useEffect(() => {
+		console.log(timeString, timeStringAhead);
+	}, [time]);
 
 	return (
 		<>
 			{/* <button type='button'>Mudar data</button> */}
 			<Line
 				width={2000}
-				height={300}
 				data={{
 					labels: labelData,
 					datasets: [
@@ -128,7 +132,7 @@ export const Graph = () => {
 							display: true,
 						},
 						y: {
-							max: 300,
+							max: 320,
 							beginAtZero: true,
 							ticks: {
 								stepSize: 40,

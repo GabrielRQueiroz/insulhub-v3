@@ -1,4 +1,4 @@
-import './styles.css';
+import './config/transition.css';
 import { GlobalStyle } from './config';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -16,11 +16,7 @@ function App() {
 			<Sidebar />
 			<Main>
 				<TransitionGroup>
-					<CSSTransition
-						key={location.pathname}
-						timeout={500}
-						classNames='page'
-					>
+					<CSSTransition key={location.pathname} timeout={500} classNames='page'>
 						<Routes location={location}>
 							<Route path='/' element={<Home />} />
 							<Route path='/summary' element={<Summary />} />

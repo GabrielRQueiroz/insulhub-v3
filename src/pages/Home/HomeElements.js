@@ -2,14 +2,19 @@ import styled from 'styled-components';
 import { Link as link } from 'react-router-dom';
 
 export const HomeContainer = styled.div`
+	height: 100vh;
+	width: 100%;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
 	padding: 0 15px;
 
-	min-height: 100vh;
-	width: 100%;
+	@media screen and (max-width: 900px) {
+		height: auto;
+		min-height: 100vh;
+	}
 `;
 
 export const HomeGreetings = styled.h3`
@@ -21,19 +26,19 @@ export const HomeGreetings = styled.h3`
 
 export const HomeCardsContainer = styled.div`
 	display: flex;
-	flex-grow: 3;
+	flex-shrink: 1;
+	flex-basis: auto;
 	flex-wrap: wrap;
+
 	justify-content: center;
 
-	max-height: 310px;
+	max-height: 100%;
 	width: 100%;
-
-	padding: 0 -15px;
 `;
 
 export const HomeCard = styled(link)`
 	height: 135px;
-	max-width: 250px;
+	max-width: 100%;
 
 	flex: 1 0 175px;
 
@@ -46,7 +51,7 @@ export const HomeCard = styled(link)`
 
 	background-color: #ffffff;
 
-	margin: 10px 15px;
+	margin: 10px 15px 15px;
 	padding: 24px 0px;
 
 	transition: 200ms all ease-out;
@@ -88,31 +93,49 @@ export const MainSectionWrapper = styled.div`
 	background: transparent;
 
 	padding: 0 15px;
-	margin: 10px 15px 30px;
+	margin: 15px 15px 30px;
 `;
 
 export const HomeMainSection = styled.section`
 	height: 100%;
 	width: 100%;
 
-	color: #9fa2b4;
-
 	display: flex;
+	flex-flow: column;
+
+	justify-items: space-around;
+
+	padding: 16px 0 0;
 
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
 
 	background-color: #ffffff;
+	color: #9fa2b4;
 `;
 
 export const HomeGraphContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-items: space-between;
-
-	height: 400px;
-	max-height: 600px;
 	max-width: 100%;
+	flex: 1;
 
-	padding: 32px;
+	margin: 32px;
+
+	@media screen and (max-width: 576px) {
+		padding: 16px 8px;
+	}
+`;
+
+export const DateWrapper = styled.div`
+	display: flex;
+
+	align-items: center;
+	justify-content: space-evenly;
+
+	height: 24px;
+	width: 100%;
+
+	& > * {
+		position: fixed;
+		width: auto !important;
+	}
 `;
