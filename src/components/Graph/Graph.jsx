@@ -58,16 +58,19 @@ export const Graph = ({ time }) => {
 	const [chartData, setChartData] = useState({});
 	const [labelData, setLabelData] = useState([]);
 
-	let timeString = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;
+	let timeString = `${time.getFullYear()}-${(time.getMonth() + 1).toString().padStart(2, 0)}-${time
+		.getDate()
+		.toString()
+		.padStart(2, 0)}`; //padStart to avoid '04' turning into only
 	let timeStringAhead = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate() + 1}`;
 
 	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
 
-	const fetchData = () => {
+	const fetchData = async () => {
 		let dataArray = [];
 		let labelsArray = [];
 
-		axios
+		await axios
 			.get(fetchUrl)
 			.then((res) => {
 				for (let i = 0; i < res.data.length; i++) {
@@ -94,10 +97,6 @@ export const Graph = ({ time }) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [time]);
-
-	useEffect(() => {
-		console.log(timeString, timeStringAhead);
 	}, [time]);
 
 	return (

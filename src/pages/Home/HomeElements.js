@@ -136,6 +136,7 @@ export const DateWrapper = styled.div`
 
 	& > * {
 		position: fixed;
+
 		width: auto !important;
 	}
 `;
