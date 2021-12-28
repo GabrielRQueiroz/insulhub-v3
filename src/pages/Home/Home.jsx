@@ -27,6 +27,8 @@ export const Home = () => {
 		</DatePickerButton>
 	));
 
+	const handleDateChange = (date) => setDate(date);
+
 	return (
 		<HomeContainer>
 			<PageHeader heading='Principal'>
@@ -60,7 +62,7 @@ export const Home = () => {
 							selected={date}
 							dateFormat='dd/MM/yyyy'
 							customInput={<ButtonRef />}
-							onChange={(date) => setDate(date)}
+							onChange={handleDateChange}
 						/>
 					</DateWrapper>
 					<HomeGraphContainer>

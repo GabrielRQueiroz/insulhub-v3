@@ -61,49 +61,50 @@ export const Graph = ({ time }) => {
 	const [chartData, setChartData] = useState({});
 	const [labelData, setLabelData] = useState([]);
 
-	const timeString = `${time.getFullYear()}-${(time.getMonth() + 1)
-		.toString()
-		.padStart(2, 0)}-${time.getDate().toString().padStart(2, 0)}`;
-	//padStart is to avoid '04' turning into only '4'
-	const timeStringAhead = `${time.getFullYear()}-${(time.getMonth() + 1)
-		.toString()
-		.padStart(2, 0)}-${(time.getDate() + 1).toString().padStart(2, 0)}`;
-
-	const fetchData = async () => {
-		const dataArray = [];
-		const labelsArray = [];
-
-		const fetchUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
-
-		setIsLoading(true);
-
-		await axios
-			.get(fetchUrl)
-			.then((res) => {
-				for (let i = 0; i < res.data.length; i++) {
-					let time = `${new Date(res.data[i].dateString)}`;
-					let labeledTime = time.slice(16, 21);
-
-					labelsArray.push(labeledTime);
-				}
-
-				for (let i = 0; i < res.data.length; i++) {
-					dataArray.push(res.data[i].sgv);
-				}
-
-				labelsArray.reverse();
-				dataArray.reverse();
-
-				setLabelData(labelsArray);
-				setChartData(dataArray);
-				setIsLoading(false);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	};
-
 	useEffect(() => {
+		const timeString = `${time.getFullYear()}-${(time.getMonth() + 1)
+			.toString()
+			.padStart(2, 0)}-${time.getDate().toString().padStart(2, 0)}`;
+		//padStart is to avoid '04' turning into only '4'
+
+		const timeStringAhead = `${time.getFullYear()}-${(time.getMonth() + 1)
+			.toString()
+			.padStart(2, 0)}-${(time.getDate() + 1).toString().padStart(2, 0)}`;
+
+		const fetchData = async () => {
+			const dataArray = [];
+			const labelsArray = [];
+
+			const fetchUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
+
+			setIsLoading(true);
+
+			await axios
+				.get(fetchUrl)
+				.then((res) => {
+					for (let i = 0; i < res.data.length; i++) {
+						let time = `${new Date(res.data[i].dateString)}`;
+						let labeledTime = time.slice(16, 21);
+
+						labelsArray.push(labeledTime);
+					}
+
+					for (let i = 0; i < res.data.length; i++) {
+						dataArray.push(res.data[i].sgv);
+					}
+
+					labelsArray.reverse();
+					dataArray.reverse();
+
+					setLabelData(labelsArray);
+					setChartData(dataArray);
+					setIsLoading(false);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		};
+
 		fetchData();
 	}, [time]);
 
