@@ -2,14 +2,47 @@ import styled from 'styled-components';
 
 import { NavLink as link } from 'react-router-dom';
 
-export const SidebarWrapper = styled.nav`
+export const SidebarContainer = styled.nav`
+	display: flex;
+	position: ${(props) => (props.mobile ? 'absolute' : 'relative')};
+
+	left: ${(props) => (props.mobileSidebarOpen ? '0px' : '-255px')};
+
+	transition: 500ms all ease-in-out;
+`;
+
+export const SidebarButton = styled.div`
+	position: relative;
+	display: ${(props) => (props.mobile ? 'inline' : 'none')};
+	z-index: 999;
+
+	transform: ${(props) => (props.mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)')};
+
+	margin-top: 16px;
+	padding: 6px 10px 6px 6px;
+
+	height: 32px;
+	width: 32px;
+
+	border-radius: 0 10px 10px 0;
+
+	background-color: rgba(54, 55, 64, 0.99);
+
+	transition: 500ms all ease-in-out;
+
+	& > svg {
+		height: 100%;
+		width: 100%;
+	}
+`;
+
+export const SidebarWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	z-index: 10;
 
 	height: 100vh;
 	min-width: 255px;
-
-	position: relative;
 
 	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
@@ -44,11 +77,18 @@ export const SidebarTitle = styled.h1`
 	margin-left: 12px;
 `;
 
-export const SidebarItems = styled.ul`
+export const SidebarList = styled.ul`
 	list-style: none;
 
 	display: flex;
 	flex-direction: column;
+`;
+
+export const SidebarItem = styled.li`
+	height: auto;
+	width: 100%;
+
+	list-style: none;
 `;
 
 export const SidebarLink = styled(link)`

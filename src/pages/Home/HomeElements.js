@@ -24,7 +24,7 @@ export const HomeGreetings = styled.h3`
 	font-weight: 400;
 `;
 
-export const HomeCardsContainer = styled.div`
+export const HomeCardsContainer = styled.section`
 	display: flex;
 	flex-shrink: 1;
 	flex-basis: auto;
@@ -86,8 +86,9 @@ export const HomeCardTitle = styled.h2`
 	font-weight: 400;
 `;
 
-export const MainSectionWrapper = styled.div`
+export const MainSectionContainer = styled.section`
 	height: 100%;
+	min-height: 300px;
 	width: 100%;
 
 	background: transparent;
@@ -96,7 +97,7 @@ export const MainSectionWrapper = styled.div`
 	margin: 15px 15px 30px;
 `;
 
-export const HomeMainSection = styled.section`
+export const HomeSectionWrapper = styled.div`
 	height: 100%;
 	width: 100%;
 
@@ -105,7 +106,7 @@ export const HomeMainSection = styled.section`
 
 	justify-items: space-around;
 
-	padding: 16px 0 0;
+	padding: 8px 0 0;
 
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
@@ -115,10 +116,11 @@ export const HomeMainSection = styled.section`
 `;
 
 export const HomeGraphContainer = styled.div`
+	height: 100%;
 	max-width: 100%;
 	flex: 1;
 
-	margin: 32px;
+	padding: 0 16px 16px;
 
 	@media screen and (max-width: 576px) {
 		padding: 16px 8px;
@@ -129,14 +131,69 @@ export const DateWrapper = styled.div`
 	display: flex;
 
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: center;
+	gap: 8px;
 
-	height: 24px;
+	flex-wrap: wrap;
+
+	margin: 16px 0;
+	padding: 0 8px;
+
+	min-height: 24px;
 	width: 100%;
 
 	& > * {
-		position: fixed;
-
 		width: auto !important;
+	}
+`;
+
+export const DateText = styled.span`
+	color: #252733;
+
+	font-size: 1.25em;
+	font-weight: 600;
+
+	& > svg {
+		height: 20px;
+		width: 20px;
+	}
+
+	@media screen and (max-width: 576px) {
+		font-size: 1em;
+
+		margin: 0 0 4px;
+
+		& > svg {
+			height: 16px;
+			width: 16px;
+		}
+	}
+`;
+
+export const DatePickerButton = styled.button`
+	height: 28px;
+	width: 100px;
+
+	text-align: center;
+	text-decoration: none;
+
+	font-weight: 700;
+	color: #252733;
+
+	border: 2px solid #dfe0eb;
+	border-radius: 4px;
+
+	padding: 4px 0;
+
+	background-color: #fff;
+
+	transition: 200ms all ease-out;
+
+	&:hover,
+	&:focus {
+		cursor: pointer;
+
+		border-color: #3751ff;
+		color: #3751ff;
 	}
 `;

@@ -1,11 +1,12 @@
-import { auto } from '@popperjs/core';
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { EditText } from 'react-edit-text';
-import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard } from 'react-icons/fa';
+import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard, FaSearch } from 'react-icons/fa';
 import { Graph, PageHeader } from '../../components';
 import {
+	DatePickerButton,
+	DateText,
 	DateWrapper,
 	HomeCard,
 	HomeCardsContainer,
@@ -13,12 +14,18 @@ import {
 	HomeContainer,
 	HomeGraphContainer,
 	HomeGreetings,
-	HomeMainSection,
-	MainSectionWrapper,
+	HomeSectionWrapper,
+	MainSectionContainer,
 } from './HomeElements';
 
 export const Home = () => {
 	const [date, setDate] = useState(new Date());
+
+	const ButtonRef = forwardRef(({ value, onClick }, ref) => (
+		<DatePickerButton onClick={onClick} ref={ref}>
+			{value}
+		</DatePickerButton>
+	));
 
 	return (
 		<HomeContainer>
@@ -43,20 +50,24 @@ export const Home = () => {
 					<FaCarrot />
 				</HomeCard>
 			</HomeCardsContainer>
-			<MainSectionWrapper>
-				<HomeMainSection>
+			<MainSectionContainer>
+				<HomeSectionWrapper>
 					<DateWrapper>
+						<DateText>
+							<FaSearch /> Buscar:{' '}
+						</DateText>
 						<DatePicker
 							selected={date}
 							dateFormat='dd/MM/yyyy'
+							customInput={<ButtonRef />}
 							onChange={(date) => setDate(date)}
 						/>
 					</DateWrapper>
 					<HomeGraphContainer>
 						<Graph time={date} />
 					</HomeGraphContainer>
-				</HomeMainSection>
-			</MainSectionWrapper>
+				</HomeSectionWrapper>
+			</MainSectionContainer>
 		</HomeContainer>
 	);
 };
