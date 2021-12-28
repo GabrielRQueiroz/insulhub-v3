@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MainWrapper = styled.main`
-	height: 100vh;
+	height: ${(props) => (props.mobile ? `100vh` : `${props.height}px`)};
 	width: 100%;
 
 	position: relative;
@@ -11,5 +11,5 @@ export const MainWrapper = styled.main`
 	/* box-shadow: 0px 0 20px #202020; */
 	z-index: 2;
 
-	overflow-y: hidden;
+	overflow-y: ${(props) => (props.mobile ? `auto` : `hidden`)};
 `;

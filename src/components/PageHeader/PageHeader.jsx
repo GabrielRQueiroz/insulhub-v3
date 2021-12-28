@@ -19,6 +19,15 @@ const PageHeaderWrapper = styled.header`
 
 	margin: 20px 0;
 	padding: 0 15px;
+
+	@media screen and (max-width: 576px) {
+		flex-direction: column;
+
+		& h2,
+		h3 {
+			text-align: center;
+		}
+	}
 `;
 
 export const PageHeader = ({ heading, children }) => {

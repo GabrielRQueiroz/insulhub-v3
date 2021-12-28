@@ -27,6 +27,8 @@ import {
 } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { Loader } from '../../components';
 
 Chart.register(
 	ArcElement,
@@ -54,93 +56,105 @@ Chart.register(
 	Tooltip
 );
 
-export const Graph = () => {
+export const Graph = ({ time }) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [chartData, setChartData] = useState({});
-
-	let fetchUrl = `https://babybia.herokuapp.com/api/v1/slice/entries/dateString/sgv/2021-12-18/T*:{00..04}:.*?find[dateString][$lte]=2021-12-19T03:05:00.000Z&find[dateString][$gte]=2021-12-18T03:00:00.000Z&count=24`;
-
-	const fetchData = () => {
-		let dataArray = [];
-
-		axios
-			.get(fetchUrl)
-			.then((res) => {
-				console.log(res.data);
-
-				for (let i = 0; i < res.data.length; i++) {
-					dataArray.push(res.data[i].sgv);
-				}
-
-				dataArray.reverse();
-
-				setChartData(dataArray);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	};
+	const [labelData, setLabelData] = useState([]);
 
 	useEffect(() => {
+		const timeString = `${time.getFullYear()}-${(time.getMonth() + 1)
+			.toString()
+			.padStart(2, 0)}-${time.getDate().toString().padStart(2, 0)}`;
+		//padStart is to avoid '04' turning into only '4'
+
+		const timeStringAhead = `${time.getFullYear()}-${(time.getMonth() + 1)
+			.toString()
+			.padStart(2, 0)}-${(time.getDate() + 1).toString().padStart(2, 0)}`;
+
+		const fetchData = async () => {
+			const dataArray = [];
+			const labelsArray = [];
+
+			const fetchUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
+
+			setIsLoading(true);
+
+			await axios
+				.get(fetchUrl)
+				.then((res) => {
+					for (let i = 0; i < res.data.length; i++) {
+						let time = `${new Date(res.data[i].dateString)}`;
+						let labeledTime = time.slice(16, 21);
+
+						labelsArray.push(labeledTime);
+					}
+
+					for (let i = 0; i < res.data.length; i++) {
+						dataArray.push(res.data[i].sgv);
+					}
+
+					labelsArray.reverse();
+					dataArray.reverse();
+
+					setLabelData(labelsArray);
+					setChartData(dataArray);
+					setIsLoading(false);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		};
+
 		fetchData();
-	}, []);
+	}, [time]);
 
 	return (
 		<>
-			{/* <button type='button'>Mudar data</button> */}
-			<Line
-				width={2000}
-				height={400}
-				data={{
-					labels: [
-						'00h',
-						'01h',
-						'02h',
-						'03h',
-						'04h',
-						'05h',
-						'06h',
-						'07h',
-						'08h',
-						'09h',
-						'10h',
-						'11h',
-						'12h',
-						'13h',
-						'14h',
-						'15h',
-						'16h',
-						'17h',
-						'18h',
-						'19h',
-						'20h',
-						'21h',
-						'22h',
-						'23h',
-					],
-					datasets: [
-						{
-							label: 'BG reading',
-							data: chartData,
-							backgroundColor: ['rgba(55, 81, 255, 0.6)'],
-							borderColor: ['rgba(55, 81, 255, 0.2)'],
-						},
-					],
-				}}
-				options={{
-					responsive: true,
+			{isLoading ? (
+				<Loader />
+			) : (
+				<Line
+					title="Blood glucose readings' graph"
+					height={200}
+					width={2000}
+					data={{
+						labels: labelData,
+						datasets: [
+							{
+								label: 'BG readings',
+								data: chartData,
+								backgroundColor: ['rgba(55, 81, 255, 0.6)'],
+								borderColor: ['rgba(55, 81, 255, 0.2)'],
+							},
+						],
+					}}
+					options={{
+						responsive: true,
 
-					scales: {
-						x: {
-							display: 'auto',
+						pointRadius: 2.5,
+
+						plugins: {
+							legend: false,
 						},
-						y: {
-							max: 300,
-							beginAtZero: true,
+
+						scales: {
+							x: {
+								min: 0,
+								bounds: 'ticks',
+								display: true,
+							},
+							y: {
+								max: 360,
+								beginAtZero: true,
+								ticks: {
+									stepSize: 40,
+								},
+							},
 						},
-					},
-					maintainAspectRatio: false,
-				}}
-			/>
+						maintainAspectRatio: false,
+					}}
+				/>
+			)}
 		</>
 	);
 };

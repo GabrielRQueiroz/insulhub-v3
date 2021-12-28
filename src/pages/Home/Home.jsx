@@ -1,26 +1,41 @@
-import React from 'react';
+import React, { forwardRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { EditText } from 'react-edit-text';
-import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard } from 'react-icons/fa';
+import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard, FaSearch } from 'react-icons/fa';
 import { Graph, PageHeader } from '../../components';
 import {
+	DatePickerButton,
+	DateText,
+	DateWrapper,
 	HomeCard,
 	HomeCardsContainer,
 	HomeCardTitle,
 	HomeContainer,
 	HomeGraphContainer,
 	HomeGreetings,
-	HomeMainSection,
-	MainSectionWrapper,
+	HomeSectionWrapper,
+	MainSectionContainer,
 } from './HomeElements';
 
 export const Home = () => {
+	const [date, setDate] = useState(new Date());
+
+	const ButtonRef = forwardRef(({ value, onClick }, ref) => (
+		<DatePickerButton onClick={onClick} ref={ref}>
+			{value}
+		</DatePickerButton>
+	));
+
+	const handleDateChange = (date) => setDate(date);
+
 	return (
 		<HomeContainer>
 			<PageHeader heading='Principal'>
 				<HomeGreetings>
 					Olá,{' '}
-					<EditText style={{ display: 'inline', cursor: 'pointer' }} placeholder='usuário' />
-					! <FaPencilAlt />
+					<EditText style={{ display: 'inline', cursor: 'pointer' }} placeholder='usuário' />!{' '}
+					<FaPencilAlt />
 				</HomeGreetings>
 			</PageHeader>
 			<HomeCardsContainer>
@@ -37,13 +52,24 @@ export const Home = () => {
 					<FaCarrot />
 				</HomeCard>
 			</HomeCardsContainer>
-			<MainSectionWrapper>
-				<HomeMainSection>
+			<MainSectionContainer>
+				<HomeSectionWrapper>
+					<DateWrapper>
+						<DateText>
+							<FaSearch /> Buscar:{' '}
+						</DateText>
+						<DatePicker
+							selected={date}
+							dateFormat='dd/MM/yyyy'
+							customInput={<ButtonRef />}
+							onChange={handleDateChange}
+						/>
+					</DateWrapper>
 					<HomeGraphContainer>
-						<Graph />
+						<Graph time={date} />
 					</HomeGraphContainer>
-				</HomeMainSection>
-			</MainSectionWrapper>
+				</HomeSectionWrapper>
+			</MainSectionContainer>
 		</HomeContainer>
 	);
 };
