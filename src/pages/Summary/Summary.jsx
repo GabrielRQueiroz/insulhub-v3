@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { SummaryContainer } from './SummaryElements';
-
 import { PageHeader } from '../../components';
+import { SummaryContainer } from './SummaryElements';
 
 export const Summary = () => {
 	return (

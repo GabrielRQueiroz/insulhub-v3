@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { FoodContainer } from './FoodElements';
-
 import { PageHeader } from '../../components';
+import { FoodContainer } from './FoodElements';
 
 export const Food = () => {
 	return (

@@ -8,10 +8,12 @@ export const Main = ({ children }) => {
 	const windowWidth = useWindowWidth();
 
 	useEffect(() => {
+		// Listening for page resize to identify mobile dimensions
 		windowWidth < 900 ? setIsMobile(true) : setIsMobile(false);
 	}, [windowWidth]);
 
 	useEffect(() => {
+		// Fixing the page height to the current device screen's height
 		setWindowHeight(window.innerHeight);
 	}, []);
 

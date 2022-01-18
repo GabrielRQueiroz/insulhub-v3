@@ -9,12 +9,12 @@ import {
 	SidebarBrand,
 	SidebarButton,
 	SidebarContainer,
-	SidebarList,
+	SidebarItem,
 	SidebarLink,
+	SidebarList,
 	SidebarLogo,
 	SidebarTitle,
 	SidebarWrapper,
-	SidebarItem,
 } from './SidebarElements';
 
 export const Sidebar = () => {
@@ -23,7 +23,7 @@ export const Sidebar = () => {
 
 	const windowWidth = useWindowWidth();
 
-	const handleOpen = () => {
+	const handleSidebarOpenClose = () => {
 		setMobileSidebarOpen(!mobileSidebarOpen);
 	};
 
@@ -42,10 +42,15 @@ export const Sidebar = () => {
 			<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
 				<SidebarWrapper>
 					<SidebarBrand>
-						<SidebarLogo title='InsulHub brand logo' src={LogoSource}></SidebarLogo>
+						<SidebarLogo
+							height='40'
+							width='40'
+							title='InsulHub brand logo'
+							src={LogoSource}
+						></SidebarLogo>
 						<SidebarTitle>INSULHUB</SidebarTitle>
 					</SidebarBrand>
-					<SidebarList onClick={mobile ? handleOpen : null}>
+					<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
 						<SidebarItem>
 							<SidebarLink activeclassname='active' to='/'>
 								<FaHome />
@@ -76,7 +81,7 @@ export const Sidebar = () => {
 				<source src={bgSource} type='video/mp4' />
 			</SidebarBG> */}
 				<SidebarButton
-					onClick={handleOpen}
+					onClick={handleSidebarOpenClose}
 					mobileSidebarOpen={mobileSidebarOpen}
 					mobile={mobile}
 				>
