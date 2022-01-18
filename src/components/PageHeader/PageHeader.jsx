@@ -7,8 +7,6 @@ const PageTitle = styled.h2`
 `;
 
 const PageHeaderWrapper = styled.header`
-	top: 0;
-
 	display: flex;
 	justify-content: space-between;
 

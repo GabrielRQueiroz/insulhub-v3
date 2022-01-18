@@ -56,56 +56,56 @@ Chart.register(
 	Tooltip
 );
 
-export const Graph = ({ time }) => {
+export const Graph = ({ selectedDate }) => {
 	const [isLoading, setIsLoading] = useState(false);
-	const [chartData, setChartData] = useState({});
+	const [bloodGlucose, setBloodGlucose] = useState({});
 	const [labelData, setLabelData] = useState([]);
 
 	useEffect(() => {
-		const timeString = `${time.getFullYear()}-${(time.getMonth() + 1)
+		const timeString = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
 			.toString()
-			.padStart(2, 0)}-${time.getDate().toString().padStart(2, 0)}`;
+			.padStart(2, 0)}-${selectedDate.getDate().toString().padStart(2, 0)}`;
 		//padStart is to avoid '04' turning into only '4'
 
-		const timeStringAhead = `${time.getFullYear()}-${(time.getMonth() + 1)
+		const timeStringAhead = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
 			.toString()
-			.padStart(2, 0)}-${(time.getDate() + 1).toString().padStart(2, 0)}`;
+			.padStart(2, 0)}-${(selectedDate.getDate() + 1).toString().padStart(2, 0)}`;
 
-		const fetchData = async () => {
-			const dataArray = [];
-			const labelsArray = [];
+		const fetchGraphInformation = async () => {
+			const bloodGlucoseReadings = [];
+			const graphLabels = [];
 
-			const fetchUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
+			const nightscoutApiUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${timeString}/T*?find[dateString][$gte]=${timeString}T03:00:00.000&find[dateString][$lte]=${timeStringAhead}T03:00:00.000&count=300`;
 
 			setIsLoading(true);
 
 			await axios
-				.get(fetchUrl)
-				.then((res) => {
-					for (let i = 0; i < res.data.length; i++) {
-						let time = `${new Date(res.data[i].dateString)}`;
+				.get(nightscoutApiUrl)
+				.then((response) => {
+					for (let i = 0; i < response.data.length; i++) {
+						let time = `${new Date(response.data[i].dateString)}`;
 						let labeledTime = time.slice(16, 21);
 
-						labelsArray.push(labeledTime);
+						graphLabels.push(labeledTime);
 					}
 
-					for (let i = 0; i < res.data.length; i++) {
-						dataArray.push(res.data[i].sgv);
+					for (let i = 0; i < response.data.length; i++) {
+						bloodGlucoseReadings.push(response.data[i].sgv);
 					}
 
-					labelsArray.reverse();
-					dataArray.reverse();
+					graphLabels.reverse();
+					bloodGlucoseReadings.reverse();
 
-					setLabelData(labelsArray);
-					setChartData(dataArray);
+					setLabelData(graphLabels);
+					setBloodGlucose(bloodGlucoseReadings);
 					setIsLoading(false);
 				})
-				.catch((err) => {
-					console.error(err);
+				.catch((error) => {
+					console.error(error);
 				});
 		};
 
-		fetchData();
+		fetchGraphInformation();
 	}, [time]);
 
 	return (
@@ -122,7 +122,7 @@ export const Graph = ({ time }) => {
 						datasets: [
 							{
 								label: 'BG readings',
-								data: chartData,
+								data: bloodGlucose,
 								backgroundColor: ['rgba(55, 81, 255, 0.6)'],
 								borderColor: ['rgba(55, 81, 255, 0.2)'],
 							},

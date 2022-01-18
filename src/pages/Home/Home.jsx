@@ -66,7 +66,7 @@ export const Home = () => {
 						/>
 					</DateWrapper>
 					<HomeGraphContainer>
-						<Graph time={date} />
+						<Graph selectedDate={date} />
 					</HomeGraphContainer>
 				</HomeSectionWrapper>
 			</MainSectionContainer>
