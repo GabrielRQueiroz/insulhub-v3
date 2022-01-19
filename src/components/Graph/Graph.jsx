@@ -106,7 +106,7 @@ export const Graph = ({ selectedDate }) => {
 		};
 
 		fetchGraphInformation();
-	}, [time]);
+	}, [selectedDate]);
 
 	return (
 		<>
