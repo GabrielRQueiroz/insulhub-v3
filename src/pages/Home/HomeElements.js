@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link as link } from 'react-router-dom';
+import { EditText } from 'react-edit-text';
 
 export const HomeContainer = styled.div`
 	height: 100vh;
@@ -22,6 +23,28 @@ export const HomeGreetings = styled.h3`
 
 	font-size: 1.25rem;
 	font-weight: 400;
+
+	& > input {
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid black;
+
+		padding: 0 4px;
+
+		outline: none;
+
+		max-width: 40%;
+
+		font-size: 1.25rem;
+	}
+`;
+
+export const HomeUsernameField = styled(EditText)`
+	display: inline;
+
+	transition: 500ms all ease-in-out;
+
+	cursor: pointer;
 `;
 
 export const HomeCardsContainer = styled.section`
@@ -135,6 +158,7 @@ export const DateWrapper = styled.div`
 	gap: 8px;
 
 	flex-wrap: wrap;
+	flex-grow: 0;
 
 	margin: 16px 0;
 	padding: 0 8px;

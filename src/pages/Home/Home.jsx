@@ -1,7 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { EditText } from 'react-edit-text';
 import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard, FaSearch } from 'react-icons/fa';
 import { Graph, PageHeader } from '../../components';
 import {
@@ -15,11 +14,13 @@ import {
 	HomeGraphContainer,
 	HomeGreetings,
 	HomeSectionWrapper,
+	HomeUsernameField,
 	MainSectionContainer,
 } from './HomeElements';
 
 export const Home = () => {
 	const [date, setDate] = useState(new Date());
+	const [username, setUsername] = useState(localStorage.username || '');
 
 	const ButtonRef = forwardRef(({ value, onClick }, ref) => (
 		<DatePickerButton onClick={onClick} ref={ref}>
@@ -29,12 +30,22 @@ export const Home = () => {
 
 	const handleDateChange = (date) => setDate(date);
 
+	const saveUsername = (username) => {
+		setUsername(username);
+		localStorage.setItem('username', username);
+	};
+
 	return (
 		<HomeContainer>
 			<PageHeader heading='Principal'>
 				<HomeGreetings>
 					Olá,{' '}
-					<EditText style={{ display: 'inline', cursor: 'pointer' }} placeholder='usuário' />!{' '}
+					<HomeUsernameField
+						onSave={(e) => saveUsername(e.value)}
+						placeholder='usuário'
+						defaultValue={username}
+					/>
+					{'! '}
 					<FaPencilAlt />
 				</HomeGreetings>
 			</PageHeader>
@@ -63,6 +74,9 @@ export const Home = () => {
 							dateFormat='dd/MM/yyyy'
 							customInput={<ButtonRef />}
 							onChange={handleDateChange}
+							filterDate={(date) =>
+								new Date() > date
+							} /* Excludes future date from the picker */
 						/>
 					</DateWrapper>
 					<HomeGraphContainer>

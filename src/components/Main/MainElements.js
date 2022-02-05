@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MainWrapper = styled.main`
-	height: ${({ mobile, height }) => (mobile ? `100vh` : `${height}px`)};
+	height: ${({ height }) => `${height}px`};
 	width: 100%;
 
 	position: relative;
@@ -12,4 +12,14 @@ export const MainWrapper = styled.main`
 	z-index: 2;
 
 	overflow-y: ${({ mobile }) => (mobile ? `auto` : `hidden`)};
+
+	&::-webkit-scrollbar {
+		width: 5px;
+		position: fixed;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #9fa2b4;
+		border-radius: 50px;
+	}
 `;

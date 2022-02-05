@@ -65,7 +65,7 @@ export const Graph = ({ selectedDate }) => {
 		const timeString = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
 			.toString()
 			.padStart(2, 0)}-${selectedDate.getDate().toString().padStart(2, 0)}`;
-		//padStart is to avoid '04' turning into only '4'
+		//padStart is to avoid left zero deletion, eg. '04' turning into '4'
 
 		const timeStringAhead = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1)
 			.toString()
@@ -114,7 +114,6 @@ export const Graph = ({ selectedDate }) => {
 				<Loader />
 			) : (
 				<Line
-					title="Blood glucose readings' graph"
 					height={200}
 					width={2000}
 					data={{
