@@ -10,15 +10,16 @@ export const SidebarContainer = styled.nav`
 	left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-255px')};
 
 	transition: ${({ mobile }) => (mobile ? '500ms all ease-in-out' : '0s')};
+
+	@media screen and (max-width: 576px) {
+		left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-225px')};
+	}
 `;
 
 export const SidebarButton = styled.div`
 	position: relative;
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
 	z-index: 999;
-
-	/* transform: ${({ mobileSidebarOpen }) =>
-		mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)'}; */
 
 	margin-top: 16px;
 	padding: 8px 12px 8px 8px;
@@ -33,7 +34,6 @@ export const SidebarButton = styled.div`
 	cursor: pointer;
 
 	transition: 500ms all ease-in-out;
-	/* transition-delay: 500ms; */
 
 	& > svg {
 		height: 100%;
@@ -51,6 +51,10 @@ export const SidebarWrapper = styled.div`
 
 	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
+
+	@media screen and (max-width: 576px) {
+		min-width: 225px;
+	}
 `;
 
 export const SidebarBrand = styled.div`

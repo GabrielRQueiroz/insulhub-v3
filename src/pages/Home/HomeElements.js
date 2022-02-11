@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link as link } from 'react-router-dom';
 import { EditText } from 'react-edit-text';
-import { TimePicker } from '@material-ui/pickers';
+import { TimePicker, DatePicker } from '@material-ui/pickers';
 
 export const HomeContainer = styled.div`
 	height: 100vh;
@@ -116,14 +116,15 @@ export const MainSectionContainer = styled.section`
 	min-height: 280px;
 	width: 100%;
 
+	display: flex;
+
 	background: transparent;
 
 	padding: 0 15px;
-	margin: 15px;
+	margin: 15px 0 30px;
 `;
 
 export const GraphSectionWrapper = styled.div`
-	height: 280px;
 	width: 100%;
 
 	display: flex;
@@ -131,13 +132,10 @@ export const GraphSectionWrapper = styled.div`
 
 	justify-items: space-around;
 
-	padding: 8px 0 0;
-
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
 
 	background-color: #ffffff;
-	color: #9fa2b4;
 `;
 
 export const DateWrapper = styled.div`
@@ -146,12 +144,13 @@ export const DateWrapper = styled.div`
 	align-items: center;
 	justify-content: center;
 
+	font-size: 1.25em;
+
 	gap: 16px;
 
 	flex-wrap: wrap;
-	flex-grow: 0;
 
-	margin: 8px 0;
+	margin: 16px 0 8px;
 
 	min-height: 24px;
 	width: 100%;
@@ -178,62 +177,28 @@ export const DateText = styled.span`
 	}
 `;
 
-export const DatePickerButton = styled.button`
-	height: 32px;
-	width: 120px;
-
-	font-size: 1rem;
-
-	text-align: center;
-	text-decoration: none;
-
-	font-weight: 700;
-	color: #252733;
-
-	border: 2px solid #dfe0eb;
-	border-radius: 4px;
-
-	padding: auto;
-
-	background-color: #fff;
-
-	transition: 200ms all ease-out;
-
-	&:hover,
-	&:focus {
-		cursor: pointer;
-
-		border-color: #3751ff;
-		color: #3751ff;
-	}
-`;
-
 export const GraphContainer = styled.div`
 	height: 100%;
 	min-width: auto;
+
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+
 	flex: 1;
 
 	padding: 0 16px 8px;
 
 	@media screen and (max-width: 576px) {
-		padding: 16px 8px;
+		padding: 0 8px;
 	}
-`;
-
-export const TimeSectionContainer = styled.section`
-	min-height: 60px;
-	max-height: 60px;
-	width: 100%;
-
-	background: transparent;
-
-	margin: 15px 15px 30px;
-	padding: 0 15px;
 `;
 
 export const TimeSectionWrapper = styled.div`
 	min-height: 60px;
 	max-height: 60px;
+	width: 100%;
 
 	display: flex;
 	justify-content: center;
@@ -242,10 +207,7 @@ export const TimeSectionWrapper = styled.div`
 
 	padding: 0 16px;
 
-	border: 2px solid #dfe0eb;
-	border-radius: 8px;
-
-	background-color: #ffffff;
+	background-color: transparent;
 	fill: #252733;
 
 	@media screen and (max-width: 576px) {
@@ -255,20 +217,23 @@ export const TimeSectionWrapper = styled.div`
 
 export const SearchWrapper = styled.div`
 	display: flex;
+
 	align-items: center;
 	justify-content: center;
 
 	gap: 16px;
 
 	height: auto;
-	width: 40%;
+	width: 50%;
+
+	padding: 0 8px;
 
 	& > svg {
 		transform: scale(1.5);
 	}
 
 	@media screen and (max-width: 576px) {
-		width: 50%;
+		gap: 8px;
 
 		& > svg {
 			transform: scale(1.4);
@@ -280,9 +245,13 @@ export const StyledTimePicker = styled(TimePicker)`
 	height: 50%;
 	width: 50%;
 
+	@media screen and (max-width: 768px) {
+		flex-grow: 1;
+	}
+
 	& > div {
 		height: 100%;
-		width: auto;
+		width: 100%;
 
 		font-size: 1.25rem;
 		font-weight: 700;
@@ -291,6 +260,7 @@ export const StyledTimePicker = styled(TimePicker)`
 		@media screen and (max-width: 576px) {
 			& > input {
 				font-size: 1rem;
+				width: auto;
 			}
 		}
 
@@ -299,6 +269,7 @@ export const StyledTimePicker = styled(TimePicker)`
 		}
 
 		& > input {
+			max-width: 200px;
 			padding: 2px;
 
 			text-align: center;
@@ -307,6 +278,54 @@ export const StyledTimePicker = styled(TimePicker)`
 			border-radius: 4px;
 
 			transition: 200ms all ease-out;
+			&:hover {
+				cursor: pointer;
+
+				border-color: #3751ff;
+				color: #3751ff;
+			}
+		}
+	}
+`;
+
+export const StyledDatePicker = styled(DatePicker)`
+	height: 100%;
+	width: 50%;
+
+	& > div {
+		height: 100%;
+		width: 100%;
+
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: #252733;
+
+		@media screen and (max-width: 576px) {
+			& > input {
+				font-size: 1rem;
+				width: auto;
+			}
+		}
+
+		& > fieldset {
+			border: 0;
+		}
+
+		& > input {
+			max-width: 150px;
+			padding: 2px;
+
+			text-align: center;
+
+			border: 2px solid #dfe0eb;
+			border-radius: 4px;
+
+			transition: 200ms all ease-out;
+
+			@media screen and (max-width: 576px) {
+				max-width: 120px;
+			}
+
 			&:hover {
 				cursor: pointer;
 

@@ -115,7 +115,6 @@ export const Graph = ({ selectedDate }) => {
 					setLabelData(graphLabels);
 					setBloodGlucose(bloodGlucoseReadings);
 					setIsLoading(false);
-					console.log(nightscoutApiUrl);
 				})
 				.catch((error) => {
 					console.error(error);

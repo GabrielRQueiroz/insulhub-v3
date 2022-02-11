@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Loader } from '../../components';
-import { ReadingsContainer } from './ReadingsElements';
+import { ReadingsContainer, ReadingsNotFound, ReadingsText } from './ReadingsElements';
 
 const directionsList = {
 	DoubleUp: '⇈',
@@ -13,7 +13,7 @@ const directionsList = {
 	DoubleDown: '⇊',
 };
 
-export const Readings = ({ selectedDate, selectedTime }) => {
+export const Readings = ({ selectedTime }) => {
 	const [reading, setReading] = useState(0);
 	const [direction, setDirection] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +75,7 @@ export const Readings = ({ selectedDate, selectedTime }) => {
 			await axios
 				.get(nightscoutApiUrl)
 				.then((response) => {
-					setReading(response?.data[0]?.sgv || 'Nenhuma leitura encontrada');
+					setReading(response?.data[0]?.sgv || false);
 					setDirection(directionsList[response?.data[0]?.direction]);
 					setIsLoading(false);
 				})
@@ -92,9 +92,15 @@ export const Readings = ({ selectedDate, selectedTime }) => {
 			{isLoading ? (
 				<Loader size={10} margin={-10} />
 			) : (
-				<span>
-					{reading} {direction}
-				</span>
+				<>
+					{reading ? (
+						<ReadingsText>
+							{reading} {direction}
+						</ReadingsText>
+					) : (
+						<ReadingsNotFound>Sem leituras :(</ReadingsNotFound>
+					)}
+				</>
 			)}
 		</ReadingsContainer>
 	);
