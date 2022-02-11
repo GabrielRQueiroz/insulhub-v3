@@ -8,8 +8,7 @@ export const LoaderWrapper = styled.div`
 
 	padding: 24px 0;
 
-	height: inherit;
-	min-height: 200px;
+	height: 100%;
 	width: 100%;
 `;
 

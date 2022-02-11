@@ -1,25 +1,33 @@
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { forwardRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaCalculator, FaCarrot, FaPencilAlt, FaRegClipboard, FaSearch } from 'react-icons/fa';
-import { Graph, PageHeader } from '../../components';
+import { FaCalculator, FaCarrot, FaPencilAlt, FaRegCalendarAlt, FaRegClipboard, FaRegClock } from 'react-icons/fa';
+import { Graph, PageHeader, Readings } from '../../components';
 import {
 	DatePickerButton,
 	DateText,
 	DateWrapper,
+	GraphContainer,
+	GraphSectionWrapper,
 	HomeCard,
 	HomeCardsContainer,
 	HomeCardTitle,
 	HomeContainer,
-	HomeGraphContainer,
 	HomeGreetings,
-	HomeSectionWrapper,
 	HomeUsernameField,
 	MainSectionContainer,
+	ReadingsWrapper,
+	SearchWrapper,
+	StyledTimePicker,
+	TimeSectionContainer,
+	TimeSectionWrapper,
 } from './HomeElements';
 
 export const Home = () => {
 	const [date, setDate] = useState(new Date());
+	const [time, setTime] = useState(date);
 	const [username, setUsername] = useState(localStorage.username || '');
 
 	const ButtonRef = forwardRef(({ value, onClick }, ref) => (
@@ -28,7 +36,11 @@ export const Home = () => {
 		</DatePickerButton>
 	));
 
-	const handleDateChange = (date) => setDate(date);
+	const handleDateChange = (date) => {
+		setDate(date);
+		setTime(date);
+	};
+	const handleTimeChange = (time) => setTime(time);
 
 	const saveUsername = (username) => {
 		setUsername(username);
@@ -37,14 +49,9 @@ export const Home = () => {
 
 	return (
 		<HomeContainer>
-			<PageHeader heading='Principal'>
+			<PageHeader heading='Início'>
 				<HomeGreetings>
-					Olá,{' '}
-					<HomeUsernameField
-						onSave={(e) => saveUsername(e.value)}
-						placeholder='usuário'
-						defaultValue={username}
-					/>
+					Olá, <HomeUsernameField onSave={(e) => saveUsername(e.value)} placeholder='usuário' defaultValue={username} />
 					{'! '}
 					<FaPencilAlt />
 				</HomeGreetings>
@@ -64,26 +71,37 @@ export const Home = () => {
 				</HomeCard>
 			</HomeCardsContainer>
 			<MainSectionContainer>
-				<HomeSectionWrapper>
+				<GraphSectionWrapper>
 					<DateWrapper>
 						<DateText>
-							<FaSearch /> Buscar:{' '}
+							<FaRegCalendarAlt />
 						</DateText>
 						<DatePicker
 							selected={date}
 							dateFormat='dd/MM/yyyy'
 							customInput={<ButtonRef />}
 							onChange={handleDateChange}
-							filterDate={(date) =>
-								new Date() > date
-							} /* Excludes future date from the picker */
+							filterDate={(date) => new Date() > date} /* Excludes future date from the picker */
 						/>
 					</DateWrapper>
-					<HomeGraphContainer>
+					<GraphContainer>
 						<Graph selectedDate={date} />
-					</HomeGraphContainer>
-				</HomeSectionWrapper>
+					</GraphContainer>
+				</GraphSectionWrapper>
 			</MainSectionContainer>
+			<TimeSectionContainer>
+				<TimeSectionWrapper>
+					<SearchWrapper>
+						<FaRegClock />
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<StyledTimePicker inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} />
+						</MuiPickersUtilsProvider>
+					</SearchWrapper>
+					<ReadingsWrapper>
+						<Readings selectedDate={date} selectedTime={time} />
+					</ReadingsWrapper>
+				</TimeSectionWrapper>
+			</TimeSectionContainer>
 		</HomeContainer>
 	);
 };

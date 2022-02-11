@@ -17,8 +17,8 @@ export const SidebarButton = styled.div`
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
 	z-index: 999;
 
-	transform: ${({ mobileSidebarOpen }) =>
-		mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)'};
+	/* transform: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)'}; */
 
 	margin-top: 16px;
 	padding: 8px 12px 8px 8px;
@@ -29,6 +29,8 @@ export const SidebarButton = styled.div`
 	border-radius: 0 10px 10px 0;
 
 	background-color: rgba(54, 55, 64, 0.99);
+
+	cursor: pointer;
 
 	transition: 500ms all ease-in-out;
 	/* transition-delay: 500ms; */

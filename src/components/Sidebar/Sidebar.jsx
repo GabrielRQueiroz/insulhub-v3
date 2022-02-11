@@ -54,7 +54,7 @@ export const Sidebar = () => {
 						<SidebarItem>
 							<SidebarLink activeclassname='active' to='/'>
 								<FaHome />
-								<span>Principal</span>
+								<span>Início</span>
 							</SidebarLink>
 						</SidebarItem>
 						<SidebarItem>
