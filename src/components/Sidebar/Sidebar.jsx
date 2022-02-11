@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { IconContext } from 'react-icons';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars, FaCalculator, FaCarrot, FaHome, FaRegClipboard } from 'react-icons/fa';
@@ -27,7 +27,7 @@ export const Sidebar = () => {
 		setMobileSidebarOpen(!mobileSidebarOpen);
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (windowWidth < 576) {
 			setMobile(true);
 			setMobileSidebarOpen(false);
@@ -54,7 +54,7 @@ export const Sidebar = () => {
 						<SidebarItem>
 							<SidebarLink activeclassname='active' to='/'>
 								<FaHome />
-								<span>Principal</span>
+								<span>Início</span>
 							</SidebarLink>
 						</SidebarItem>
 						<SidebarItem>

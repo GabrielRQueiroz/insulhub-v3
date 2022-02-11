@@ -4,11 +4,12 @@ import { NavLink as link } from 'react-router-dom';
 
 export const SidebarContainer = styled.nav`
 	display: flex;
+	height: ${({ mobile }) => (mobile ? '100%' : 'auto')};
 	position: ${({ mobile }) => (mobile ? 'absolute' : 'relative')};
 
 	left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-255px')};
 
-	transition: 500ms all ease-in-out;
+	transition: ${({ mobile }) => (mobile ? '500ms all ease-in-out' : '0s')};
 `;
 
 export const SidebarButton = styled.div`
@@ -16,8 +17,8 @@ export const SidebarButton = styled.div`
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
 	z-index: 999;
 
-	transform: ${({ mobileSidebarOpen }) =>
-		mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)'};
+	/* transform: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? 'translateX(-100%)' : 'translateX(0)'}; */
 
 	margin-top: 16px;
 	padding: 8px 12px 8px 8px;
@@ -29,7 +30,10 @@ export const SidebarButton = styled.div`
 
 	background-color: rgba(54, 55, 64, 0.99);
 
-	transition: 500ms all ease;
+	cursor: pointer;
+
+	transition: 500ms all ease-in-out;
+	/* transition-delay: 500ms; */
 
 	& > svg {
 		height: 100%;
@@ -42,7 +46,7 @@ export const SidebarWrapper = styled.div`
 	flex-direction: column;
 	z-index: 10;
 
-	height: 100vh;
+	height: 100%;
 	min-width: 255px;
 
 	background: rgba(54, 55, 64, 0.99);
