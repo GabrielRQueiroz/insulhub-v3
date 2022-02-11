@@ -354,3 +354,7 @@ export const ReadingsWrapper = styled.div`
 		border-radius: 4px;
 	}
 `;
+
+export const HiddenLabel = styled.label`
+	display: none;
+`;
