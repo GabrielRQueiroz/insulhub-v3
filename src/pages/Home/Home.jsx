@@ -1,7 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalculator, FaCarrot, FaPencilAlt, FaRegCalendarAlt, FaRegClipboard, FaRegClock } from 'react-icons/fa';
 import { Graph, PageHeader, Readings } from '../../components';
 import {
@@ -17,8 +16,10 @@ import {
 	HomeUsernameField,
 	MainSectionContainer,
 	ReadingsWrapper,
-	SearchWrapper, StyledDatePicker, StyledTimePicker,
-	TimeSectionWrapper
+	SearchWrapper,
+	StyledDatePicker,
+	StyledTimePicker,
+	TimeSectionWrapper,
 } from './HomeElements';
 
 export const Home = () => {
