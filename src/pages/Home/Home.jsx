@@ -68,7 +68,15 @@ export const Home = () => {
 							<DateText>
 								<FaRegCalendarAlt />
 							</DateText>
-							<StyledDatePicker inputVariant='outlined' disableFuture value={date} onChange={handleDateChange} autoOk />
+							<StyledDatePicker
+								format='dd/MM/yyyy'
+								label='Date picker'
+								inputVariant='outlined'
+								disableFuture
+								value={date}
+								onChange={handleDateChange}
+								autoOk
+							/>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph selectedDate={date} />
@@ -77,7 +85,7 @@ export const Home = () => {
 						<TimeSectionWrapper>
 							<SearchWrapper>
 								<FaRegClock />
-								<StyledTimePicker inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
+								<StyledTimePicker label='Time picker' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
 							</SearchWrapper>
 							<ReadingsWrapper>
 								<Readings selectedTime={time} />
