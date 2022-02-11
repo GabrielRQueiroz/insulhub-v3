@@ -78,7 +78,7 @@ export const Home = () => {
 								onChange={handleDateChange}
 								autoOk
 							/>
-							<HiddenLabel>Date picker for the graph</HiddenLabel>
+							<HiddenLabel for='date'>Date picker for the graph</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph selectedDate={date} />
@@ -88,7 +88,7 @@ export const Home = () => {
 							<SearchWrapper>
 								<FaRegClock />
 								<StyledTimePicker id='time' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
-								<HiddenLabel>Time picker for specific readings</HiddenLabel>
+								<HiddenLabel for='time'>Time picker for specific readings</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
 								<Readings selectedTime={time} />
