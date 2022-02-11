@@ -8,6 +8,7 @@ import {
 	DateWrapper,
 	GraphContainer,
 	GraphSectionWrapper,
+	HiddenLabel,
 	HomeCard,
 	HomeCardsContainer,
 	HomeCardTitle,
@@ -69,14 +70,15 @@ export const Home = () => {
 								<FaRegCalendarAlt />
 							</DateText>
 							<StyledDatePicker
+								id='date'
 								format='dd/MM/yyyy'
-								label='Date picker'
 								inputVariant='outlined'
 								disableFuture
 								value={date}
 								onChange={handleDateChange}
 								autoOk
 							/>
+							<HiddenLabel for='date'>Date picker for the graph</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph selectedDate={date} />
@@ -85,7 +87,8 @@ export const Home = () => {
 						<TimeSectionWrapper>
 							<SearchWrapper>
 								<FaRegClock />
-								<StyledTimePicker label='Time picker' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
+								<StyledTimePicker id='time' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
+								<HiddenLabel for='time'>Time picker for specific readings</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
 								<Readings selectedTime={time} />
