@@ -83,7 +83,6 @@ export const Home = () => {
 						<GraphContainer>
 							<Graph selectedDate={date} />
 						</GraphContainer>
-						{/* <TimeSectionContainer> */}
 						<TimeSectionWrapper>
 							<SearchWrapper>
 								<FaRegClock />
@@ -94,7 +93,6 @@ export const Home = () => {
 								<Readings selectedTime={time} />
 							</ReadingsWrapper>
 						</TimeSectionWrapper>
-						{/* </TimeSectionContainer> */}
 					</GraphSectionWrapper>
 				</MainSectionContainer>
 			</HomeContainer>
