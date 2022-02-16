@@ -1,15 +1,10 @@
 import React from 'react';
 import { LoaderCenter, LoaderWrapper } from './LoaderStyle';
 
-export const Loader = ({ size, margin }) => {
+export const Loader = ({ position, color, size, margin }) => {
 	return (
 		<LoaderWrapper>
-			<LoaderCenter
-				color='rgba(55, 81, 255)'
-				speedMultiplier={1.5}
-				size={size}
-				margin={margin}
-			/>
+			<LoaderCenter position={position} color={color || 'rgba(55, 81, 255)'} speedMultiplier={1.5} size={size} margin={margin} />
 		</LoaderWrapper>
 	);
 };

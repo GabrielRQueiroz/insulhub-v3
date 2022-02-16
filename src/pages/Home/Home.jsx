@@ -27,6 +27,7 @@ export const Home = () => {
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(date);
 	const [username, setUsername] = useState(localStorage.username || '');
+	const nightscoutBaseUrl = localStorage.getItem('nightscout_url');
 
 	const handleDateChange = (date) => {
 		setDate(date);
@@ -81,7 +82,7 @@ export const Home = () => {
 							<HiddenLabel for='date'>Date picker for the graph</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
-							<Graph selectedDate={date} />
+							<Graph nightscoutBaseUrl={nightscoutBaseUrl} selectedDate={date} />
 						</GraphContainer>
 						<TimeSectionWrapper>
 							<SearchWrapper>
@@ -90,7 +91,7 @@ export const Home = () => {
 								<HiddenLabel for='time'>Time picker for specific readings</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
-								<Readings selectedTime={time} />
+								<Readings nightscoutBaseUrl={nightscoutBaseUrl} selectedTime={time} />
 							</ReadingsWrapper>
 						</TimeSectionWrapper>
 					</GraphSectionWrapper>

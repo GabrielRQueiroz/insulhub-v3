@@ -6,10 +6,14 @@ export const LoaderWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 
+	position: ${({ position }) => position};
+
 	padding: 24px 0;
 
 	height: 100%;
 	width: 100%;
 `;
 
-export const LoaderCenter = styled(loader)``;
+export const LoaderCenter = styled(loader)`
+	width: 100%;
+`;

@@ -25,11 +25,11 @@ import {
 	Title,
 	Tooltip,
 } from 'chart.js';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Loader } from '../../components';
 import { useWindowHeight } from '../../hooks/useWindowHeight';
-import { formatDate } from '../../utils';
+import { dateFormatter } from '../../utils';
 
 Chart.register(
 	ArcElement,
@@ -57,20 +57,22 @@ Chart.register(
 	Tooltip
 );
 
-export const Graph = ({ selectedDate }) => {
+export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [bloodGlucose, setBloodGlucose] = useState({});
 	const [labelData, setLabelData] = useState([]);
 	const windowHeight = useWindowHeight(); // Created to re-render the graph when window height changes
 
 	useEffect(() => {
-		const { timezone, dateString, dateStringAhead } = formatDate(selectedDate);
+		const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
 
 		const fetchGraphInformation = async () => {
 			const bloodGlucoseReadings = [];
 			const graphLabels = [];
 
-			const nightscoutApiUrl = `${process.env.REACT_APP_BABYBIA_HEROKU_URL}/api/v1/slice/entries/dateString/sgv/${dateString}/T*?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=300`;
+			const { dateString, dateStringAhead } = getDateStrings();
+
+			const nightscoutApiUrl = `${nightscoutBaseUrl}api/v1/entries.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=300`;
 
 			setIsLoading(true);
 
@@ -101,6 +103,10 @@ export const Graph = ({ selectedDate }) => {
 		};
 
 		fetchGraphInformation();
+
+		window.addEventListener('focus', fetchGraphInformation);
+
+		return window.removeEventListener('focus', fetchGraphInformation);
 	}, [selectedDate, windowHeight]);
 
 	return (
