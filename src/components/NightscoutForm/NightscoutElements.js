@@ -1,5 +1,6 @@
+import LoadingButton from '@mui/lab/LoadingButton';
+import { TextField } from '@mui/material';
 import styled from 'styled-components';
-import { TextField, Button } from '@mui/material';
 
 export const FormScreen = styled.div`
 	height: 100%;
@@ -90,7 +91,6 @@ export const FormField = styled(TextField)`
 	}
 `;
 
-export const FormButton = styled(Button)`
-	max-height: 40px;
+export const FormButton = styled(LoadingButton)`
 	align-self: flex-end;
 `;

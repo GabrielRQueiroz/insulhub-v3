@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { RotateLoader as loader } from 'react-spinners';
 
 export const LoaderWrapper = styled.div`
 	display: flex;
@@ -12,8 +11,6 @@ export const LoaderWrapper = styled.div`
 
 	height: 100%;
 	width: 100%;
-`;
 
-export const LoaderCenter = styled(loader)`
-	width: 100%;
+	color: rgba(55, 81, 255);
 `;

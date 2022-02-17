@@ -79,7 +79,7 @@ export const Home = () => {
 								onChange={handleDateChange}
 								autoOk
 							/>
-							<HiddenLabel for='date'>Date picker for the graph</HiddenLabel>
+							<HiddenLabel htmlFor='date'>Date picker for the graph</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph nightscoutBaseUrl={nightscoutBaseUrl} selectedDate={date} />
@@ -88,7 +88,7 @@ export const Home = () => {
 							<SearchWrapper>
 								<FaRegClock />
 								<StyledTimePicker id='time' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
-								<HiddenLabel for='time'>Time picker for specific readings</HiddenLabel>
+								<HiddenLabel htmlFor='time'>Time picker for specific readings</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
 								<Readings nightscoutBaseUrl={nightscoutBaseUrl} selectedTime={time} />

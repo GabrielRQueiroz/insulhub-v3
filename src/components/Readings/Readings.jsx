@@ -42,12 +42,12 @@ export const Readings = ({ nightscoutBaseUrl, selectedTime }) => {
 		};
 
 		fetchSpecificReading();
-	}, [selectedTime]);
+	}, [nightscoutBaseUrl, selectedTime]);
 
 	return (
 		<ReadingsContainer>
 			{isLoading ? (
-				<Loader size={10} margin={-10} />
+				<Loader size={30} />
 			) : (
 				<>
 					{reading ? (

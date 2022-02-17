@@ -3,7 +3,6 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import NightscoutLogo from '../../assets/images/nslogo.png';
 import ScreenshotImg from '../../assets/images/url_screenshot.png';
 import { urlFormatter } from '../../utils';
-import { Loader } from '../Loader';
 import { FormButton, FormContainer, FormField, FormImage, FormScreen, FormTextWrapper, FormTitle } from './NightscoutElements';
 
 export const NightscoutForm = () => {
@@ -60,11 +59,13 @@ export const NightscoutForm = () => {
 					/>
 					<FormButton
 						disabled={!isValid || userUrl === ''}
-						variant='contained'
-						endIcon={isLoading ? null : <AiFillCheckCircle />}
+						endIcon={<AiFillCheckCircle />}
 						onClick={buttonSubmit}
+						loading={isLoading}
+						loadingPosition='end'
+						variant='contained'
 					>
-						{isLoading ? <Loader position='absolute' color='white' size={6} margin={-16} /> : 'VAMOS LÁ!'}
+						VAMOS LÁ!
 					</FormButton>
 				</FormTextWrapper>
 			</FormContainer>

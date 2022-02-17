@@ -72,7 +72,7 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 
 			const { dateString, dateStringAhead } = getDateStrings();
 
-			const nightscoutApiUrl = `${nightscoutBaseUrl}api/v1/entries.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=300`;
+			const nightscoutApiUrl = `${nightscoutBaseUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
 
 			setIsLoading(true);
 
@@ -107,12 +107,12 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 		window.addEventListener('focus', fetchGraphInformation);
 
 		return window.removeEventListener('focus', fetchGraphInformation);
-	}, [selectedDate, windowHeight]);
+	}, [selectedDate, windowHeight, nightscoutBaseUrl]);
 
 	return (
 		<>
 			{isLoading ? (
-				<Loader />
+				<Loader size={60} />
 			) : (
 				<Line
 					height={200}
@@ -121,7 +121,7 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 						labels: labelData,
 						datasets: [
 							{
-								label: 'BG readings',
+								label: 'Glicemia',
 								data: bloodGlucose,
 								backgroundColor: ['rgba(55, 81, 255, 0.6)'],
 								borderColor: ['rgba(55, 81, 255, 0.2)'],
