@@ -3,7 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Hamburger from 'hamburger-react';
 import { useLayoutEffect, useState } from 'react';
 import { IconContext } from 'react-icons';
-import { FaCalculator, FaCarrot, FaHome, FaRegClipboard, FaUserCog, FaArrowRight } from 'react-icons/fa';
+import { FaCalculator, FaCarrot, FaHome, FaRegClipboard, FaUserCog, FaAngleRight } from 'react-icons/fa';
 import LogoSource from '../../assets/images/logo.svg';
 import { useWindowWidth } from '../../hooks/useWindowWidth';
 import {
@@ -43,14 +43,14 @@ export const Sidebar = () => {
 
 	const handleUrlChange = () => {
 		setIsLoading(true);
-		localStorage.removeItem('nightscout_url');
 		setTimeout(() => {
+			localStorage.removeItem('nightscout_url');
 			window.location.reload();
-		}, 3 * 1000);
+		}, 2 * 1000);
 	};
 
 	const handleClickAway = () => {
-		if (mobile) setMobileSidebarOpen(false);
+		if (!dialogOpen && mobile) setMobileSidebarOpen(false);
 	};
 
 	useLayoutEffect(() => {
@@ -72,7 +72,9 @@ export const Sidebar = () => {
 					<DialogContentText>{localStorage.getItem('nightscout_url')}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleDialogClose}>Não, voltar</Button>
+					<Button disabled={isLoading} onClick={handleDialogClose}>
+						Não, voltar
+					</Button>
 					<LoadingButton variant='contained' onClick={handleUrlChange} loading={isLoading}>
 						Sim
 					</LoadingButton>
@@ -115,7 +117,7 @@ export const Sidebar = () => {
 							<SidebarUrlContainer onClick={handleDialogOpen}>
 								<FaUserCog size={24} />
 								<SidebarUrl>{localStorage.getItem('nightscout_url') || 'your-url.herokuapp.com'}</SidebarUrl>
-								<FaArrowRight size={14} />
+								<FaAngleRight size={14} />
 							</SidebarUrlContainer>
 						</Tooltip>
 					</SidebarWrapper>

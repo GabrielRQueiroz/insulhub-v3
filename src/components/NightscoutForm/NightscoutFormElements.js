@@ -15,17 +15,6 @@ export const FormScreen = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	animation: 1s appear forwards;
-
-	@keyframes appear {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
 `;
 
 export const FormContainer = styled.div`
@@ -72,6 +61,15 @@ export const FormImage = styled.img`
 
 	max-height: 96px;
 	width: 100%;
+`;
+
+export const FormLink = styled.a`
+	width: 100%;
+
+	font-size: 0.75em;
+	text-align: left;
+
+	margin: 0 0 16px;
 `;
 
 export const FormTextWrapper = styled.div`
