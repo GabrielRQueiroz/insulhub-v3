@@ -9,9 +9,9 @@ export const SidebarContainer = styled.nav`
 
 	left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-255px')};
 
-	transition: ${({ mobile }) => (mobile ? '500ms all ease-in-out' : '0s')};
+	transition: ${({ mobile }) => (mobile ? '250ms all ease-in-out' : '0s')};
 
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 300px) {
 		left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-225px')};
 	}
 `;
@@ -21,24 +21,18 @@ export const SidebarButton = styled.div`
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
 	z-index: 999;
 
-	margin-top: 16px;
-	padding: 8px 12px 8px 8px;
+	margin-top: 36px;
 
 	height: 48px;
 	width: 48px;
 
-	border-radius: 0 10px 10px 0;
+	border-radius: 0 6px 6px 0;
 
 	background-color: rgba(54, 55, 64, 0.99);
 
 	cursor: pointer;
 
 	transition: 500ms all ease-in-out;
-
-	& > svg {
-		height: 100%;
-		width: 100%;
-	}
 `;
 
 export const SidebarWrapper = styled.div`
@@ -48,12 +42,14 @@ export const SidebarWrapper = styled.div`
 
 	height: 100%;
 	min-width: 255px;
+	max-width: 255px;
 
 	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
 
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 300px) {
 		min-width: 225px;
+		max-width: 225px;
 	}
 `;
 
@@ -147,14 +143,12 @@ export const SidebarLink = styled(link)`
 
 		100% {
 			height: inherit;
-			/* box-shadow: 0 0 25px 2px #dde2ff; */
 		}
 	}
 
 	@keyframes disappear {
 		0% {
 			height: inherit;
-			/* box-shadow: 0 0 25px 2px #dde2ff; */
 		}
 
 		100% {
@@ -187,16 +181,77 @@ export const SidebarLink = styled(link)`
 	}
 `;
 
-export const SidebarBG = styled.video`
-	height: 100vh;
-	width: 255px;
+export const TransparentBackground = styled.div`
+	height: 100%;
+	width: 100%;
 
 	position: absolute;
 
-	top: 0;
-	left: 0;
+	z-index: 5;
 
-	object-fit: cover;
+	background-color: rgb(37, 39, 51);
+	animation: 250ms darken forwards;
 
-	z-index: -1;
+	@keyframes darken {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 0.5;
+		}
+	}
+`;
+
+export const SidebarUrlContainer = styled.div`
+	height: 56px;
+	max-width: inherit;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	flex-grow: 1;
+
+	padding: 28px 0;
+
+	position: absolute;
+	bottom: 0;
+
+	overflow: hidden;
+
+	& > svg {
+		margin: 0 12px 0 16px;
+		min-width: 1.75em;
+	}
+
+	&:hover {
+		background-color: rgba(155, 160, 170, 0.03);
+		cursor: pointer;
+	}
+
+	& ::before {
+		content: '';
+
+		height: 1px;
+		width: 90%;
+
+		margin: 0 5%;
+
+		background-color: #dde2ff;
+		opacity: 0.2;
+
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+`;
+
+export const SidebarUrl = styled.div`
+	font-style: italic;
+	font-size: 0.8rem;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	text-decoration: none;
 `;
