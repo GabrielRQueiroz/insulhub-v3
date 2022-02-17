@@ -190,6 +190,18 @@ export const GraphContainer = styled.div`
 
 	padding: 0 16px 8px;
 
+	& :hover {
+		cursor: pointer;
+		cursor: -moz-pointer;
+		cursor: -webkit-pointer;
+	}
+
+	& :active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
+
 	@media screen and (max-width: 576px) {
 		padding: 0 8px;
 	}
