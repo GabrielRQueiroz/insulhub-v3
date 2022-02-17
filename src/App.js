@@ -1,12 +1,10 @@
-import './config/transition.css';
-import { GlobalStyle } from './config';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
-import { Sidebar, Main, NightscoutForm } from './components';
-
-import { Summary, Home, Calculator, Food } from './pages';
 import { Provider } from 'react-redux';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Main, NightscoutForm, Sidebar } from './components';
+import { GlobalStyle } from './config';
+import './config/transition.css';
+import { Calculator, Food, Home, Summary } from './pages';
 import store from './store';
 
 function App() {

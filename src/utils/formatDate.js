@@ -53,8 +53,8 @@ export const dateFormatter = (selectedDate) => {
 			.toString()
 			.padStart(2, 0)}`;
 
-		// Setting ten minutes before for the 'timeStringAhead' variable
-		selectedDate.setMinutes(minutesValue - 10);
+		// Setting fifteen minutes before for the 'timeStringAhead' variable
+		selectedDate.setMinutes(minutesValue - 15);
 		const backedHoursValue = selectedDate.getHours();
 		const backedMinutesValue = selectedDate.getMinutes();
 
