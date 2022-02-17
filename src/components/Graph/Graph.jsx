@@ -95,30 +95,11 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 					options={{
 						responsive: true,
 
-						pointRadius: 2.5,
-
-						plugins: {
-							legend: false,
-							zoom: {
-								pan: {
-									enabled: true,
-									mode: 'x',
-								},
-								zoom: {
-									wheel: {
-										enabled: true,
-									},
-									pinch: {
-										enabled: true,
-									},
-									mode: 'x',
-								},
-							},
-						},
+						pointRadius: 3.5,
 
 						scales: {
 							x: {
-								min: 0,
+								min: 20,
 								bounds: 'ticks',
 								display: true,
 							},
@@ -131,6 +112,29 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 							},
 						},
 						maintainAspectRatio: false,
+
+						plugins: {
+							legend: false,
+							zoom: {
+								limits: {
+									x: { minRange: 15 },
+								},
+								pan: {
+									enabled: true,
+									mode: 'x',
+								},
+								zoom: {
+									wheel: {
+										enabled: true,
+										speed: 0.075,
+									},
+									pinch: {
+										enabled: true,
+									},
+									mode: 'x',
+								},
+							},
+						},
 					}}
 				/>
 			)}

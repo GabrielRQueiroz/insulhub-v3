@@ -4,6 +4,7 @@ import Hamburger from 'hamburger-react';
 import { useLayoutEffect, useState } from 'react';
 import { IconContext } from 'react-icons';
 import { FaCalculator, FaCarrot, FaHome, FaRegClipboard, FaUserCog, FaAngleRight } from 'react-icons/fa';
+import { MdExitToApp } from 'react-icons/md';
 import LogoSource from '../../assets/images/logo.svg';
 import { useWindowWidth } from '../../hooks/useWindowWidth';
 import {
@@ -75,7 +76,13 @@ export const Sidebar = () => {
 					<Button disabled={isLoading} onClick={handleDialogClose}>
 						Não, voltar
 					</Button>
-					<LoadingButton variant='contained' onClick={handleUrlChange} loading={isLoading}>
+					<LoadingButton
+						variant='contained'
+						onClick={handleUrlChange}
+						loading={isLoading}
+						loadingPosition='end'
+						endIcon={<MdExitToApp color='inherit' />}
+					>
 						Sim
 					</LoadingButton>
 				</DialogActions>
@@ -84,7 +91,7 @@ export const Sidebar = () => {
 				<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
 					<SidebarWrapper>
 						<SidebarBrand>
-							<SidebarLogo height='40' width='40' title='InsulHub brand logo' src={LogoSource}></SidebarLogo>
+							<SidebarLogo height='40' width='40' title='Insulhub brand logo' src={LogoSource}></SidebarLogo>
 							<SidebarTitle>INSULHUB</SidebarTitle>
 						</SidebarBrand>
 						<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
