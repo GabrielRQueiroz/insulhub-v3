@@ -74,6 +74,7 @@ export const Sidebar = () => {
 
 	return (
 		<IconContext.Provider value={{ color: '#9FA2B4' }}>
+			{/* Dialog for user URL change confirmation */}
 			<DialogConfirmation
 				aria-labelledby='alert-dialog-title'
 				aria-describedby='alert-dialog-description'
@@ -100,7 +101,9 @@ export const Sidebar = () => {
 					</LoadingButton>
 				</DialogActions>
 			</DialogConfirmation>
+			{/* Listener for clicks outside sidebar */}
 			<ClickAwayListener onClickAway={handleClickAway}>
+				{/* Actual sidebar */}
 				<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
 					<SidebarWrapper>
 						<SidebarBrand>
@@ -142,7 +145,15 @@ export const Sidebar = () => {
 						</Tooltip>
 					</SidebarWrapper>
 					<SidebarButton mobile={mobile}>
-						<Hamburger color='#a4a6b3' size={30} rounded duration={0.5} toggled={mobileSidebarOpen} toggle={handleSidebarOpenClose} />
+						<Hamburger
+							aria-label='Abrir o menu'
+							color='#a4a6b3'
+							size={30}
+							rounded
+							duration={0.5}
+							toggled={mobileSidebarOpen}
+							toggle={handleSidebarOpenClose}
+						/>
 					</SidebarButton>
 				</SidebarContainer>
 			</ClickAwayListener>

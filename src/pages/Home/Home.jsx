@@ -20,7 +20,7 @@ import {
 	SearchWrapper,
 	StyledDatePicker,
 	StyledTimePicker,
-	TimeSectionWrapper
+	TimeSectionWrapper,
 } from './HomeElements';
 
 export const Home = () => {
@@ -69,16 +69,17 @@ export const Home = () => {
 							<DateText>
 								<FaRegCalendarAlt />
 							</DateText>
+							{/* Date picker */}
 							<StyledDatePicker
-								id='date'
 								format='dd/MM/yyyy'
 								inputVariant='outlined'
+								aria-labelledby='dateLabel'
 								disableFuture
 								value={date}
 								onChange={handleDateChange}
 								autoOk
 							/>
-							<HiddenLabel htmlFor='date'>Date picker for the graph</HiddenLabel>
+							<HiddenLabel id='dateLabel'>Escolha uma data para ter todas as leituras</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph selectedDate={date} />
@@ -86,8 +87,16 @@ export const Home = () => {
 						<TimeSectionWrapper>
 							<SearchWrapper>
 								<FaRegClock />
-								<StyledTimePicker id='time' inputVariant='outlined' ampm={false} value={time} onChange={handleTimeChange} autoOk />
-								<HiddenLabel htmlFor='time'>Time picker for specific readings</HiddenLabel>
+								{/* Time picker */}
+								<StyledTimePicker
+									aria-labelledby='timeLabel'
+									inputVariant='outlined'
+									ampm={false}
+									value={time}
+									onChange={handleTimeChange}
+									autoOk
+								/>
+								<HiddenLabel id='timeLabel'>Escolha um horário para uma leitura específica</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
 								<Readings selectedTime={time} />
