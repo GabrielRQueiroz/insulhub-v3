@@ -109,25 +109,25 @@ export const Sidebar = () => {
 						</SidebarBrand>
 						<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
 							<SidebarItem>
-								<SidebarLink activeClassName='active' to='/'>
+								<SidebarLink activeclassname='active' to='/'>
 									<FaHome />
 									<span>Início</span>
 								</SidebarLink>
 							</SidebarItem>
 							<SidebarItem>
-								<SidebarLink activeClassName='active' to='/summary'>
+								<SidebarLink activeclassname='active' to='/summary'>
 									<FaRegClipboard />
 									<span>Relatório</span>
 								</SidebarLink>
 							</SidebarItem>
 							<SidebarItem>
-								<SidebarLink activeClassName='active' to='/calculator'>
+								<SidebarLink activeclassname='active' to='/calculator'>
 									<FaCalculator />
 									<span>Regra de Três</span>
 								</SidebarLink>
 							</SidebarItem>
 							<SidebarItem>
-								<SidebarLink activeClassName='active' to='/food'>
+								<SidebarLink activeclassname='active' to='/food'>
 									<FaCarrot />
 									<span>Alimentos</span>
 								</SidebarLink>

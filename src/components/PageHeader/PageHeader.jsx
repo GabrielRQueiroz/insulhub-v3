@@ -10,13 +10,11 @@ const PageHeaderWrapper = styled.header`
 	display: flex;
 	justify-content: space-between;
 
-	height: 44px;
 	width: 100%;
 
 	color: #252733;
 
-	margin: 20px 0;
-	padding: 0 15px;
+	margin-top: 30px;
 
 	@media screen and (max-width: 576px) {
 		flex-direction: column;
