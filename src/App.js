@@ -1,34 +1,26 @@
-import { Provider } from 'react-redux';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Main, NightscoutForm, Sidebar } from './components';
 import { GlobalStyle } from './config';
 import './config/transition.css';
-import { Calculator, Food, Home, Summary } from './pages';
-import store from './store';
+import { getUrl } from './store';
 
 function App() {
-	const location = useLocation();
-	const nightscoutBaseUrl = localStorage.getItem('nightscout_url');
+	const [userNeedsUrl, setUserNeedsUrl] = useState();
+	const { nightscoutUrl } = useSelector(getUrl);
+
+	useEffect(() => {
+		// ? This useEffect grants that, if the user change the nightscout url, it will be checked if the Login popup has to be prompted
+		nightscoutUrl ? setUserNeedsUrl(false) : setUserNeedsUrl(true);
+	}, [nightscoutUrl]);
 
 	return (
-		<Provider store={store}>
+		<>
 			<GlobalStyle />
-			{nightscoutBaseUrl === null && <NightscoutForm />}
+			{userNeedsUrl && <NightscoutForm />}
 			<Sidebar />
-			<Main>
-				<TransitionGroup>
-					<CSSTransition key={location.pathname} timeout={500} classNames='page'>
-						<Routes location={location}>
-							<Route path='/' element={<Home />} />
-							<Route path='/summary' element={<Summary />} />
-							<Route path='/calculator' element={<Calculator />} />
-							<Route path='/food' element={<Food />} />
-						</Routes>
-					</CSSTransition>
-				</TransitionGroup>
-			</Main>
-		</Provider>
+			<Main />
+		</>
 	);
 }
 

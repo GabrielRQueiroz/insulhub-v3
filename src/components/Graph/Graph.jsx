@@ -5,15 +5,20 @@ import { Line } from 'react-chartjs-2';
 import { Loader } from '../../components';
 import { useWindowHeight } from '../../hooks/useWindowHeight';
 import { dateFormatter } from '../../utils';
+import { useSelector } from 'react-redux';
+import { getUrl } from '../../store';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
 
-export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
+export const Graph = ({ selectedDate }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [bloodGlucose, setBloodGlucose] = useState({});
 	const [labelData, setLabelData] = useState([]);
 	const [graphYLimit, setGraphYLimit] = useState(240);
+
+	const { nightscoutUrl } = useSelector(getUrl);
+
 	const windowHeight = useWindowHeight(); // Created to re-render the graph when window height changes
 
 	useEffect(() => {
@@ -25,7 +30,7 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 
 			const { dateString, dateStringAhead } = getDateStrings();
 
-			const nightscoutApiUrl = `${nightscoutBaseUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
+			const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
 
 			setIsLoading(true);
 
@@ -71,7 +76,7 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 		window.addEventListener('focus', fetchGraphInformation);
 
 		return window.removeEventListener('focus', fetchGraphInformation);
-	}, [selectedDate, windowHeight, nightscoutBaseUrl]);
+	}, [nightscoutUrl, selectedDate, windowHeight]);
 
 	return (
 		<>
@@ -95,30 +100,10 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 					options={{
 						responsive: true,
 
-						pointRadius: 2.5,
-
-						plugins: {
-							legend: false,
-							zoom: {
-								pan: {
-									enabled: true,
-									mode: 'x',
-								},
-								zoom: {
-									wheel: {
-										enabled: true,
-									},
-									pinch: {
-										enabled: true,
-									},
-									mode: 'x',
-								},
-							},
-						},
+						pointRadius: 3.5,
 
 						scales: {
 							x: {
-								min: 0,
 								bounds: 'ticks',
 								display: true,
 							},
@@ -131,6 +116,29 @@ export const Graph = ({ nightscoutBaseUrl, selectedDate }) => {
 							},
 						},
 						maintainAspectRatio: false,
+
+						plugins: {
+							legend: false,
+							zoom: {
+								limits: {
+									x: { minRange: 25 },
+								},
+								pan: {
+									enabled: true,
+									mode: 'x',
+								},
+								zoom: {
+									wheel: {
+										enabled: true,
+										speed: 0.075,
+									},
+									pinch: {
+										enabled: true,
+									},
+									mode: 'x',
+								},
+							},
+						},
 					}}
 				/>
 			)}

@@ -11,7 +11,7 @@ export const HomeContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 
-	padding: 0 15px;
+	gap: 15px;
 
 	@media screen and (max-width: 900px) {
 		height: auto;
@@ -30,11 +30,9 @@ export const HomeGreetings = styled.h3`
 		border: 0;
 		border-bottom: 1px solid black;
 
-		padding: 0 4px;
-
 		outline: none;
 
-		max-width: 40%;
+		width: 40%;
 
 		font-size: 1.25rem;
 	}
@@ -53,6 +51,8 @@ export const HomeCardsContainer = styled.section`
 	flex-shrink: 1;
 	flex-basis: auto;
 	flex-wrap: wrap;
+
+	gap: 15px;
 
 	justify-content: center;
 
@@ -75,7 +75,6 @@ export const HomeCard = styled(link)`
 
 	background-color: #ffffff;
 
-	margin: 8px 15px 15px;
 	padding: 24px 0px;
 
 	transition: 200ms all ease-out;
@@ -120,8 +119,7 @@ export const MainSectionContainer = styled.section`
 
 	background: transparent;
 
-	padding: 0 15px;
-	margin: 15px 0 30px;
+	margin-bottom: 30px;
 `;
 
 export const GraphSectionWrapper = styled.div`
@@ -179,6 +177,7 @@ export const DateText = styled.span`
 
 export const GraphContainer = styled.div`
 	height: 100%;
+	min-height: 200px;
 	min-width: auto;
 
 	display: flex;

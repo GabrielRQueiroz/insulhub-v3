@@ -6,6 +6,8 @@ export const MainWrapper = styled.main`
 
 	position: relative;
 
+	padding: 0 30px;
+
 	background-color: #f7f8fc;
 
 	/* box-shadow: 0px 0 20px #202020; */
@@ -21,5 +23,10 @@ export const MainWrapper = styled.main`
 	&::-webkit-scrollbar-thumb {
 		background: #9fa2b4;
 		border-radius: 50px;
+	}
+
+	& > div {
+		// Necessary for the transition to work properly without layout shifting
+		position: relative;
 	}
 `;
