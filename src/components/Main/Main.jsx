@@ -1,12 +1,16 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useWindowWidth, useWindowHeight } from '../../hooks';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useWindowHeight, useWindowWidth } from '../../hooks';
+import { Calculator, Food, Home, Summary } from '../../pages';
 import { MainWrapper } from './MainElements';
 
-export const Main = ({ children }) => {
+export const Main = () => {
 	const deviceHeight = useWindowHeight();
 	const windowWidth = useWindowWidth();
 	const [isMobile, setIsMobile] = useState();
 	const [windowHeight, setWindowHeight] = useState(useWindowHeight());
+	const location = useLocation();
 
 	useLayoutEffect(() => {
 		// Listening for page resize to identify mobile dimensions
@@ -20,7 +24,16 @@ export const Main = ({ children }) => {
 
 	return (
 		<MainWrapper height={windowHeight} mobile={isMobile}>
-			{children}
+			<TransitionGroup>
+				<CSSTransition key={location.pathname} timeout={500} classNames='page'>
+					<Routes location={location}>
+						<Route path='/' element={<Home />} />
+						<Route path='/summary' element={<Summary />} />
+						<Route path='/calculator' element={<Calculator />} />
+						<Route path='/food' element={<Food />} />
+					</Routes>
+				</CSSTransition>
+			</TransitionGroup>
 		</MainWrapper>
 	);
 };

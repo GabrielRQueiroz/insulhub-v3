@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Dialog } from '@mui/material';
 
 import { NavLink as link } from 'react-router-dom';
 
@@ -16,10 +17,16 @@ export const SidebarContainer = styled.nav`
 	}
 `;
 
+export const DialogConfirmation = styled(Dialog)`
+	margin: 0 auto;
+
+	width: clamp(50%, 768px, 95%);
+`;
+
 export const SidebarButton = styled.div`
 	position: relative;
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
-	z-index: 999;
+	z-index: 888;
 
 	margin-top: 36px;
 
@@ -100,6 +107,8 @@ export const SidebarLink = styled(link)`
 	height: 56px;
 	width: 100%;
 
+	position: relative;
+
 	padding: 28px 20px 28px 0;
 
 	display: flex;
@@ -129,32 +138,12 @@ export const SidebarLink = styled(link)`
 
 		left: 0;
 
+		height: 0;
 		width: 3px;
 
 		background-color: #dde2ff;
-		animation: 500ms disappear forwards;
-	}
 
-	@keyframes appear {
-		0% {
-			box-shadow: 0;
-			height: 0;
-		}
-
-		100% {
-			height: inherit;
-		}
-	}
-
-	@keyframes disappear {
-		0% {
-			height: inherit;
-		}
-
-		100% {
-			box-shadow: 0;
-			height: 0;
-		}
+		transition: 400ms all ease-in-out;
 	}
 
 	// Active class
@@ -173,10 +162,10 @@ export const SidebarLink = styled(link)`
 
 			left: 0;
 
+			height: 100%;
 			width: 3px;
 
 			background-color: #dde2ff;
-			animation: 500ms appear forwards;
 		}
 	}
 `;
@@ -204,6 +193,7 @@ export const TransparentBackground = styled.div`
 
 export const SidebarUrlContainer = styled.div`
 	height: 56px;
+	width: 100%;
 	max-width: inherit;
 
 	display: flex;

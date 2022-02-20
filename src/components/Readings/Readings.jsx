@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from '../../components';
 import { ReadingsContainer, ReadingsNotFound, ReadingsText } from './ReadingsElements';
 import { dateFormatter } from '../../utils';
+import { useSelector } from 'react-redux';
+import { getUrl } from '../../store';
 
 const directionsList = {
 	DoubleUp: '⇈',
@@ -14,10 +16,12 @@ const directionsList = {
 	DoubleDown: '⇊',
 };
 
-export const Readings = ({ nightscoutBaseUrl, selectedTime }) => {
+export const Readings = ({ selectedTime }) => {
 	const [reading, setReading] = useState(0);
 	const [direction, setDirection] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+
+	const { nightscoutUrl } = useSelector(getUrl);
 
 	useEffect(() => {
 		const { getTimeStrings } = dateFormatter(selectedTime); // src/utils/formatDate.js
@@ -25,7 +29,7 @@ export const Readings = ({ nightscoutBaseUrl, selectedTime }) => {
 		const fetchSpecificReading = async () => {
 			const { timeString, timeStringBefore, dateString, dateStringBefore } = getTimeStrings();
 
-			const nightscoutApiUrl = `${nightscoutBaseUrl}api/v1/entries.json?find[dateString][$gte]=${dateStringBefore}T${timeStringBefore}:00Z&find[dateString][$lte]=${dateString}T${timeString}:59`;
+			const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries.json?find[dateString][$gte]=${dateStringBefore}T${timeStringBefore}:00Z&find[dateString][$lte]=${dateString}T${timeString}:59`;
 
 			setIsLoading(true);
 
@@ -42,7 +46,7 @@ export const Readings = ({ nightscoutBaseUrl, selectedTime }) => {
 		};
 
 		fetchSpecificReading();
-	}, [nightscoutBaseUrl, selectedTime]);
+	}, [nightscoutUrl, selectedTime]);
 
 	return (
 		<ReadingsContainer>

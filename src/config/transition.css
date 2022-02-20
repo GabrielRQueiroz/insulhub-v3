@@ -1,21 +1,25 @@
 .page-enter {
 	position: absolute;
+
 	pointer-events: none;
 	opacity: 0;
 }
 .page-enter-active {
 	position: absolute;
+
 	pointer-events: none;
 	opacity: 1;
 	transition: opacity 500ms ease-in-out;
 }
 .page-exit {
 	position: absolute;
+
 	pointer-events: none;
 	opacity: 1;
 }
 .page-exit-active {
 	position: absolute;
+
 	pointer-events: none;
 	opacity: 0;
 	transition: opacity 500ms ease-in-out;

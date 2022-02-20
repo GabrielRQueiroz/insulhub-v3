@@ -6,11 +6,14 @@ import ScreenshotImg from '../../assets/images/url_screenshot.png';
 import { urlFormatter } from '../../utils';
 import { FormButton, FormContainer, FormField, FormImage, FormLink, FormScreen, FormTextWrapper, FormTitle } from './NightscoutFormElements';
 import { BsBoxArrowUpRight } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { connectUrl } from '../../store/nightscoutSlice';
 
 export const NightscoutForm = () => {
 	const [userUrl, setUserUrl] = useState('');
 	const [isValid, setIsValid] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const dispatch = useDispatch();
 
 	const urlPatternValidation = (url) => {
 		const regex = new RegExp('^(https://|http://)?([a-zA-Z0-9.@_+=-]+).(herokuapp.com|herokuapp.com/)$');
@@ -18,7 +21,8 @@ export const NightscoutForm = () => {
 	};
 
 	const handleInputChange = (event) => {
-		const { value } = event.target;
+		let { value, maxLength } = event.target;
+		value = value.replace(' ', '').slice(0, maxLength);
 		const validated = !value || urlPatternValidation(value);
 		setUserUrl(value.toLowerCase());
 		setIsValid(validated);
@@ -33,10 +37,9 @@ export const NightscoutForm = () => {
 
 		setIsLoading(true);
 
-		setTimeout(() => {
-			localStorage.setItem('nightscout_url', formattedUrl);
-			window.location.reload();
-		}, 2 * 1000); // 2 seconds
+		dispatch(connectUrl(formattedUrl));
+
+		setIsLoading(false);
 	};
 
 	return (
@@ -51,7 +54,7 @@ export const NightscoutForm = () => {
 							required
 							error={!isValid && userUrl !== ''}
 							margin='normal'
-							type='url'
+							type='text'
 							variant='standard'
 							size='medium'
 							label='Nightscout URL'
@@ -59,6 +62,7 @@ export const NightscoutForm = () => {
 							value={userUrl}
 							onChange={handleInputChange}
 							onKeyPress={handleKeyPress}
+							inputProps={{ maxLength: 60 }}
 						/>
 						<FormLink href='https://nightscout.github.io/' target='_blank'>
 							O que é o Nightscout? <BsBoxArrowUpRight />
