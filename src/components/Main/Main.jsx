@@ -25,7 +25,7 @@ export const Main = () => {
 	return (
 		<MainWrapper height={windowHeight} mobile={isMobile}>
 			<TransitionGroup>
-				<CSSTransition key={location.pathname} timeout={500} classNames='page'>
+				<CSSTransition key={location.pathname} timeout={250} classNames='page'>
 					<Routes location={location}>
 						<Route path='/' element={<Home />} />
 						<Route path='/summary' element={<Summary />} />

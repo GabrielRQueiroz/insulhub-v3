@@ -116,6 +116,7 @@ export const MainSectionContainer = styled.section`
 	width: 100%;
 
 	display: flex;
+	flex-grow: 1;
 
 	background: transparent;
 
