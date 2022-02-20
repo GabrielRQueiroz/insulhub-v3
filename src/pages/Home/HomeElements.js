@@ -179,6 +179,7 @@ export const DateText = styled.span`
 
 export const GraphContainer = styled.div`
 	height: 100%;
+	min-height: 200px;
 	min-width: auto;
 
 	display: flex;

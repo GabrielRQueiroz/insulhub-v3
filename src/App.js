@@ -1,20 +1,27 @@
-import { Provider } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Main, NightscoutForm, Sidebar } from './components';
 import { GlobalStyle } from './config';
 import './config/transition.css';
 import { Calculator, Food, Home, Summary } from './pages';
-import store from './store';
+import { getUrl } from './store';
 
 function App() {
+	const [userNeedsUrl, setUserNeedsUrl] = useState();
+	const { nightscoutUrl } = useSelector(getUrl);
 	const location = useLocation();
-	const nightscoutBaseUrl = localStorage.getItem('nightscout_url');
+
+	useEffect(() => {
+		// ? This useEffect grants that, if the user change the nightscout url, it will be checked if the Login popup has to be prompted
+		nightscoutUrl ? setUserNeedsUrl(false) : setUserNeedsUrl(true);
+	}, [nightscoutUrl]);
 
 	return (
-		<Provider store={store}>
+		<>
 			<GlobalStyle />
-			{nightscoutBaseUrl === null && <NightscoutForm />}
+			{userNeedsUrl && <NightscoutForm />}
 			<Sidebar />
 			<Main>
 				<TransitionGroup>
@@ -28,7 +35,7 @@ function App() {
 					</CSSTransition>
 				</TransitionGroup>
 			</Main>
-		</Provider>
+		</>
 	);
 }
 

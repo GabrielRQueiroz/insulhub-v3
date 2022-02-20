@@ -1,6 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaCalculator, FaCarrot, FaPencilAlt, FaRegCalendarAlt, FaRegClipboard, FaRegClock } from 'react-icons/fa';
 import { Graph, PageHeader, Readings } from '../../components';
 import {
@@ -20,14 +20,13 @@ import {
 	SearchWrapper,
 	StyledDatePicker,
 	StyledTimePicker,
-	TimeSectionWrapper,
+	TimeSectionWrapper
 } from './HomeElements';
 
 export const Home = () => {
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(date);
 	const [username, setUsername] = useState(localStorage.username || '');
-	const nightscoutBaseUrl = localStorage.getItem('nightscout_url');
 
 	const handleDateChange = (date) => {
 		setDate(date);
@@ -82,7 +81,7 @@ export const Home = () => {
 							<HiddenLabel htmlFor='date'>Date picker for the graph</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
-							<Graph nightscoutBaseUrl={nightscoutBaseUrl} selectedDate={date} />
+							<Graph selectedDate={date} />
 						</GraphContainer>
 						<TimeSectionWrapper>
 							<SearchWrapper>
@@ -91,7 +90,7 @@ export const Home = () => {
 								<HiddenLabel htmlFor='time'>Time picker for specific readings</HiddenLabel>
 							</SearchWrapper>
 							<ReadingsWrapper>
-								<Readings nightscoutBaseUrl={nightscoutBaseUrl} selectedTime={time} />
+								<Readings selectedTime={time} />
 							</ReadingsWrapper>
 						</TimeSectionWrapper>
 					</GraphSectionWrapper>
