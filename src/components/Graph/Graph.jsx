@@ -1,56 +1,45 @@
 import axios from 'axios';
 import Chart from 'chart.js/auto';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Loader } from '../../components';
 import { useWindowHeight } from '../../hooks/useWindowHeight';
 import { dateFormatter } from '../../utils';
-import { useSelector } from 'react-redux';
-import { getUrl } from '../../store';
-import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
 
-export const Graph = ({ selectedDate }) => {
+export const Graph = ({ selectedDate, nightscoutUrl }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [bloodGlucose, setBloodGlucose] = useState({});
 	const [labelData, setLabelData] = useState([]);
 	const [graphYLimit, setGraphYLimit] = useState(240);
-
-	const { nightscoutUrl } = useSelector(getUrl);
-
 	const windowHeight = useWindowHeight(); // Created to re-render the graph when window height changes
 
-	useEffect(() => {
-		const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
+	const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
+	const { dateString, dateStringAhead } = getDateStrings();
 
+	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
+
+	useEffect(() => {
 		const fetchGraphInformation = async () => {
 			const bloodGlucoseReadings = [];
 			const graphLabels = [];
-
-			const { dateString, dateStringAhead } = getDateStrings();
-
-			const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
 
 			setIsLoading(true);
 
 			await axios
 				.get(nightscoutApiUrl)
 				.then((response) => {
-					for (let i = 0; i < response?.data?.length; i++) {
+					for (let i = response?.data?.length; i > 0; i--) {
 						response?.data[i]?.noise === 1 && bloodGlucoseReadings.push(response?.data[i]?.sgv);
 					}
 
-					for (let i = 0; i < bloodGlucoseReadings.length; i++) {
+					for (let i = bloodGlucoseReadings.length; i > 0; i--) {
 						let time = `${new Date(response?.data[i]?.dateString)}`;
-						let labeledTime = time.slice(16, 21);
 
-						graphLabels.push(labeledTime);
+						graphLabels.push(time.slice(16, 21)); // ? only hh:mm sliced
 					}
-
-					// Arrays needed to be reverted in order to keep readings' chronological order
-					graphLabels.reverse();
-					bloodGlucoseReadings.reverse();
 
 					// ? Finding highest reading to set the max Y axis value on the graph
 					let highestBGValue = Math.max(...bloodGlucoseReadings);
@@ -76,7 +65,7 @@ export const Graph = ({ selectedDate }) => {
 		window.addEventListener('focus', fetchGraphInformation);
 
 		return window.removeEventListener('focus', fetchGraphInformation);
-	}, [nightscoutUrl, selectedDate, windowHeight]);
+	}, [nightscoutApiUrl, selectedDate, windowHeight]);
 
 	return (
 		<>

@@ -29,4 +29,8 @@ export const MainWrapper = styled.main`
 		// Necessary for the transition to work properly without layout shifting
 		position: relative;
 	}
+
+	@media screen and (max-width: 576px) {
+		padding: 0 15px;
+	}
 `;

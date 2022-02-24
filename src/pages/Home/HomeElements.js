@@ -151,11 +151,52 @@ export const DateWrapper = styled.div`
 
 	margin: 16px 0 8px;
 
-	min-height: 24px;
+	max-height: 24px;
 	width: 100%;
 
-	& > * {
-		width: auto !important;
+	@media screen and (max-width: 576px) {
+		gap: 8px;
+	}
+`;
+
+export const DateRefreshButton = styled.button`
+	align-self: center;
+
+	height: 60%;
+	min-height: 30px;
+
+	aspect-ratio: 1;
+
+	padding: 2px;
+
+	background-color: #ffffff;
+
+	border: 2px solid #dfe0eb;
+	border-radius: 50px;
+
+	transition: all 200ms;
+
+	/* box-shadow: 0 1px 0 1px rgba(200, 200, 200, 0.5);
+
+	&:active {
+		color: #3751ff;
+		box-shadow: inset 0 1px 0 1px rgba(200, 200, 200, 0.5);
+	} */
+
+	& > svg {
+		height: 100%;
+		width: 100%;
+
+		transition: all 200ms;
+	}
+	&:hover {
+		border-color: #3751ff;
+
+		cursor: pointer;
+
+		& > svg {
+			fill: #3751ff;
+		}
 	}
 `;
 
@@ -166,7 +207,7 @@ export const DateText = styled.span`
 	color: #252733;
 
 	& > svg {
-		transform: scale(1.5);
+		transform: scale(1.4);
 	}
 
 	@media screen and (max-width: 576px) {
@@ -212,6 +253,8 @@ export const TimeSectionWrapper = styled.div`
 	max-height: 60px;
 	width: 100%;
 
+	gap: 8px;
+
 	display: flex;
 	justify-content: center;
 
@@ -222,8 +265,9 @@ export const TimeSectionWrapper = styled.div`
 	background-color: transparent;
 	fill: #252733;
 
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 768px) {
 		padding: 8px;
+		gap: 0;
 	}
 `;
 
@@ -236,9 +280,9 @@ export const SearchWrapper = styled.div`
 	gap: 16px;
 
 	height: auto;
-	width: 50%;
+	width: 45%;
 
-	padding: 0 8px;
+	padding: 0 4px;
 
 	& > svg {
 		transform: scale(1.5);
@@ -255,13 +299,13 @@ export const SearchWrapper = styled.div`
 
 export const StyledTimePicker = styled(TimePicker)`
 	height: 50%;
-	width: 50%;
+	width: 60%;
 
-	@media screen and (max-width: 768px) {
-		flex-grow: 1;
-	}
+	/* @media screen and (max-width: 576px) {
+	} */
 
 	& > div {
+		flex-grow: 1;
 		height: 100%;
 		width: 100%;
 
@@ -302,7 +346,7 @@ export const StyledTimePicker = styled(TimePicker)`
 
 export const StyledDatePicker = styled(DatePicker)`
 	height: 100%;
-	width: 50%;
+	width: auto;
 
 	& > div {
 		height: 100%;
@@ -350,21 +394,10 @@ export const StyledDatePicker = styled(DatePicker)`
 
 export const ReadingsWrapper = styled.div`
 	display: flex;
+
 	flex-grow: 1;
 
-	&::before {
-		content: '';
-		position: relative;
-
-		left: 0;
-
-		align-self: center;
-
-		height: 75%;
-
-		border: 1px solid #dfe0eb;
-		border-radius: 4px;
-	}
+	width: 45%;
 `;
 
 export const HiddenLabel = styled.label`
