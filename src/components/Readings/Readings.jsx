@@ -1,10 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from '../../components';
-import { ReadingsContainer, ReadingsNotFound, ReadingsText } from './ReadingsElements';
 import { dateFormatter } from '../../utils';
-import { useSelector } from 'react-redux';
-import { getUrl } from '../../store';
+import { ReadingsContainer, ReadingsNotFound, ReadingsText } from './ReadingsElements';
 
 const directionsList = {
 	DoubleUp: '⇈',
@@ -16,12 +14,10 @@ const directionsList = {
 	DoubleDown: '⇊',
 };
 
-export const Readings = ({ selectedTime }) => {
+export const Readings = ({ selectedTime, nightscoutUrl }) => {
 	const [reading, setReading] = useState(0);
 	const [direction, setDirection] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-
-	const { nightscoutUrl } = useSelector(getUrl);
 
 	useEffect(() => {
 		const { getTimeStrings } = dateFormatter(selectedTime); // src/utils/formatDate.js

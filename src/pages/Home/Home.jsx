@@ -2,8 +2,12 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { useState } from 'react';
 import { FaCalculator, FaCarrot, FaPencilAlt, FaRegCalendarAlt, FaRegClipboard, FaRegClock } from 'react-icons/fa';
+import { IoMdRefresh } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 import { Graph, PageHeader, Readings } from '../../components';
+import { getUrl } from '../../store';
 import {
+	DateRefreshButton,
 	DateText,
 	DateWrapper,
 	GraphContainer,
@@ -27,6 +31,8 @@ export const Home = () => {
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(date);
 	const [username, setUsername] = useState(localStorage.username || '');
+
+	const { nightscoutUrl } = useSelector(getUrl);
 
 	const handleDateChange = (date) => {
 		setDate(date);
@@ -82,7 +88,7 @@ export const Home = () => {
 							<HiddenLabel id='dateLabel'>Escolha uma data para ter todas as leituras</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
-							<Graph selectedDate={date} />
+							<Graph selectedDate={date} nightscoutUrl={nightscoutUrl} />
 						</GraphContainer>
 						<TimeSectionWrapper>
 							<SearchWrapper>
@@ -98,8 +104,11 @@ export const Home = () => {
 								/>
 								<HiddenLabel id='timeLabel'>Escolha um horário para uma leitura específica</HiddenLabel>
 							</SearchWrapper>
+							<DateRefreshButton onClick={() => handleDateChange(new Date())}>
+								<IoMdRefresh />
+							</DateRefreshButton>
 							<ReadingsWrapper>
-								<Readings selectedTime={time} />
+								<Readings selectedTime={time} nightscoutUrl={nightscoutUrl} />
 							</ReadingsWrapper>
 						</TimeSectionWrapper>
 					</GraphSectionWrapper>

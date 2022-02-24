@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const slice = createSlice({
+export const nightscoutSlice = createSlice({
 	name: 'nightscout',
 	initialState: {
 		nightscoutUrl: localStorage.getItem('nightscout_url'),
@@ -18,8 +18,8 @@ export const slice = createSlice({
 	},
 });
 
-export const { connectUrl, disconnectUrl } = slice.actions;
+export const { connectUrl, disconnectUrl } = nightscoutSlice.actions;
 
 export const getUrl = (state) => state.url;
 
-export default slice.reducer;
+export default nightscoutSlice.reducer;
