@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Link as link } from 'react-router-dom';
+import { DatePicker, TimePicker } from '@material-ui/pickers';
 import { EditText } from 'react-edit-text';
-import { TimePicker, DatePicker } from '@material-ui/pickers';
+import { Link as link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const HomeContainer = styled.div`
 	height: 100vh;
