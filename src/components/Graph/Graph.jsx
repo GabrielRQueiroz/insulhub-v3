@@ -31,11 +31,11 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 			await axios
 				.get(nightscoutApiUrl)
 				.then((response) => {
-					for (let i = response?.data?.length; i > 0; i--) {
+					for (let i = response?.data?.length - 1; i >= 0; i--) {
 						response?.data[i]?.noise === 1 && bloodGlucoseReadings.push(response?.data[i]?.sgv);
 					}
 
-					for (let i = bloodGlucoseReadings.length; i > 0; i--) {
+					for (let i = bloodGlucoseReadings.length - 1; i >= 0; i--) {
 						let time = `${new Date(response?.data[i]?.dateString)}`;
 
 						graphLabels.push(time.slice(16, 21)); // ? only hh:mm sliced
