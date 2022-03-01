@@ -1,19 +1,44 @@
-import styled from 'styled-components';
 import { Dialog } from '@mui/material';
-
 import { NavLink as link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const SidebarContainer = styled.nav`
 	display: flex;
-	height: ${({ mobile }) => (mobile ? '100%' : 'auto')};
-	position: ${({ mobile }) => (mobile ? 'absolute' : 'relative')};
 
-	left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-255px')};
+	height: ${({ mobile }) => (mobile ? '100%' : 'auto')};
+	min-width: ${({ mobile }) => (mobile ? '100vw' : '255px')};
+
+	position: ${({ mobile }) => (mobile ? 'absolute' : 'relative')};
+	left: 0;
+	bottom: 0;
+	/* bottom: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-100vh')}; */
+
+	animation-name: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? 'appear' : 'hide')};
+	animation-duration: 500ms;
+	animation-fill-mode: forwards;
 
 	transition: ${({ mobile }) => (mobile ? '250ms all ease-in-out' : '0s')};
 
-	@media screen and (max-width: 300px) {
-		left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-225px')};
+	clip-path: inset(0);
+
+	z-index: 777;
+
+	@keyframes appear {
+		from {
+			clip-path: circle(0% at 95% 5%);
+		}
+		to {
+			clip-path: circle(100% at 50% 50%);
+		}
+	}
+
+	@keyframes hide {
+		from {
+			clip-path: circle(100% at 50% 50%);
+		}
+		to {
+			clip-path: circle(0% at 95% 5%);
+		}
 	}
 `;
 
@@ -24,22 +49,25 @@ export const DialogConfirmation = styled(Dialog)`
 `;
 
 export const SidebarButton = styled.div`
-	position: relative;
+	position: fixed;
+	top: 32px;
+	right: 16px;
+
 	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
 	z-index: 888;
 
-	margin-top: 36px;
+	transform: ${({ mobile }) => (mobile ? 'scale(0.9)' : 'scale(1)')};
 
 	height: 48px;
 	width: 48px;
 
-	border-radius: 0 6px 6px 0;
+	border-radius: 6px;
 
-	background-color: rgba(54, 55, 64, 0.99);
+	background-color: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? 'transparent' : 'rgba(54, 55, 64, 0.99)')};
 
 	cursor: pointer;
 
-	transition: 500ms all ease-in-out;
+	transition: 200ms all ease-in-out;
 `;
 
 export const SidebarWrapper = styled.div`
@@ -48,16 +76,10 @@ export const SidebarWrapper = styled.div`
 	z-index: 10;
 
 	height: 100%;
-	min-width: 255px;
-	max-width: 255px;
+	width: 100%;
 
 	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
-
-	@media screen and (max-width: 300px) {
-		min-width: 225px;
-		max-width: 225px;
-	}
 `;
 
 export const SidebarBrand = styled.div`
@@ -197,12 +219,12 @@ export const SidebarUrlContainer = styled.div`
 	max-width: inherit;
 
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 
 	flex-grow: 1;
 
-	padding: 28px 0;
+	padding: 32px 16px;
 
 	position: absolute;
 	bottom: 0;
@@ -212,11 +234,24 @@ export const SidebarUrlContainer = styled.div`
 	& > svg {
 		margin: 0 12px 0 16px;
 		min-width: 1.75em;
+
+		position: relative;
+
+		transition: 200ms all ease-in-out;
+
+		&:last-child {
+			margin-left: auto;
+			right: 0;
+		}
 	}
 
 	&:hover {
 		background-color: rgba(155, 160, 170, 0.03);
 		cursor: pointer;
+
+		& svg:last-child {
+			right: -8px;
+		}
 	}
 
 	& ::before {

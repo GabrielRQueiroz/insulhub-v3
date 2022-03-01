@@ -104,47 +104,8 @@ export const Sidebar = () => {
 			{/* Listener for clicks outside sidebar */}
 			<ClickAwayListener onClickAway={handleClickAway}>
 				{/* Actual sidebar */}
-				<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
-					<SidebarWrapper>
-						<SidebarBrand>
-							<SidebarLogo height='40' width='40' title='Insulhub brand logo' src={LogoSource}></SidebarLogo>
-							<SidebarTitle>INSULHUB</SidebarTitle>
-						</SidebarBrand>
-						<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
-							<SidebarItem>
-								<SidebarLink activeclassname='active' to='/'>
-									<FaHome />
-									<span>Início</span>
-								</SidebarLink>
-							</SidebarItem>
-							<SidebarItem>
-								<SidebarLink activeclassname='active' to='/summary'>
-									<FaRegClipboard />
-									<span>Relatório</span>
-								</SidebarLink>
-							</SidebarItem>
-							<SidebarItem>
-								<SidebarLink activeclassname='active' to='/calculator'>
-									<FaCalculator />
-									<span>Regra de Três</span>
-								</SidebarLink>
-							</SidebarItem>
-							<SidebarItem>
-								<SidebarLink activeclassname='active' to='/food'>
-									<FaCarrot />
-									<span>Alimentos</span>
-								</SidebarLink>
-							</SidebarItem>
-						</SidebarList>
-						<Tooltip title='👇 Clique para alterar sua URL Nightscout' placement='top' arrow disableInteractive>
-							<SidebarUrlContainer onClick={handleDialogOpen}>
-								<FaUserCog size={24} />
-								<SidebarUrl>{nightscoutUrl || 'your-url.herokuapp.com'}</SidebarUrl>
-								<FaAngleRight size={14} />
-							</SidebarUrlContainer>
-						</Tooltip>
-					</SidebarWrapper>
-					<SidebarButton mobile={mobile}>
+				<>
+					<SidebarButton mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
 						<Hamburger
 							aria-label='Abrir o menu'
 							color='#a4a6b3'
@@ -155,7 +116,48 @@ export const Sidebar = () => {
 							toggle={handleSidebarOpenClose}
 						/>
 					</SidebarButton>
-				</SidebarContainer>
+					<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
+						<SidebarWrapper>
+							<SidebarBrand>
+								<SidebarLogo height='40' width='40' title='Insulhub brand logo' src={LogoSource}></SidebarLogo>
+								<SidebarTitle>INSULHUB</SidebarTitle>
+							</SidebarBrand>
+							<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
+								<SidebarItem>
+									<SidebarLink activeclassname='active' to='/'>
+										<FaHome />
+										<span>Início</span>
+									</SidebarLink>
+								</SidebarItem>
+								<SidebarItem>
+									<SidebarLink activeclassname='active' to='/summary'>
+										<FaRegClipboard />
+										<span>Relatório</span>
+									</SidebarLink>
+								</SidebarItem>
+								<SidebarItem>
+									<SidebarLink activeclassname='active' to='/calculator'>
+										<FaCalculator />
+										<span>Regra de Três</span>
+									</SidebarLink>
+								</SidebarItem>
+								<SidebarItem>
+									<SidebarLink activeclassname='active' to='/food'>
+										<FaCarrot />
+										<span>Alimentos</span>
+									</SidebarLink>
+								</SidebarItem>
+							</SidebarList>
+							<Tooltip title='👇 Clique para alterar sua URL Nightscout' placement='top' arrow disableInteractive>
+								<SidebarUrlContainer onClick={handleDialogOpen}>
+									<FaUserCog size={24} />
+									<SidebarUrl>{nightscoutUrl || 'your-url.herokuapp.com'}</SidebarUrl>
+									<FaAngleRight size={14} />
+								</SidebarUrlContainer>
+							</Tooltip>
+						</SidebarWrapper>
+					</SidebarContainer>
+				</>
 			</ClickAwayListener>
 			{mobile && mobileSidebarOpen && <TransparentBackground />}
 		</IconContext.Provider>
