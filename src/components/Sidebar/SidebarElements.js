@@ -178,7 +178,7 @@ export const SidebarLink = styled(link)`
 			fill: #dde2ff;
 		}
 
-		:before {
+		&:before {
 			content: '';
 			position: absolute;
 

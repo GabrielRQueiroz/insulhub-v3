@@ -104,6 +104,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 								},
 							},
 						},
+
 						maintainAspectRatio: false,
 
 						plugins: {

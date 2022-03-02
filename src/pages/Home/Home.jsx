@@ -24,7 +24,7 @@ import {
 	SearchWrapper,
 	StyledDatePicker,
 	StyledTimePicker,
-	TimeSectionWrapper,
+	TimeSectionWrapper
 } from './HomeElements';
 
 export const Home = () => {
@@ -81,6 +81,7 @@ export const Home = () => {
 								inputVariant='outlined'
 								aria-labelledby='dateLabel'
 								disableFuture
+								minDate={new Date('2000-02-01')}
 								value={date}
 								onChange={handleDateChange}
 								autoOk

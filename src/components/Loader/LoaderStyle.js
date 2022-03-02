@@ -5,9 +5,9 @@ export const LoaderWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	position: ${({ position }) => position};
+	padding: ${({ noPadding }) => (noPadding ? '0' : '24px 0')};
 
-	padding: 24px 0;
+	margin: 0 auto;
 
 	height: 100%;
 	width: 100%;
