@@ -1,5 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Skeleton, Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,7 +15,10 @@ import {
 	SummaryHighlightedHeading,
 	SummaryHighlightedInfo,
 	SummaryMainCard,
+	SummaryTableColumn,
 	SummaryTableContainer,
+	SummaryTableItem,
+	SummaryTableLine,
 } from './SummaryElements';
 
 export const Summary = () => {
@@ -22,45 +26,68 @@ export const Summary = () => {
 	const [lowsPercentage, setLowsPercentage] = useState(Number);
 	const [inRangePercentage, setInRangePercentage] = useState(Number);
 	const [highsPercentage, setHighsPercentage] = useState(Number);
-	const [isLoading, setIsLoading] = useState(false);
+	const [monthlyInsulin, setMonthlyInsulin] = useState(Number);
+	const [isCardLoading, setIsCardLoading] = useState(true);
+	const [isTableLoading, setIsTableLoading] = useState(true);
 
 	const { nightscoutUrl } = useSelector(getUrl);
 	const { timezone, getMonthStrings } = dateFormatter(date); // src/utils/dateFormatter.js
 	const { monthString, monthStringAhead } = getMonthStrings();
 
-	const nightscoutApiUrlForHighs = `${nightscoutUrl}api/v1/entries/sgv.json?find[sgv][$gte]=170&find[dateString][$gte]=${monthString}T${timezone}:00:000&find[dateString][$lte]=${monthStringAhead}T${timezone}:00:000&count=10000`;
-	const nightscoutApiUrlForLows = `${nightscoutUrl}api/v1/entries/sgv.json?find[sgv][$lte]=70&find[dateString][$gte]=${monthString}T${timezone}:00:000&find[dateString][$lte]=${monthStringAhead}T${timezone}:00:000&count=10000`;
-	const nightscoutApiUrlForInRange = `${nightscoutUrl}api/v1/entries/sgv.json?find[sgv][$lte]=170&find[sgv][$gte]=70&find[dateString][$gte]=${monthString}T${timezone}:00:000&find[dateString][$lte]=${monthStringAhead}T${timezone}:00:000&count=10000`;
+	const nightscoutApiUrlForReadings = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${monthString}T${timezone}:00:00&find[dateString][$lte]=${monthStringAhead}T${timezone}:00:00&count=10000`;
+	const nightscoutApiUrlForInsulin = `${nightscoutUrl}api/v1/treatments?find[insulin][$gte]=0&find[created_at][$gte]=${monthString}T${timezone}:00:00&find[created_at][$lte]=${monthStringAhead}T${timezone}:00:00&count=10000`;
 
 	const handleDateChange = (date) => {
 		setDate(date);
 	};
 
 	useEffect(() => {
-		const fetchAllInformation = async () => {
-			setIsLoading(true);
+		const fetchAllReadings = async () => {
+			setIsCardLoading(true);
 
-			let lowsNumber;
-			let inRangeNumber;
-			let highsNumber;
+			let allReadings = [];
+			let lows = [];
+			let inRange = [];
+			let highs = [];
 
-			await axios.get(nightscoutApiUrlForLows).then((response) => (lowsNumber = response?.data?.length));
-			await axios.get(nightscoutApiUrlForInRange).then((response) => (inRangeNumber = response?.data?.length));
-			await axios.get(nightscoutApiUrlForHighs).then((response) => (highsNumber = response?.data?.length));
+			await axios
+				.get(nightscoutApiUrlForReadings)
+				.then((response) => {
+					for (let i = 0; i < response?.data.length; i++) allReadings.push(response?.data[i]?.sgv);
+				})
+				.finally(() => {
+					for (let i = 0; i < allReadings.length; i++) {
+						if (allReadings[i] < 70) lows.push(allReadings[i]);
+						else if (allReadings[i] > 180) highs.push(allReadings[i]);
+						else inRange.push(allReadings[i]);
+					}
+				});
 
-			const totalNumberOfReadings = lowsNumber + inRangeNumber + highsNumber;
+			setLowsPercentage(((lows.length * 100) / allReadings.length).toFixed(0));
+			setInRangePercentage(((inRange.length * 100) / allReadings.length).toFixed(0));
+			setHighsPercentage(((highs.length * 100) / allReadings.length).toFixed(0));
 
-			setLowsPercentage(((lowsNumber * 100) / totalNumberOfReadings).toFixed(0));
-			setInRangePercentage(((inRangeNumber * 100) / totalNumberOfReadings).toFixed(0));
-			setHighsPercentage(((highsNumber * 100) / totalNumberOfReadings).toFixed(0));
-
-			console.log(totalNumberOfReadings, lowsNumber, inRangeNumber, highsNumber, monthString, monthStringAhead);
-
-			setIsLoading(false);
+			setIsCardLoading(false);
 		};
 
-		fetchAllInformation();
-	}, [date, nightscoutApiUrlForHighs, nightscoutApiUrlForInRange, nightscoutApiUrlForLows]);
+		const fetchAllInsulinTreatments = async () => {
+			setIsTableLoading(true);
+
+			let insulinGiven = 0;
+
+			await axios.get(nightscoutApiUrlForInsulin).then((response) => {
+				for (let treatmentNumber = 0; treatmentNumber < response?.data.length; treatmentNumber++)
+					insulinGiven += response?.data[treatmentNumber]?.insulin;
+			});
+
+			setMonthlyInsulin(insulinGiven);
+
+			setIsTableLoading(false);
+		};
+
+		fetchAllReadings();
+		fetchAllInsulinTreatments();
+	}, [date, nightscoutApiUrlForReadings, nightscoutApiUrlForInsulin]);
 
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -81,20 +108,42 @@ export const Summary = () => {
 					<SummaryHighlightedCardsWrapper>
 						<SummaryHighlightedCard>
 							<SummaryHighlightedHeading>Baixas</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isLoading ? <Loader noPadding /> : `${lowsPercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${lowsPercentage}%`}</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 						<SummaryHighlightedCard>
 							<SummaryHighlightedHeading>No alvo</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isLoading ? <Loader noPadding /> : `${inRangePercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${inRangePercentage}%`}</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 						<SummaryHighlightedCard>
 							<SummaryHighlightedHeading>Altas</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isLoading ? <Loader noPadding /> : `${highsPercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${highsPercentage}%`}</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 					</SummaryHighlightedCardsWrapper>
 					<SummaryTableContainer>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod enim neque nisi, voluptatibus aperiam unde expedita rerum porro non,
-						voluptate pariatur necessitatibus? Nam, laboriosam commodi voluptas sit inventore vitae modi.
+						{isTableLoading ? (
+							// ? Loading section
+							<Typography width={'100%'}>
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+								<Skeleton variant='text' />
+							</Typography>
+						) : (
+							<>
+								<SummaryTableColumn>
+									<SummaryTableLine>
+										<SummaryTableItem>Total de insulina</SummaryTableItem>
+										<SummaryTableItem>{monthlyInsulin} u.i.</SummaryTableItem>
+									</SummaryTableLine>
+								</SummaryTableColumn>
+							</>
+						)}
 					</SummaryTableContainer>
 				</SummaryMainCard>
 			</SummaryContainer>

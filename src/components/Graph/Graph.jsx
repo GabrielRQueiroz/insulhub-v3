@@ -19,7 +19,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 	const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
 	const { dateString, dateStringAhead } = getDateStrings();
 
-	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
+	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.00&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.00&count=400`;
 
 	useEffect(() => {
 		const fetchGraphInformation = async () => {

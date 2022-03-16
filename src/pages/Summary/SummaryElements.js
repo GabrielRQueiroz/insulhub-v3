@@ -27,6 +27,8 @@ export const SummaryMainCard = styled.div`
 
 	gap: 16px;
 
+	overflow-y: hidden;
+
 	width: 100%;
 
 	border: 2px solid #dfe0eb;
@@ -94,6 +96,7 @@ export const SummaryHighlightedCardsWrapper = styled.div`
 
 export const SummaryHighlightedCard = styled.div`
 	min-height: fit-content;
+	min-width: 100px;
 	width: auto;
 
 	border: 2px solid #dfe0eb;
@@ -108,6 +111,7 @@ export const SummaryHighlightedCard = styled.div`
 
 	flex-direction: column;
 	flex-grow: 1;
+	flex-basis: 0px;
 
 	padding: 16px;
 
@@ -131,13 +135,81 @@ export const SummaryHighlightedInfo = styled.span`
 `;
 
 export const SummaryTableContainer = styled.div`
-	height: 100%;
-	width: 100%;
+	position: relative;
+
+	display: flex;
+	justify-content: flex-start;
 
 	flex-grow: 1;
+	flex-wrap: wrap;
+
+	gap: 16px;
+
+	width: 100%;
+
+	overflow-y: scroll;
 
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
 
 	padding: 16px;
+
+	&::-webkit-scrollbar {
+		width: 5px;
+		position: fixed;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #9fa2b4;
+		border-radius: 50px;
+	}
+
+	/* &:before {
+		content: '';
+
+		height: 90%;
+		width: 2px;
+
+		background-color: #dfe0eb;
+		
+		position: absolute;
+
+		top: 50%;
+		left: 50%;
+
+		transform: translate(-50%, -50%);
+	} */
+`;
+
+export const SummaryTableColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	height: auto;
+	min-width: 200px;
+
+	flex-grow: 1;
+	flex-basis: 0px;
+
+	@media screen and (max-width: 768px) {
+		min-width: 100%;
+	}
+`;
+
+export const SummaryTableLine = styled.div`
+	display: flex;
+
+	justify-content: space-between;
+
+	padding: 4px;
+
+	&:nth-child(2n) {
+		background-color: #dfe0eb;
+	}
+`;
+
+export const SummaryTableItem = styled.div`
+	&:first-child {
+		font-weight: 700;
+	}
 `;

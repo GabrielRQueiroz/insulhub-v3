@@ -119,7 +119,13 @@ export const Sidebar = () => {
 					<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
 						<SidebarWrapper>
 							<SidebarBrand>
-								<SidebarLogo height='40' width='40' title='Insulhub brand logo' src={LogoSource}></SidebarLogo>
+								<SidebarLogo
+									height='40'
+									width='40'
+									title='Insulhub brand logo'
+									alt='Uma seringa e um vidro de insulina com conteúdo azul e rótulo amarelo.'
+									src={LogoSource}
+								/>
 								<SidebarTitle>INSULHUB</SidebarTitle>
 							</SidebarBrand>
 							<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
