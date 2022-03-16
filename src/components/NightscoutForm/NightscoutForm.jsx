@@ -1,13 +1,13 @@
 import { Fade } from '@mui/material';
 import { useState } from 'react';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import NightscoutLogo from '../../assets/images/nslogo.png';
-import ScreenshotImg from '../../assets/images/url_screenshot.png';
-import { urlFormatter } from '../../utils';
-import { FormButton, FormContainer, FormField, FormImage, FormLink, FormScreen, FormTextWrapper, FormTitle } from './NightscoutFormElements';
 import { BsBoxArrowUpRight } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
+import NightscoutLogo from '../../assets/images/nslogo.png';
+import ScreenshotImg from '../../assets/images/url_screenshot.png';
 import { connectUrl } from '../../store/nightscoutSlice';
+import { urlFormatter } from '../../utils';
+import { FormButton, FormContainer, FormField, FormImage, FormLink, FormScreen, FormTextWrapper, FormTitle } from './NightscoutFormElements';
 
 export const NightscoutForm = () => {
 	const [userUrl, setUserUrl] = useState('');
@@ -47,8 +47,8 @@ export const NightscoutForm = () => {
 			<Fade in={true}>
 				<FormContainer>
 					<FormTitle>Para usar o Insulhub, registre a sua URL Nightscout</FormTitle>
-					<FormImage height={96} src={NightscoutLogo} />
-					<FormImage src={ScreenshotImg} />
+					<FormImage alt='Nightscout Logo: A minimalist drawn black owl' height={96} src={NightscoutLogo} />
+					<FormImage alt='The url bar with the following url: "https://example.herokuapp.com/"' src={ScreenshotImg} />
 					<FormTextWrapper>
 						<FormField
 							required
