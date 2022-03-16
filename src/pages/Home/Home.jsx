@@ -24,7 +24,7 @@ import {
 	SearchWrapper,
 	StyledDatePicker,
 	StyledTimePicker,
-	TimeSectionWrapper
+	TimeSectionWrapper,
 } from './HomeElements';
 
 export const Home = () => {
@@ -77,6 +77,7 @@ export const Home = () => {
 							</DateText>
 							{/* Date picker */}
 							<StyledDatePicker
+								hiddenLabel='Esse é um seletor de data no formato dia/mês/ano'
 								format='dd/MM/yyyy'
 								inputVariant='outlined'
 								aria-labelledby='dateLabel'
@@ -96,6 +97,7 @@ export const Home = () => {
 								<FaRegClock />
 								{/* Time picker */}
 								<StyledTimePicker
+									hiddenLabel='Esse é um seletor de horário no formato hora:minutos'
 									aria-labelledby='timeLabel'
 									inputVariant='outlined'
 									ampm={false}
@@ -105,7 +107,7 @@ export const Home = () => {
 								/>
 								<HiddenLabel id='timeLabel'>Escolha um horário para uma leitura específica</HiddenLabel>
 							</SearchWrapper>
-							<DateRefreshButton onClick={() => handleDateChange(new Date())}>
+							<DateRefreshButton name='Botão de atualização' type='button' onClick={() => handleDateChange(new Date())}>
 								<IoMdRefresh />
 							</DateRefreshButton>
 							<ReadingsWrapper>
