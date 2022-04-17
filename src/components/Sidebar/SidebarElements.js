@@ -1,19 +1,62 @@
-import styled from 'styled-components';
-import { Dialog } from '@mui/material';
-
-import { NavLink as link } from 'react-router-dom';
+import { Dialog } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 export const SidebarContainer = styled.nav`
 	display: flex;
-	height: ${({ mobile }) => (mobile ? '100%' : 'auto')};
-	position: ${({ mobile }) => (mobile ? 'absolute' : 'relative')};
 
-	left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-255px')};
+	height: ${({ mobile }) => (mobile ? "100%" : "100vh")};
+	min-width: ${({ mobile }) => (mobile ? "100vw" : "288px")};
 
-	transition: ${({ mobile }) => (mobile ? '250ms all ease-in-out' : '0s')};
+	overflow-y: auto;
 
-	@media screen and (max-width: 300px) {
-		left: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-225px')};
+	position: ${({ mobile }) => (mobile ? "absolute" : "relative")};
+	left: 0;
+	bottom: 0;
+
+	background-color: rgba(54, 55, 64, 0.99);
+
+	animation-name: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? "appear" : "hide"};
+	animation-duration: ${({ mobile }) => (mobile ? "500ms" : "0s")};
+	animation-fill-mode: forwards;
+
+	transition: ${({ mobile }) => (mobile ? "250ms all ease-in-out" : "0s")};
+
+	clip-path: inset(0);
+
+	z-index: 777;
+
+	&::-webkit-scrollbar {
+		width: 5px;
+		position: fixed;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #737587;
+		border-radius: 50px;
+	}
+	
+	@keyframes appear {
+		from {
+			visibility: hidden;
+			clip-path: circle(0% at 95% 5%);
+		}
+		to {
+			visibility: visible;
+			clip-path: circle(100% at 50% 50%);
+		}
+	}
+
+	@keyframes hide {
+		from {
+			visibility: visible;
+			clip-path: circle(100% at 50% 50%);
+		}
+		to {
+			visibility: hidden;
+			clip-path: circle(0% at 95% 5%);
+		}
 	}
 `;
 
@@ -23,41 +66,43 @@ export const DialogConfirmation = styled(Dialog)`
 	width: clamp(50%, 768px, 95%);
 `;
 
-export const SidebarButton = styled.div`
-	position: relative;
-	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
+export const SidebarButton = styled.button`
+	position: fixed;
+	top: 32px;
+	right: 16px;
+
+	border: 0;
+
+	display: ${({ mobile }) => (mobile ? "inline" : "none")};
 	z-index: 888;
 
-	margin-top: 36px;
+	transform: ${({ mobile }) => (mobile ? "scale(0.9)" : "scale(1)")};
 
 	height: 48px;
 	width: 48px;
 
-	border-radius: 0 6px 6px 0;
+	border-radius: 6px;
 
-	background-color: rgba(54, 55, 64, 0.99);
+	background-color: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? "transparent" : "rgba(54, 55, 64, 0.99)"};
 
 	cursor: pointer;
 
-	transition: 500ms all ease-in-out;
+	& > div:focus {
+		outline: 2px solid black;
+	}
+
+	transition: 200ms all ease-in-out;
 `;
 
 export const SidebarWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	z-index: 10;
 
 	height: 100%;
-	min-width: 255px;
-	max-width: 255px;
+	width: 100%;
 
-	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
-
-	@media screen and (max-width: 300px) {
-		min-width: 225px;
-		max-width: 225px;
-	}
 `;
 
 export const SidebarBrand = styled.div`
@@ -103,7 +148,7 @@ export const SidebarItem = styled.li`
 	list-style: none;
 `;
 
-export const SidebarLink = styled(link)`
+export const SidebarLink = styled(NavLink)`
 	height: 56px;
 	width: 100%;
 
@@ -133,7 +178,7 @@ export const SidebarLink = styled(link)`
 	}
 
 	:before {
-		content: '';
+		content: "";
 		position: absolute;
 
 		left: 0;
@@ -156,14 +201,12 @@ export const SidebarLink = styled(link)`
 			fill: #dde2ff;
 		}
 
-		:before {
-			content: '';
+		&:before {
 			position: absolute;
 
 			left: 0;
 
 			height: 100%;
-			width: 3px;
 
 			background-color: #dde2ff;
 		}
@@ -197,14 +240,13 @@ export const SidebarUrlContainer = styled.div`
 	max-width: inherit;
 
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
+	flex-grow: 0;
 
-	flex-grow: 1;
+	padding: 32px 16px;
+	margin-top: auto;
 
-	padding: 28px 0;
-
-	position: absolute;
 	bottom: 0;
 
 	overflow: hidden;
@@ -212,15 +254,32 @@ export const SidebarUrlContainer = styled.div`
 	& > svg {
 		margin: 0 12px 0 16px;
 		min-width: 1.75em;
+
+		position: relative;
+
+		transition: 200ms all ease-in-out;
+
+		&:last-child {
+			margin-left: auto;
+			right: 0;
+		}
 	}
 
 	&:hover {
 		background-color: rgba(155, 160, 170, 0.03);
 		cursor: pointer;
+
+		& svg:last-child {
+			right: -8px;
+		}
+	}
+
+	&:focus {
+		outline: 2px solid black;
 	}
 
 	& ::before {
-		content: '';
+		content: "";
 
 		height: 1px;
 		width: 90%;

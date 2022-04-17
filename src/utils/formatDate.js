@@ -54,7 +54,7 @@ export const dateFormatter = (selectedDate) => {
 			.padStart(2, 0)}`;
 
 		// Setting fifteen minutes before for the 'timeStringAhead' variable
-		selectedDate.setMinutes(minutesValue - 15);
+		selectedDate.setMinutes(minutesValue - 20);
 		const backedHoursValue = selectedDate.getHours();
 		const backedMinutesValue = selectedDate.getMinutes();
 
@@ -79,5 +79,25 @@ export const dateFormatter = (selectedDate) => {
 		return { timeString, timeStringBefore, dateString, dateStringBefore };
 	};
 
-	return { timezone, getDateStrings, getTimeStrings };
+	const getMonthStrings = () => {
+		const selectedYear = selectedDate.getFullYear();
+		const selectedMonth = selectedDate.getMonth() + 1;
+
+		// Forwarding month by one (1)
+		selectedDate.setMonth(selectedMonth + 1);
+
+		const selectedYearAhead = selectedDate.getFullYear();
+		const selectedMonthAhead = selectedDate.getMonth();
+
+		const monthString = `${selectedYear}-${selectedMonth.toString().padStart(2, 0)}-01`;
+		const monthStringAhead = `${selectedYearAhead}-${selectedMonthAhead.toString().padStart(2, 0)}-01`;
+
+		// Resetting previous time values to the time picker props
+		selectedDate.setYear(selectedYear);
+		selectedDate.setMonth(selectedMonth - 1);
+
+		return { monthString, monthStringAhead };
+	};
+
+	return { timezone, getDateStrings, getTimeStrings, getMonthStrings };
 };

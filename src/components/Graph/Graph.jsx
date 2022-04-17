@@ -1,56 +1,46 @@
-import axios from 'axios';
-import Chart from 'chart.js/auto';
-import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Loader } from '../../components';
-import { useWindowHeight } from '../../hooks/useWindowHeight';
-import { dateFormatter } from '../../utils';
-import { useSelector } from 'react-redux';
-import { getUrl } from '../../store';
-import zoomPlugin from 'chartjs-plugin-zoom';
+import axios from "axios";
+import Chart from "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { Loader } from "../../components";
+import { useWindowHeight } from "../../hooks/useWindowHeight";
+import { dateFormatter } from "../../utils";
 
 Chart.register(zoomPlugin);
 
-export const Graph = ({ selectedDate }) => {
+export const Graph = ({ selectedDate, nightscoutUrl }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [bloodGlucose, setBloodGlucose] = useState({});
 	const [labelData, setLabelData] = useState([]);
 	const [graphYLimit, setGraphYLimit] = useState(240);
-
-	const { nightscoutUrl } = useSelector(getUrl);
-
 	const windowHeight = useWindowHeight(); // Created to re-render the graph when window height changes
 
-	useEffect(() => {
-		const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
+	const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
+	const { dateString, dateStringAhead } = getDateStrings();
 
+	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.00&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.00&count=400`;
+
+	useEffect(() => {
 		const fetchGraphInformation = async () => {
 			const bloodGlucoseReadings = [];
 			const graphLabels = [];
-
-			const { dateString, dateStringAhead } = getDateStrings();
-
-			const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.000&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.000&count=400`;
 
 			setIsLoading(true);
 
 			await axios
 				.get(nightscoutApiUrl)
-				.then((response) => {
-					for (let i = 0; i < response?.data?.length; i++) {
-						response?.data[i]?.noise === 1 && bloodGlucoseReadings.push(response?.data[i]?.sgv);
+				.then(response => {
+					for (let i = response?.data?.length - 1; i >= 0; i--) {
+						response?.data[i]?.noise === 1 &&
+							bloodGlucoseReadings.push(response?.data[i]?.sgv);
 					}
 
-					for (let i = 0; i < bloodGlucoseReadings.length; i++) {
+					for (let i = bloodGlucoseReadings.length - 1; i >= 0; i--) {
 						let time = `${new Date(response?.data[i]?.dateString)}`;
-						let labeledTime = time.slice(16, 21);
 
-						graphLabels.push(labeledTime);
+						graphLabels.push(time.slice(16, 21)); // ? only hh:mm sliced
 					}
-
-					// Arrays needed to be reverted in order to keep readings' chronological order
-					graphLabels.reverse();
-					bloodGlucoseReadings.reverse();
 
 					// ? Finding highest reading to set the max Y axis value on the graph
 					let highestBGValue = Math.max(...bloodGlucoseReadings);
@@ -66,17 +56,17 @@ export const Graph = ({ selectedDate }) => {
 					setBloodGlucose(bloodGlucoseReadings);
 					setIsLoading(false);
 				})
-				.catch((error) => {
+				.catch(error => {
 					console.error(error);
 				});
 		};
 
 		fetchGraphInformation();
 
-		window.addEventListener('focus', fetchGraphInformation);
+		window.addEventListener("focus", fetchGraphInformation);
 
-		return window.removeEventListener('focus', fetchGraphInformation);
-	}, [nightscoutUrl, selectedDate, windowHeight]);
+		return window.removeEventListener("focus", fetchGraphInformation);
+	}, [nightscoutApiUrl, selectedDate, windowHeight]);
 
 	return (
 		<>
@@ -90,10 +80,10 @@ export const Graph = ({ selectedDate }) => {
 						labels: labelData,
 						datasets: [
 							{
-								label: 'Glicemia',
+								label: "Glicemia",
 								data: bloodGlucose,
-								backgroundColor: ['rgba(55, 81, 255, 0.6)'],
-								borderColor: ['rgba(55, 81, 255, 0.2)'],
+								backgroundColor: ["rgba(55, 81, 255, 0.6)"],
+								borderColor: ["rgba(55, 81, 255, 0.2)"],
 							},
 						],
 					}}
@@ -104,7 +94,7 @@ export const Graph = ({ selectedDate }) => {
 
 						scales: {
 							x: {
-								bounds: 'ticks',
+								bounds: "ticks",
 								display: true,
 							},
 							y: {
@@ -115,6 +105,7 @@ export const Graph = ({ selectedDate }) => {
 								},
 							},
 						},
+
 						maintainAspectRatio: false,
 
 						plugins: {
@@ -125,7 +116,7 @@ export const Graph = ({ selectedDate }) => {
 								},
 								pan: {
 									enabled: true,
-									mode: 'x',
+									mode: "x",
 								},
 								zoom: {
 									wheel: {
@@ -135,7 +126,7 @@ export const Graph = ({ selectedDate }) => {
 									pinch: {
 										enabled: true,
 									},
-									mode: 'x',
+									mode: "x",
 								},
 							},
 						},

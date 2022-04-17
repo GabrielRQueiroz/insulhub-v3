@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Link as link } from 'react-router-dom';
-import { EditText } from 'react-edit-text';
-import { TimePicker, DatePicker } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from "@material-ui/pickers";
+import { EditText } from "react-edit-text";
+import { Link as link } from "react-router-dom";
+import styled from "styled-components";
 
 export const HomeContainer = styled.div`
 	height: 100vh;
@@ -61,14 +61,19 @@ export const HomeCardsContainer = styled.section`
 `;
 
 export const HomeCard = styled(link)`
-	height: 135px;
+	min-height: auto;
 	max-width: 100%;
 
 	flex: 1 0 175px;
 
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+
 	text-align: center;
 	text-decoration: none;
-	color: #9fa2b4;
+	color: #737587;
 
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
@@ -79,13 +84,16 @@ export const HomeCard = styled(link)`
 
 	transition: 200ms all ease-out;
 
+	box-shadow: 1px 1px 4px 0 rgba(200, 200, 200, 0.25);
+
 	& > svg {
 		height: 40px;
+		min-height: 40px;
 		width: 40px;
 
 		fill: #252733;
 
-		margin: 12px 0 24px;
+		margin: 12px 0;
 
 		transition: 200ms all ease-out;
 	}
@@ -94,7 +102,6 @@ export const HomeCard = styled(link)`
 		border-color: #3751ff;
 		color: #3751ff;
 
-		transform: scale(1.01);
 		box-shadow: 0 0 5px 1px rgba(200, 200, 200, 0.5);
 
 		& > svg {
@@ -112,23 +119,27 @@ export const HomeCardTitle = styled.h2`
 
 export const MainSectionContainer = styled.section`
 	height: 100%;
-	min-height: 280px;
+	min-height: 300px;
 	width: 100%;
 
 	display: flex;
+	flex-grow: 1;
 
 	background: transparent;
 
 	margin-bottom: 30px;
+
+	box-shadow: 1px 1px 4px 0 rgba(200, 200, 200, 0.25);
 `;
 
 export const GraphSectionWrapper = styled.div`
+	height: auto;
 	width: 100%;
 
 	display: flex;
-	flex-flow: column;
+	flex-direction: column;
 
-	justify-items: space-around;
+	justify-items: space-between;
 
 	border: 2px solid #dfe0eb;
 	border-radius: 8px;
@@ -150,11 +161,46 @@ export const DateWrapper = styled.div`
 
 	margin: 16px 0 8px;
 
-	min-height: 24px;
+	max-height: 24px;
 	width: 100%;
 
-	& > * {
-		width: auto !important;
+	@media screen and (max-width: 576px) {
+		gap: 8px;
+	}
+`;
+
+export const DateRefreshButton = styled.button`
+	align-self: center;
+	order: 1;
+
+	height: 60%;
+	min-height: 30px;
+
+	aspect-ratio: 1;
+
+	padding: 2px;
+
+	background-color: #ffffff;
+
+	border: 2px solid #dfe0eb;
+	border-radius: 50px;
+
+	transition: all 200ms;
+
+	& > svg {
+		height: 100%;
+		width: 100%;
+
+		transition: all 200ms;
+	}
+	&:hover {
+		border-color: #3751ff;
+
+		cursor: pointer;
+
+		& > svg {
+			fill: #3751ff;
+		}
 	}
 `;
 
@@ -165,7 +211,7 @@ export const DateText = styled.span`
 	color: #252733;
 
 	& > svg {
-		transform: scale(1.5);
+		transform: scale(1.4);
 	}
 
 	@media screen and (max-width: 576px) {
@@ -207,9 +253,10 @@ export const GraphContainer = styled.div`
 `;
 
 export const TimeSectionWrapper = styled.div`
-	min-height: 60px;
-	max-height: 60px;
+	height: 60px;
 	width: 100%;
+
+	gap: 8px;
 
 	display: flex;
 	justify-content: center;
@@ -221,8 +268,9 @@ export const TimeSectionWrapper = styled.div`
 	background-color: transparent;
 	fill: #252733;
 
-	@media screen and (max-width: 576px) {
+	@media screen and (max-width: 768px) {
 		padding: 8px;
+		gap: 0;
 	}
 `;
 
@@ -235,9 +283,9 @@ export const SearchWrapper = styled.div`
 	gap: 16px;
 
 	height: auto;
-	width: 50%;
+	width: 45%;
 
-	padding: 0 8px;
+	padding: 0 4px;
 
 	& > svg {
 		transform: scale(1.5);
@@ -254,13 +302,10 @@ export const SearchWrapper = styled.div`
 
 export const StyledTimePicker = styled(TimePicker)`
 	height: 50%;
-	width: 50%;
-
-	@media screen and (max-width: 768px) {
-		flex-grow: 1;
-	}
+	width: 60%;
 
 	& > div {
+		flex-grow: 1;
 		height: 100%;
 		width: 100%;
 
@@ -301,7 +346,7 @@ export const StyledTimePicker = styled(TimePicker)`
 
 export const StyledDatePicker = styled(DatePicker)`
 	height: 100%;
-	width: 50%;
+	width: auto;
 
 	& > div {
 		height: 100%;
@@ -349,21 +394,11 @@ export const StyledDatePicker = styled(DatePicker)`
 
 export const ReadingsWrapper = styled.div`
 	display: flex;
+	order: 2;
+
 	flex-grow: 1;
 
-	&::before {
-		content: '';
-		position: relative;
-
-		left: 0;
-
-		align-self: center;
-
-		height: 75%;
-
-		border: 1px solid #dfe0eb;
-		border-radius: 4px;
-	}
+	width: 45%;
 `;
 
 export const HiddenLabel = styled.label`

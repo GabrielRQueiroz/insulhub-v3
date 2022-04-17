@@ -9,7 +9,7 @@
 
 	pointer-events: none;
 	opacity: 1;
-	transition: opacity 500ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
 }
 .page-exit {
 	position: absolute;
@@ -22,5 +22,5 @@
 
 	pointer-events: none;
 	opacity: 0;
-	transition: opacity 500ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
 }

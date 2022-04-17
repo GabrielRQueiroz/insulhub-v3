@@ -1,13 +1,13 @@
-import { Fade } from '@mui/material';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useState } from 'react';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import NightscoutLogo from '../../assets/images/nslogo.png';
-import ScreenshotImg from '../../assets/images/url_screenshot.png';
-import { urlFormatter } from '../../utils';
-import { FormButton, FormContainer, FormField, FormImage, FormLink, FormScreen, FormTextWrapper, FormTitle } from './NightscoutFormElements';
 import { BsBoxArrowUpRight } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
+import NightscoutLogo from '../../assets/images/nslogo.png';
+import ScreenshotImg from '../../assets/images/url_screenshot.png';
 import { connectUrl } from '../../store/nightscoutSlice';
+import { urlFormatter } from '../../utils';
+import { FormButton, FormContainer, FormField, FormImage, FormLink, FormTextWrapper } from './NightscoutFormElements';
 
 export const NightscoutForm = () => {
 	const [userUrl, setUserUrl] = useState('');
@@ -29,7 +29,7 @@ export const NightscoutForm = () => {
 	};
 
 	const handleKeyPress = (event) => {
-		if (event.key === 'Enter') buttonSubmit();
+		if (event.key === 'Enter' && isValid) buttonSubmit();
 	};
 
 	const buttonSubmit = () => {
@@ -43,43 +43,49 @@ export const NightscoutForm = () => {
 	};
 
 	return (
-		<FormScreen>
-			<Fade in={true}>
-				<FormContainer>
-					<FormTitle>Para usar o Insulhub, registre a sua URL Nightscout</FormTitle>
-					<FormImage height={96} src={NightscoutLogo} />
-					<FormImage src={ScreenshotImg} />
-					<FormTextWrapper>
-						<FormField
-							required
-							error={!isValid && userUrl !== ''}
-							margin='normal'
-							type='text'
-							variant='standard'
-							size='medium'
-							label='Nightscout URL'
-							helperText='Ex.: https://your-url.herokuapp.com/'
-							value={userUrl}
-							onChange={handleInputChange}
-							onKeyPress={handleKeyPress}
-							inputProps={{ maxLength: 60 }}
-						/>
-						<FormLink href='https://nightscout.github.io/' target='_blank'>
-							O que é o Nightscout? <BsBoxArrowUpRight />
-						</FormLink>
-						<FormButton
-							disabled={!isValid || userUrl === ''}
-							endIcon={<AiFillCheckCircle />}
-							onClick={buttonSubmit}
-							loading={isLoading}
-							loadingPosition='end'
-							variant='contained'
-						>
-							VAMOS LÁ!
-						</FormButton>
-					</FormTextWrapper>
-				</FormContainer>
-			</Fade>
-		</FormScreen>
+		<FormContainer open={!localStorage.nightscout_url} aria-labelledby='alert-dialog-title' aria-describedby='alert-dialog-description'>
+			<DialogTitle tabIndex={0} id='alert-dialog-title'>
+				Para usar o Insulhub, registe sua URL Nightscout
+			</DialogTitle>
+			<DialogContent id='alert-dialog-description'>
+				<FormImage alt='Logo Nightscout: Um desenho de uma coruja preta' height={96} src={NightscoutLogo} />
+				<FormImage alt='A imagem de exemplo tem o seguinte url: "https://example.herokuapp.com/"' src={ScreenshotImg} />
+				<FormField
+					tabIndex={1}
+					required
+					autoFocus
+					error={!isValid && userUrl !== ''}
+					margin='normal'
+					type='text'
+					variant='standard'
+					size='medium'
+					label='URL Nightscout'
+					helperText='Exemplo: https://url.herokuapp.com/'
+					value={userUrl}
+					onChange={handleInputChange}
+					onKeyPress={handleKeyPress}
+					inputProps={{ maxLength: 60 }}
+				/>
+				<FormLink href='https://nightscout.github.io/' tabIndex={3} role='link' target='_blank'>
+					O que é o Nightscout? <BsBoxArrowUpRight />
+				</FormLink>
+			</DialogContent>
+			<DialogActions>
+				<FormTextWrapper>
+					<FormButton
+						tabIndex={2}
+						disabled={!isValid || userUrl === ''}
+						endIcon={<AiFillCheckCircle />}
+						onClick={buttonSubmit}
+						loading={isLoading}
+						loadingPosition='end'
+						aria-label={`Confirmar a URL ${userUrl} ?`}
+						variant='contained'
+					>
+						VAMOS LÁ!
+					</FormButton>
+				</FormTextWrapper>
+			</DialogActions>
+		</FormContainer>
 	);
 };

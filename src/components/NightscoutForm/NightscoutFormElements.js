@@ -1,25 +1,9 @@
 import LoadingButton from '@mui/lab/LoadingButton';
-import { TextField } from '@mui/material';
+import { Dialog, TextField } from '@mui/material';
 import styled from 'styled-components';
 
-export const FormScreen = styled.div`
-	height: 100%;
-	width: 100%;
-
-	position: absolute;
-
-	z-index: 999;
-
-	background: rgba(1, 1, 1, 0.5);
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-export const FormContainer = styled.div`
+export const FormContainer = styled(Dialog)`
 	height: auto;
-	width: clamp(50%, 500px, 90%);
 
 	box-shadow: 0px 12px 32px -16px #101010;
 
@@ -30,11 +14,7 @@ export const FormContainer = styled.div`
 
 	border-radius: 8px;
 
-	background-color: #ffffff;
-
 	animation: 1.5s appear forwards;
-
-	padding: 28px;
 
 	@keyframes appear {
 		from {

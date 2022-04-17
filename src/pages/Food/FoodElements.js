@@ -5,8 +5,6 @@ export const FoodContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 
-	padding: 0 15px;
-
 	min-height: 100vh;
 	width: 100%;
 `;
