@@ -1,12 +1,11 @@
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { Skeleton, Typography } from '@mui/material';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Loader, PageHeader } from '../../components';
-import { getUrl } from '../../store';
-import { dateFormatter } from '../../utils';
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Loader, PageHeader } from "../../components";
+import { getUrl } from "../../store";
+import { dateFormatter } from "../../utils";
 import {
 	StyledDatePicker,
 	SummaryContainer,
@@ -15,20 +14,14 @@ import {
 	SummaryHighlightedHeading,
 	SummaryHighlightedInfo,
 	SummaryMainCard,
-	SummaryTableColumn,
-	SummaryTableContainer,
-	SummaryTableItem,
-	SummaryTableLine,
-} from './SummaryElements';
+} from "./SummaryElements";
 
 export const Summary = () => {
 	const [date, setDate] = useState(new Date());
 	const [lowsPercentage, setLowsPercentage] = useState(Number);
 	const [inRangePercentage, setInRangePercentage] = useState(Number);
 	const [highsPercentage, setHighsPercentage] = useState(Number);
-	const [monthlyInsulin, setMonthlyInsulin] = useState(Number);
 	const [isCardLoading, setIsCardLoading] = useState(true);
-	const [isTableLoading, setIsTableLoading] = useState(true);
 
 	const { nightscoutUrl } = useSelector(getUrl);
 	const { timezone, getMonthStrings } = dateFormatter(date); // src/utils/dateFormatter.js
@@ -37,7 +30,7 @@ export const Summary = () => {
 	const nightscoutApiUrlForReadings = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${monthString}T${timezone}:00:00&find[dateString][$lte]=${monthStringAhead}T${timezone}:00:00&count=10000`;
 	const nightscoutApiUrlForInsulin = `${nightscoutUrl}api/v1/treatments?find[insulin][$gte]=0&find[created_at][$gte]=${monthString}T${timezone}:00:00&find[created_at][$lte]=${monthStringAhead}T${timezone}:00:00&count=10000`;
 
-	const handleDateChange = (date) => {
+	const handleDateChange = date => {
 		setDate(date);
 	};
 
@@ -52,8 +45,9 @@ export const Summary = () => {
 
 			await axios
 				.get(nightscoutApiUrlForReadings)
-				.then((response) => {
-					for (let i = 0; i < response?.data.length; i++) allReadings.push(response?.data[i]?.sgv);
+				.then(response => {
+					for (let i = 0; i < response?.data.length; i++)
+						allReadings.push(response?.data[i]?.sgv);
 				})
 				.finally(() => {
 					for (let i = 0; i < allReadings.length; i++) {
@@ -63,88 +57,122 @@ export const Summary = () => {
 					}
 				});
 
-			setLowsPercentage(((lows.length * 100) / allReadings.length).toFixed(0));
-			setInRangePercentage(((inRange.length * 100) / allReadings.length).toFixed(0));
-			setHighsPercentage(((highs.length * 100) / allReadings.length).toFixed(0));
+			setLowsPercentage(
+				((lows.length * 100) / allReadings.length).toFixed(0)
+			);
+			setInRangePercentage(
+				((inRange.length * 100) / allReadings.length).toFixed(0)
+			);
+			setHighsPercentage(
+				((highs.length * 100) / allReadings.length).toFixed(0)
+			);
 
 			setIsCardLoading(false);
 		};
 
-		const fetchAllInsulinTreatments = async () => {
-			setIsTableLoading(true);
+		// const fetchAllInsulinTreatments = async () => {
+		// 	setIsTableLoading(true);
 
-			let insulinGiven = 0;
+		// 	let insulinGiven = 0;
 
-			await axios.get(nightscoutApiUrlForInsulin).then((response) => {
-				for (let treatmentNumber = 0; treatmentNumber < response?.data.length; treatmentNumber++)
-					insulinGiven += response?.data[treatmentNumber]?.insulin;
-			});
+		// 	await axios.get(nightscoutApiUrlForInsulin).then((response) => {
+		// 		for (let treatmentNumber = 0; treatmentNumber < response?.data.length; treatmentNumber++)
+		// 			insulinGiven += response?.data[treatmentNumber]?.insulin;
+		// 	});
 
-			setMonthlyInsulin(insulinGiven);
+		// 	setMonthlyInsulin(insulinGiven);
 
-			setIsTableLoading(false);
-		};
+		// 	setIsTableLoading(false);
+		// };
+		// fetchAllInsulinTreatments();
 
 		fetchAllReadings();
-		fetchAllInsulinTreatments();
 	}, [date, nightscoutApiUrlForReadings, nightscoutApiUrlForInsulin]);
 
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
-			<SummaryContainer>
-				<PageHeader heading='Relatório' />
+			<SummaryContainer id="summary">
+				<PageHeader heading="Relatório" />
 				<SummaryMainCard>
 					<StyledDatePicker
-						format='y, MMMM'
-						inputVariant='outlined'
-						openTo='month'
-						views={['year', 'month']}
+						format="y, MMMM"
+						inputVariant="outlined"
+						openTo="month"
+						views={["year", "month"]}
 						value={date}
 						onChange={handleDateChange}
 						autoOk
-						minDate={new Date('2000-02-01')}
+						minDate={new Date("2000-02-01")}
 						disableFuture
 					/>
 					<SummaryHighlightedCardsWrapper>
 						<SummaryHighlightedCard>
-							<SummaryHighlightedHeading>Baixas</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${lowsPercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedHeading>
+								Baixas
+							</SummaryHighlightedHeading>
+							<SummaryHighlightedInfo>
+								{isCardLoading ? (
+									<Loader size={46} noPadding />
+								) : (
+									`${lowsPercentage}%`
+								)}
+							</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 						<SummaryHighlightedCard>
-							<SummaryHighlightedHeading>No alvo</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${inRangePercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedHeading>
+								No alvo
+							</SummaryHighlightedHeading>
+							<SummaryHighlightedInfo>
+								{isCardLoading ? (
+									<Loader size={46} noPadding />
+								) : (
+									`${inRangePercentage}%`
+								)}
+							</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 						<SummaryHighlightedCard>
-							<SummaryHighlightedHeading>Altas</SummaryHighlightedHeading>
-							<SummaryHighlightedInfo>{isCardLoading ? <Loader size={46} noPadding /> : `${highsPercentage}%`}</SummaryHighlightedInfo>
+							<SummaryHighlightedHeading>
+								Altas
+							</SummaryHighlightedHeading>
+							<SummaryHighlightedInfo>
+								{isCardLoading ? (
+									<Loader size={46} noPadding />
+								) : (
+									`${highsPercentage}%`
+								)}
+							</SummaryHighlightedInfo>
 						</SummaryHighlightedCard>
 					</SummaryHighlightedCardsWrapper>
-					<SummaryTableContainer>
+					{/* <SummaryTableContainer>
 						{isTableLoading ? (
 							// ? Loading section
-							<Typography width={'100%'}>
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
-								<Skeleton variant='text' />
+							<Typography width={"100%"}>
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
 							</Typography>
 						) : (
 							<>
 								<SummaryTableColumn>
 									<SummaryTableLine>
-										<SummaryTableItem>Total de insulina</SummaryTableItem>
-										<SummaryTableItem>{monthlyInsulin} u.i.</SummaryTableItem>
+										<SummaryTableItem>
+											Total de insulina
+										</SummaryTableItem>
+										<SummaryTableItem>
+											{monthlyInsulin} u.i.
+										</SummaryTableItem>
 									</SummaryTableLine>
 								</SummaryTableColumn>
 							</>
 						)}
-					</SummaryTableContainer>
+					</SummaryTableContainer> */}
 				</SummaryMainCard>
 			</SummaryContainer>
 		</MuiPickersUtilsProvider>

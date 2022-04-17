@@ -23,7 +23,7 @@ export const Main = () => {
 	}, [deviceHeight]);
 
 	return (
-		<MainWrapper height={windowHeight} mobile={isMobile}>
+		<MainWrapper aria-labelledby='Seção principal' role='main' height={windowHeight} mobile={isMobile}>
 			<TransitionGroup>
 				<CSSTransition key={location.pathname} timeout={250} classNames='page'>
 					<Routes location={location}>

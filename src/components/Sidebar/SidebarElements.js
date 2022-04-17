@@ -1,42 +1,60 @@
-import { Dialog } from '@mui/material';
-import { NavLink as link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Dialog } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 export const SidebarContainer = styled.nav`
 	display: flex;
 
-	height: ${({ mobile }) => (mobile ? '100%' : 'auto')};
-	min-width: ${({ mobile }) => (mobile ? '100vw' : '255px')};
+	height: ${({ mobile }) => (mobile ? "100%" : "100vh")};
+	min-width: ${({ mobile }) => (mobile ? "100vw" : "288px")};
 
-	position: ${({ mobile }) => (mobile ? 'absolute' : 'relative')};
+	overflow-y: auto;
+
+	position: ${({ mobile }) => (mobile ? "absolute" : "relative")};
 	left: 0;
 	bottom: 0;
-	/* bottom: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? '0px' : '-100vh')}; */
 
-	animation-name: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? 'appear' : 'hide')};
-	animation-duration: 500ms;
+	background-color: rgba(54, 55, 64, 0.99);
+
+	animation-name: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? "appear" : "hide"};
+	animation-duration: ${({ mobile }) => (mobile ? "500ms" : "0s")};
 	animation-fill-mode: forwards;
 
-	transition: ${({ mobile }) => (mobile ? '250ms all ease-in-out' : '0s')};
+	transition: ${({ mobile }) => (mobile ? "250ms all ease-in-out" : "0s")};
 
 	clip-path: inset(0);
 
 	z-index: 777;
 
+	&::-webkit-scrollbar {
+		width: 5px;
+		position: fixed;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #737587;
+		border-radius: 50px;
+	}
+	
 	@keyframes appear {
 		from {
+			visibility: hidden;
 			clip-path: circle(0% at 95% 5%);
 		}
 		to {
+			visibility: visible;
 			clip-path: circle(100% at 50% 50%);
 		}
 	}
 
 	@keyframes hide {
 		from {
+			visibility: visible;
 			clip-path: circle(100% at 50% 50%);
 		}
 		to {
+			visibility: hidden;
 			clip-path: circle(0% at 95% 5%);
 		}
 	}
@@ -48,24 +66,31 @@ export const DialogConfirmation = styled(Dialog)`
 	width: clamp(50%, 768px, 95%);
 `;
 
-export const SidebarButton = styled.div`
+export const SidebarButton = styled.button`
 	position: fixed;
 	top: 32px;
 	right: 16px;
 
-	display: ${({ mobile }) => (mobile ? 'inline' : 'none')};
+	border: 0;
+
+	display: ${({ mobile }) => (mobile ? "inline" : "none")};
 	z-index: 888;
 
-	transform: ${({ mobile }) => (mobile ? 'scale(0.9)' : 'scale(1)')};
+	transform: ${({ mobile }) => (mobile ? "scale(0.9)" : "scale(1)")};
 
 	height: 48px;
 	width: 48px;
 
 	border-radius: 6px;
 
-	background-color: ${({ mobileSidebarOpen }) => (mobileSidebarOpen ? 'transparent' : 'rgba(54, 55, 64, 0.99)')};
+	background-color: ${({ mobileSidebarOpen }) =>
+		mobileSidebarOpen ? "transparent" : "rgba(54, 55, 64, 0.99)"};
 
 	cursor: pointer;
+
+	& > div:focus {
+		outline: 2px solid black;
+	}
 
 	transition: 200ms all ease-in-out;
 `;
@@ -73,12 +98,10 @@ export const SidebarButton = styled.div`
 export const SidebarWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	z-index: 10;
 
 	height: 100%;
 	width: 100%;
 
-	background: rgba(54, 55, 64, 0.99);
 	color: #a4a6b3;
 `;
 
@@ -125,7 +148,7 @@ export const SidebarItem = styled.li`
 	list-style: none;
 `;
 
-export const SidebarLink = styled(link)`
+export const SidebarLink = styled(NavLink)`
 	height: 56px;
 	width: 100%;
 
@@ -155,7 +178,7 @@ export const SidebarLink = styled(link)`
 	}
 
 	:before {
-		content: '';
+		content: "";
 		position: absolute;
 
 		left: 0;
@@ -179,13 +202,11 @@ export const SidebarLink = styled(link)`
 		}
 
 		&:before {
-			content: '';
 			position: absolute;
 
 			left: 0;
 
 			height: 100%;
-			width: 3px;
 
 			background-color: #dde2ff;
 		}
@@ -221,12 +242,11 @@ export const SidebarUrlContainer = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-
-	flex-grow: 1;
+	flex-grow: 0;
 
 	padding: 32px 16px;
+	margin-top: auto;
 
-	position: absolute;
 	bottom: 0;
 
 	overflow: hidden;
@@ -254,8 +274,12 @@ export const SidebarUrlContainer = styled.div`
 		}
 	}
 
+	&:focus {
+		outline: 2px solid black;
+	}
+
 	& ::before {
-		content: '';
+		content: "";
 
 		height: 1px;
 		width: 90%;

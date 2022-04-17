@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components';
 
 const PageTitle = styled.h2`
@@ -29,7 +27,9 @@ const PageHeaderWrapper = styled.header`
 export const PageHeader = ({ heading, children }) => {
 	return (
 		<PageHeaderWrapper>
-			<PageTitle>{heading}</PageTitle>
+			<PageTitle aria-label={heading} role='heading' tabIndex={0}>
+				{heading}
+			</PageTitle>
 			{children}
 		</PageHeaderWrapper>
 	);

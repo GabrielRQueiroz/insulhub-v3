@@ -4,7 +4,7 @@ import { FoodContainer } from './FoodElements';
 
 export const Food = () => {
 	return (
-		<FoodContainer>
+		<FoodContainer id='food'>
 			<PageHeader heading='Alimentos' />
 		</FoodContainer>
 	);

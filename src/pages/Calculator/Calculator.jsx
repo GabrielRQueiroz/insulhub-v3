@@ -4,7 +4,7 @@ import { CalculatorContainer } from './CalculatorElements';
 
 export const Calculator = () => {
 	return (
-		<CalculatorContainer>
+		<CalculatorContainer id='calculator'>
 			<PageHeader heading='Regra de Três' />
 		</CalculatorContainer>
 	);

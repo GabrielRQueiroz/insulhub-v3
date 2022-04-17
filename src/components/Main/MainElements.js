@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MainWrapper = styled.main`
 	height: ${({ height }) => `${height}px`};
@@ -13,7 +13,7 @@ export const MainWrapper = styled.main`
 	/* box-shadow: 0px 0 20px #202020; */
 	z-index: 2;
 
-	overflow-y: ${({ mobile }) => (mobile ? `auto` : `hidden`)};
+	overflow-y: auto;
 
 	&::-webkit-scrollbar {
 		width: 5px;
@@ -21,7 +21,7 @@ export const MainWrapper = styled.main`
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: #9fa2b4;
+		background: #737587;
 		border-radius: 50px;
 	}
 

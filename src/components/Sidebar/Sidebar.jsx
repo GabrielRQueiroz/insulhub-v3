@@ -1,15 +1,30 @@
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Button, ClickAwayListener, DialogActions, DialogContent, DialogContentText, DialogTitle, Tooltip } from '@mui/material';
-import Hamburger from 'hamburger-react';
-import { useLayoutEffect, useState } from 'react';
-import { IconContext } from 'react-icons';
-import { FaAngleRight, FaCalculator, FaCarrot, FaHome, FaRegClipboard, FaUserCog } from 'react-icons/fa';
-import { MdExitToApp } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import LogoSource from '../../assets/images/logo.svg';
-import { useWindowWidth } from '../../hooks/useWindowWidth';
-import { getUrl } from '../../store';
-import { disconnectUrl } from '../../store/nightscoutSlice';
+import LoadingButton from "@mui/lab/LoadingButton";
+import {
+	Button,
+	ClickAwayListener,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Tooltip
+} from "@mui/material";
+import Hamburger from "hamburger-react";
+import { useLayoutEffect, useState } from "react";
+import { IconContext } from "react-icons";
+import {
+	FaAngleRight,
+	FaCalculator,
+	FaCarrot,
+	FaClipboardList,
+	FaHome,
+	FaUserCog
+} from "react-icons/fa";
+import { MdExitToApp } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import LogoSource from "../../assets/images/logo.svg";
+import { useWindowWidth } from "../../hooks/useWindowWidth";
+import { getUrl } from "../../store";
+import { disconnectUrl } from "../../store/nightscoutSlice";
 import {
 	DialogConfirmation,
 	SidebarBrand,
@@ -23,8 +38,8 @@ import {
 	SidebarUrl,
 	SidebarUrlContainer,
 	SidebarWrapper,
-	TransparentBackground,
-} from './SidebarElements';
+	TransparentBackground
+} from "./SidebarElements";
 
 export const Sidebar = () => {
 	const [mobile, setMobile] = useState();
@@ -73,29 +88,37 @@ export const Sidebar = () => {
 	}, [windowWidth]);
 
 	return (
-		<IconContext.Provider value={{ color: '#9FA2B4' }}>
+		<IconContext.Provider value={{ color: "#9FA2B4" }}>
 			{/* Dialog for user URL change confirmation */}
 			<DialogConfirmation
-				aria-labelledby='alert-dialog-title'
-				aria-describedby='alert-dialog-description'
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
 				open={dialogOpen}
 				onClose={handleDialogClose}
 			>
-				<DialogTitle id='alert-dialog-title'>{'Confirmar alteração'}</DialogTitle>
-				<DialogContent id='alert-dialog-description'>
-					<DialogContentText>Você quer mesmo alterar sua URL atual:</DialogContentText>
+				<DialogTitle id="alert-dialog-title">
+					Confirmar alteração
+				</DialogTitle>
+				<DialogContent tabIndex={0} id="alert-dialog-description">
+					<DialogContentText>
+						Você quer mesmo alterar sua URL atual:
+					</DialogContentText>
 					<DialogContentText>{nightscoutUrl}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button disabled={isLoading} onClick={handleDialogClose}>
+					<Button
+						autoFocus
+						disabled={isLoading}
+						onClick={handleDialogClose}
+					>
 						Não, voltar
 					</Button>
 					<LoadingButton
-						variant='contained'
+						variant="contained"
 						onClick={handleUrlChange}
 						loading={isLoading}
-						loadingPosition='end'
-						endIcon={<MdExitToApp color='inherit' />}
+						loadingPosition="end"
+						endIcon={<MdExitToApp color="inherit" />}
 					>
 						Sim
 					</LoadingButton>
@@ -105,59 +128,104 @@ export const Sidebar = () => {
 			<ClickAwayListener onClickAway={handleClickAway}>
 				{/* Actual sidebar */}
 				<>
-					<SidebarButton mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
+					<SidebarButton
+						tabIndex={-1}
+						mobileSidebarOpen={mobileSidebarOpen}
+						aria-expanded={mobileSidebarOpen}
+						mobile={mobile}
+					>
 						<Hamburger
-							aria-label='Abrir o menu'
-							color='#a4a6b3'
+							id="hamburger"
+							label="Pressione para abrir a navegação"
+							color="#a4a6b3"
 							size={30}
 							rounded
 							duration={0.5}
-							toggled={mobileSidebarOpen}
 							toggle={handleSidebarOpenClose}
+							toggled={mobileSidebarOpen}
 						/>
 					</SidebarButton>
-					<SidebarContainer mobileSidebarOpen={mobileSidebarOpen} mobile={mobile}>
+					<SidebarContainer
+						aria-labelledby="hamburger"
+						mobileSidebarOpen={mobileSidebarOpen}
+						mobile={mobile}
+					>
 						<SidebarWrapper>
 							<SidebarBrand>
 								<SidebarLogo
-									height='40'
-									width='40'
-									title='Insulhub brand logo'
-									alt='Uma seringa e um vidro de insulina com conteúdo azul e rótulo amarelo.'
+									height="40"
+									width="40"
+									title="Logo do Insulhub"
+									alt="Uma seringa e um vidro de insulina com conteúdo azul e rótulo amarelo."
 									src={LogoSource}
 								/>
 								<SidebarTitle>INSULHUB</SidebarTitle>
 							</SidebarBrand>
-							<SidebarList onClick={mobile ? handleSidebarOpenClose : null}>
+							<SidebarList
+								onClick={mobile ? handleSidebarOpenClose : null}
+							>
 								<SidebarItem>
-									<SidebarLink activeclassname='active' to='/'>
+									<SidebarLink
+										role="button"
+										aria-label="Link do menu para a página inicial"
+										activeclassname="active"
+										to="/"
+									>
 										<FaHome />
 										<span>Início</span>
 									</SidebarLink>
 								</SidebarItem>
 								<SidebarItem>
-									<SidebarLink activeclassname='active' to='/summary'>
-										<FaRegClipboard />
+									<SidebarLink
+										role="button"
+										aria-label="Link do menu para os relatórios mensais"
+										activeclassname="active"
+										to="/summary"
+									>
+										<FaClipboardList />
 										<span>Relatório</span>
 									</SidebarLink>
 								</SidebarItem>
 								<SidebarItem>
-									<SidebarLink activeclassname='active' to='/calculator'>
+									<SidebarLink
+										role="button"
+										aria-label="Link do menu para a calculadora de regra de três"
+										activeclassname="active"
+										to="/calculator"
+									>
 										<FaCalculator />
 										<span>Regra de Três</span>
 									</SidebarLink>
 								</SidebarItem>
 								<SidebarItem>
-									<SidebarLink activeclassname='active' to='/food'>
+									<SidebarLink
+										role="button"
+										aria-label="Link do menu para a tabela nutricional"
+										activeclassname="active"
+										to="/food"
+									>
 										<FaCarrot />
 										<span>Alimentos</span>
 									</SidebarLink>
 								</SidebarItem>
 							</SidebarList>
-							<Tooltip title='👇 Clique para alterar sua URL Nightscout' placement='top' arrow disableInteractive>
-								<SidebarUrlContainer onClick={handleDialogOpen}>
+							<Tooltip
+								title="👇 Clique para alterar sua URL Nightscout"
+								placement="top"
+								arrow
+								disableInteractive
+							>
+								<SidebarUrlContainer
+									role="button"
+									aria-label="Pressione para trocar a url Nightscout configurada"
+									type="button"
+									tabIndex="0"
+									onClick={handleDialogOpen}
+								>
 									<FaUserCog size={24} />
-									<SidebarUrl>{nightscoutUrl || 'your-url.herokuapp.com'}</SidebarUrl>
+									<SidebarUrl>
+										{nightscoutUrl || "your-url.herokuapp.com"}
+									</SidebarUrl>
 									<FaAngleRight size={14} />
 								</SidebarUrlContainer>
 							</Tooltip>
