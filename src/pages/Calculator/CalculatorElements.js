@@ -25,6 +25,13 @@ export const CalculatorMainCard = styled.form`
 
 	overflow-y: hidden;
 
+	border: 2px solid #dfe0eb;
+	border-radius: 8px;
+
+	background-color: #ffffff;
+
+	padding: 16px;
+
 	width: 100%;
 
 	margin-bottom: 30px;
@@ -37,14 +44,11 @@ export const CalculatorInputContainer = styled.div`
 	justify-content: space-evenly;
 	gap: 16px;
 
-	border: 2px solid #dfe0eb;
-	border-radius: 8px;
-
-	background-color: #ffffff;
-
-	padding: 16px 32px;
-
 	width: 100%;
+
+	&:first-child {
+		border-bottom: 2px dotted #dfe0eb;
+	}
 
 	@media screen and (max-width: 576px) {
 		flex-direction: column;
