@@ -21,8 +21,6 @@ export const CalculatorMainCard = styled.form`
 
 	flex-grow: 1;
 
-	gap: 16px;
-
 	overflow-y: hidden;
 
 	border: 2px solid #dfe0eb;
@@ -133,6 +131,7 @@ export const CalculatorButton = styled.button`
 	border: 2px solid #3751ff;
 	border-radius: 8px;
 
+	margin-bottom: 8px;
 	padding: 12px 24px;
 
 	font-size: 1.2em;
