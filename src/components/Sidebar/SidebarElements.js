@@ -6,7 +6,9 @@ export const SidebarContainer = styled.nav`
 	display: flex;
 
 	height: ${({ mobile }) => (mobile ? "100%" : "100vh")};
-	min-width: ${({ mobile }) => (mobile ? "100vw" : "288px")};
+	min-width: ${({ mobile }) =>
+		mobile ? "100vw" : "clamp(250px, 25vw, 400px)"};
+	max-width: 100vw;
 
 	overflow-y: auto;
 
@@ -36,7 +38,7 @@ export const SidebarContainer = styled.nav`
 		background: #737587;
 		border-radius: 50px;
 	}
-	
+
 	@keyframes appear {
 		from {
 			visibility: hidden;
@@ -66,7 +68,7 @@ export const DialogConfirmation = styled(Dialog)`
 	width: clamp(50%, 768px, 95%);
 `;
 
-export const SidebarButton = styled.button`
+export const SidebarButton = styled.div`
 	position: fixed;
 	top: 32px;
 	right: 16px;
