@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Loader } from "../../components";
 import { dateFormatter } from "../../utils";
 import {
@@ -42,7 +43,7 @@ export const Readings = ({ selectedTime, nightscoutUrl }) => {
 					setIsLoading(false);
 				})
 				.catch(error => {
-					console.error(error);
+					toast.error(error.message);
 				});
 		};
 

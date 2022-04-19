@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import toast from "react-hot-toast";
 import { Loader } from "../../components";
 import { useWindowHeight } from "../../hooks/useWindowHeight";
 import { dateFormatter } from "../../utils";
@@ -57,7 +58,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 					setIsLoading(false);
 				})
 				.catch(error => {
-					console.error(error);
+					toast.error(error.message);
 				});
 		};
 

@@ -87,7 +87,8 @@ export const StyledDatePicker = styled(DatePicker)`
 
 export const SummaryHighlightedCardsWrapper = styled.div`
 	display: flex;
-	flex-wrap: wrap;
+
+	flex-direction: column;
 
 	gap: 16px;
 
@@ -110,19 +111,18 @@ export const SummaryHighlightedCard = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	flex-direction: column;
 	flex-grow: 1;
-	flex-basis: 0px;
+	flex-direction: column;
 
 	padding: 16px;
 
-	@media screen and (max-width: 576px) {
+	/* @media screen and (max-width: 576px) {
 		width: 30%;
 	}
 
 	@media screen and (max-width: 465px) {
 		width: 100%;
-	}
+	} */
 `;
 
 export const SummaryHighlightedHeading = styled.h3`

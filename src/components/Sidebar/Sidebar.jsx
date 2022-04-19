@@ -6,7 +6,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	Tooltip
+	Tooltip,
 } from "@mui/material";
 import Hamburger from "hamburger-react";
 import { useLayoutEffect, useState } from "react";
@@ -17,7 +17,7 @@ import {
 	FaCarrot,
 	FaClipboardList,
 	FaHome,
-	FaUserCog
+	FaUserCog,
 } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +38,7 @@ import {
 	SidebarUrl,
 	SidebarUrlContainer,
 	SidebarWrapper,
-	TransparentBackground
+	TransparentBackground,
 } from "./SidebarElements";
 
 export const Sidebar = () => {
@@ -129,7 +129,6 @@ export const Sidebar = () => {
 				{/* Actual sidebar */}
 				<>
 					<SidebarButton
-						tabIndex={-1}
 						mobileSidebarOpen={mobileSidebarOpen}
 						aria-expanded={mobileSidebarOpen}
 						mobile={mobile}
