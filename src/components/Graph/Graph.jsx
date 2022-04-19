@@ -1,11 +1,12 @@
-import axios from 'axios';
-import Chart from 'chart.js/auto';
-import zoomPlugin from 'chartjs-plugin-zoom';
-import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Loader } from '../../components';
-import { useWindowHeight } from '../../hooks/useWindowHeight';
-import { dateFormatter } from '../../utils';
+import axios from "axios";
+import Chart from "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import toast from "react-hot-toast";
+import { Loader } from "../../components";
+import { useWindowHeight } from "../../hooks/useWindowHeight";
+import { dateFormatter } from "../../utils";
 
 Chart.register(zoomPlugin);
 
@@ -30,9 +31,10 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 
 			await axios
 				.get(nightscoutApiUrl)
-				.then((response) => {
+				.then(response => {
 					for (let i = response?.data?.length - 1; i >= 0; i--) {
-						response?.data[i]?.noise === 1 && bloodGlucoseReadings.push(response?.data[i]?.sgv);
+						response?.data[i]?.noise === 1 &&
+							bloodGlucoseReadings.push(response?.data[i]?.sgv);
 					}
 
 					for (let i = bloodGlucoseReadings.length - 1; i >= 0; i--) {
@@ -55,16 +57,16 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 					setBloodGlucose(bloodGlucoseReadings);
 					setIsLoading(false);
 				})
-				.catch((error) => {
-					console.error(error);
+				.catch(error => {
+					toast.error(error.message);
 				});
 		};
 
 		fetchGraphInformation();
 
-		window.addEventListener('focus', fetchGraphInformation);
+		window.addEventListener("focus", fetchGraphInformation);
 
-		return window.removeEventListener('focus', fetchGraphInformation);
+		return window.removeEventListener("focus", fetchGraphInformation);
 	}, [nightscoutApiUrl, selectedDate, windowHeight]);
 
 	return (
@@ -79,10 +81,10 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 						labels: labelData,
 						datasets: [
 							{
-								label: 'Glicemia',
+								label: "Glicemia",
 								data: bloodGlucose,
-								backgroundColor: ['rgba(55, 81, 255, 0.6)'],
-								borderColor: ['rgba(55, 81, 255, 0.2)'],
+								backgroundColor: ["rgba(55, 81, 255, 0.6)"],
+								borderColor: ["rgba(55, 81, 255, 0.2)"],
 							},
 						],
 					}}
@@ -93,7 +95,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 
 						scales: {
 							x: {
-								bounds: 'ticks',
+								bounds: "ticks",
 								display: true,
 							},
 							y: {
@@ -115,7 +117,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 								},
 								pan: {
 									enabled: true,
-									mode: 'x',
+									mode: "x",
 								},
 								zoom: {
 									wheel: {
@@ -125,7 +127,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 									pinch: {
 										enabled: true,
 									},
-									mode: 'x',
+									mode: "x",
 								},
 							},
 						},

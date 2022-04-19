@@ -1,5 +1,5 @@
-import { DatePicker } from '@material-ui/pickers';
-import styled from 'styled-components';
+import { DatePicker } from "@material-ui/pickers";
+import styled from "styled-components";
 
 export const SummaryContainer = styled.section`
 	height: 100vh;
@@ -87,10 +87,12 @@ export const StyledDatePicker = styled(DatePicker)`
 
 export const SummaryHighlightedCardsWrapper = styled.div`
 	display: flex;
-	flex-wrap: wrap;
+
+	flex-direction: column;
 
 	gap: 16px;
 
+	height: 100%;
 	width: 100%;
 `;
 
@@ -109,19 +111,18 @@ export const SummaryHighlightedCard = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	flex-direction: column;
 	flex-grow: 1;
-	flex-basis: 0px;
+	flex-direction: column;
 
 	padding: 16px;
 
-	@media screen and (max-width: 576px) {
+	/* @media screen and (max-width: 576px) {
 		width: 30%;
 	}
 
 	@media screen and (max-width: 465px) {
 		width: 100%;
-	}
+	} */
 `;
 
 export const SummaryHighlightedHeading = styled.h3`
@@ -133,6 +134,8 @@ export const SummaryHighlightedHeading = styled.h3`
 export const SummaryHighlightedInfo = styled.span`
 	font-size: 2.5rem;
 `;
+
+// ? Table, inactive
 
 export const SummaryTableContainer = styled.div`
 	position: relative;
@@ -160,7 +163,7 @@ export const SummaryTableContainer = styled.div`
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: #9fa2b4;
+		background: #737587;
 		border-radius: 50px;
 	}
 

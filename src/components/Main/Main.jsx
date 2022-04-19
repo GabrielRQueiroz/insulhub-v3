@@ -1,9 +1,10 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { useWindowHeight, useWindowWidth } from '../../hooks';
-import { Calculator, Food, Home, Summary } from '../../pages';
-import { MainWrapper } from './MainElements';
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useWindowHeight, useWindowWidth } from "../../hooks";
+import { Calculator, Food, Home, Summary } from "../../pages";
+import { MainWrapper } from "./MainElements";
 
 export const Main = () => {
 	const deviceHeight = useWindowHeight();
@@ -23,14 +24,24 @@ export const Main = () => {
 	}, [deviceHeight]);
 
 	return (
-		<MainWrapper height={windowHeight} mobile={isMobile}>
+		<MainWrapper
+			aria-labelledby="Seção principal"
+			role="main"
+			height={windowHeight}
+			mobile={isMobile}
+		>
+			<Toaster />
 			<TransitionGroup>
-				<CSSTransition key={location.pathname} timeout={250} classNames='page'>
+				<CSSTransition
+					key={location.pathname}
+					timeout={250}
+					classNames="page"
+				>
 					<Routes location={location}>
-						<Route path='/' element={<Home />} />
-						<Route path='/summary' element={<Summary />} />
-						<Route path='/calculator' element={<Calculator />} />
-						<Route path='/food' element={<Food />} />
+						<Route path="/" element={<Home />} />
+						<Route path="/summary" element={<Summary />} />
+						<Route path="/calculator" element={<Calculator />} />
+						<Route path="/food" element={<Food />} />
 					</Routes>
 				</CSSTransition>
 			</TransitionGroup>

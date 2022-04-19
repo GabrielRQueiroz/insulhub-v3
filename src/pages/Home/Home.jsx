@@ -1,11 +1,18 @@
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { useState } from 'react';
-import { FaCalculator, FaCarrot, FaPencilAlt, FaRegCalendarAlt, FaRegClipboard, FaRegClock } from 'react-icons/fa';
-import { IoMdRefresh } from 'react-icons/io';
-import { useSelector } from 'react-redux';
-import { Graph, PageHeader, Readings } from '../../components';
-import { getUrl } from '../../store';
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { useState } from "react";
+import {
+	FaCalculator,
+	FaCarrot,
+	FaPencilAlt,
+	FaRegCalendarAlt,
+	FaRegClipboard,
+	FaRegClock,
+} from "react-icons/fa";
+import { IoMdRefresh } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { Graph, PageHeader, Readings } from "../../components";
+import { getUrl } from "../../store";
 import {
 	DateRefreshButton,
 	DateText,
@@ -25,46 +32,68 @@ import {
 	StyledDatePicker,
 	StyledTimePicker,
 	TimeSectionWrapper,
-} from './HomeElements';
+} from "./HomeElements";
 
 export const Home = () => {
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(date);
-	const [username, setUsername] = useState(localStorage.username || '');
+	const [username, setUsername] = useState(localStorage.username || "");
 
 	const { nightscoutUrl } = useSelector(getUrl);
 
-	const handleDateChange = (date) => {
+	const handleDateChange = date => {
 		setDate(date);
 		setTime(date);
 	};
-	const handleTimeChange = (time) => setTime(time);
+	const handleTimeChange = time => setTime(time);
 
-	const saveUsername = (username) => {
+	const saveUsername = username => {
 		setUsername(username);
-		localStorage.setItem('username', username);
+		localStorage.setItem("username", username);
 	};
 
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
-			<HomeContainer>
-				<PageHeader heading='Início'>
-					<HomeGreetings>
-						Olá, <HomeUsernameField onSave={(e) => saveUsername(e.value)} placeholder='usuário' defaultValue={username} />
-						{'! '}
+			<HomeContainer id="home">
+				<PageHeader heading="Início">
+					<HomeGreetings tabIndex={0} aria-label={`Olá, ${username}`}>
+						Olá,{" "}
+						<HomeUsernameField
+							role="textbox"
+							onSave={e => saveUsername(e.value)}
+							aria-label="Pressione para mudar o nome do usuário"
+							placeholder="usuário"
+							defaultValue={username}
+						/>
+						{"! "}
 						<FaPencilAlt />
 					</HomeGreetings>
 				</PageHeader>
 				<HomeCardsContainer>
-					<HomeCard to='/summary'>
+					<HomeCard
+						role="button"
+						tabIndex={-1}
+						aria-label="Acesso rápido ao relatório mensal"
+						to="/summary"
+					>
 						<HomeCardTitle>Relatório</HomeCardTitle>
 						<FaRegClipboard />
 					</HomeCard>
-					<HomeCard to='/calculator'>
+					<HomeCard
+						role="button"
+						tabIndex={-1}
+						aria-label="Acesso rápido à calculadora de regra de três"
+						to="/calculator"
+					>
 						<HomeCardTitle>Regra de Três</HomeCardTitle>
 						<FaCalculator />
 					</HomeCard>
-					<HomeCard to='/food'>
+					<HomeCard
+						role="button"
+						tabIndex={-1}
+						aria-label="Acesso rápido a tabela nutricional"
+						to="/food"
+					>
 						<HomeCardTitle>Alimentos</HomeCardTitle>
 						<FaCarrot />
 					</HomeCard>
@@ -77,17 +106,20 @@ export const Home = () => {
 							</DateText>
 							{/* Date picker */}
 							<StyledDatePicker
-								hiddenLabel='Esse é um seletor de data no formato dia/mês/ano'
-								format='dd/MM/yyyy'
-								inputVariant='outlined'
-								aria-labelledby='dateLabel'
+								hiddenLabel="Esse é um seletor de data no formato dia/mês/ano"
+								format="dd/MM/yyyy"
+								readOnly={false}
+								inputVariant="outlined"
+								aria-labelledby="dateLabel"
 								disableFuture
-								minDate={new Date('2000-02-01')}
+								minDate={new Date("2000-02-01")}
 								value={date}
 								onChange={handleDateChange}
 								autoOk
 							/>
-							<HiddenLabel id='dateLabel'>Escolha uma data para ter todas as leituras</HiddenLabel>
+							<HiddenLabel id="dateLabel">
+								Escolha uma data para ter todas as leituras
+							</HiddenLabel>
 						</DateWrapper>
 						<GraphContainer>
 							<Graph selectedDate={date} nightscoutUrl={nightscoutUrl} />
@@ -97,22 +129,32 @@ export const Home = () => {
 								<FaRegClock />
 								{/* Time picker */}
 								<StyledTimePicker
-									hiddenLabel='Esse é um seletor de horário no formato hora:minutos'
-									aria-labelledby='timeLabel'
-									inputVariant='outlined'
+									hiddenLabel="Esse é um seletor de horário no formato hora:minutos"
+									aria-labelledby="timeLabel"
+									inputVariant="outlined"
 									ampm={false}
 									value={time}
 									onChange={handleTimeChange}
 									autoOk
 								/>
-								<HiddenLabel id='timeLabel'>Escolha um horário para uma leitura específica</HiddenLabel>
+								<HiddenLabel id="timeLabel">
+									Escolha um horário para uma leitura específica
+								</HiddenLabel>
 							</SearchWrapper>
-							<DateRefreshButton name='Botão de atualização' type='button' onClick={() => handleDateChange(new Date())}>
+							<ReadingsWrapper tabIndex={0}>
+								<Readings
+									selectedTime={time}
+									nightscoutUrl={nightscoutUrl}
+								/>
+							</ReadingsWrapper>
+							<DateRefreshButton
+								aria-label="Botão de atualização do gráfico"
+								name="Botão de atualização"
+								type="button"
+								onClick={() => handleDateChange(new Date())}
+							>
 								<IoMdRefresh />
 							</DateRefreshButton>
-							<ReadingsWrapper>
-								<Readings selectedTime={time} nightscoutUrl={nightscoutUrl} />
-							</ReadingsWrapper>
 						</TimeSectionWrapper>
 					</GraphSectionWrapper>
 				</MainSectionContainer>
