@@ -20,7 +20,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 	const { timezone, getDateStrings } = dateFormatter(selectedDate); // src/utils/formatDate.js
 	const { dateString, dateStringAhead } = getDateStrings();
 
-	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.00&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.00&count=400`;
+	const nightscoutApiUrl = `${nightscoutUrl}api/v1/entries/sgv.json?find[dateString][$gte]=${dateString}T${timezone}:00:00.00&find[dateString][$lte]=${dateStringAhead}T${timezone}:00:00.00&find[noise][$eq]=1&count=500`;
 
 	useEffect(() => {
 		const fetchGraphInformation = async () => {
@@ -33,8 +33,7 @@ export const Graph = ({ selectedDate, nightscoutUrl }) => {
 				.get(nightscoutApiUrl)
 				.then(response => {
 					for (let i = response?.data?.length - 1; i >= 0; i--) {
-						response?.data[i]?.noise === 1 &&
-							bloodGlucoseReadings.push(response?.data[i]?.sgv);
+						bloodGlucoseReadings.push(response.data[i].sgv);
 					}
 
 					for (let i = bloodGlucoseReadings.length - 1; i >= 0; i--) {
