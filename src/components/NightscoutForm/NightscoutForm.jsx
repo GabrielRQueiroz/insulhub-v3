@@ -16,7 +16,7 @@ export const NightscoutForm = () => {
 	const dispatch = useDispatch();
 
 	const urlPatternValidation = (url) => {
-		const regex = new RegExp('^(https://|http://)?([a-zA-Z0-9.@_+=-]+).(herokuapp.com|herokuapp.com/|fly.fev|fly.fev/)$');
+		const regex = new RegExp('^(https://|http://)?([a-zA-Z0-9.@_+=-]+).(herokuapp.com|herokuapp.com/|fly.dev|fly.dev/)$');
 		return regex.test(url);
 	};
 
