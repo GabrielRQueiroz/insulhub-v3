@@ -223,7 +223,7 @@ export const Sidebar = () => {
 								>
 									<FaUserCog size={24} />
 									<SidebarUrl>
-										{nightscoutUrl || "your-url.herokuapp.com"}
+										{nightscoutUrl || "your-url.fly.dev"}
 									</SidebarUrl>
 									<FaAngleRight size={14} />
 								</SidebarUrlContainer>
