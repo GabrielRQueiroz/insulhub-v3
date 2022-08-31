@@ -16,7 +16,7 @@ export const NightscoutForm = () => {
 	const dispatch = useDispatch();
 
 	const urlPatternValidation = (url) => {
-		const regex = new RegExp('^(https://|http://)?([a-zA-Z0-9.@_+=-]+).(herokuapp.com|herokuapp.com/)$');
+		const regex = new RegExp('^(https://|http://)?([a-zA-Z0-9.@_+=-]+).(herokuapp.com|herokuapp.com/|fly.fev|fly.fev/)$');
 		return regex.test(url);
 	};
 
@@ -49,7 +49,7 @@ export const NightscoutForm = () => {
 			</DialogTitle>
 			<DialogContent id='alert-dialog-description'>
 				<FormImage alt='Logo Nightscout: Um desenho de uma coruja preta' height={96} src={NightscoutLogo} />
-				<FormImage alt='A imagem de exemplo tem o seguinte url: "https://example.herokuapp.com/"' src={ScreenshotImg} />
+				<FormImage alt='A imagem de exemplo tem o seguinte url: "https://example.fly.dev.com/"' src={ScreenshotImg} />
 				<FormField
 					tabIndex={1}
 					required
@@ -60,7 +60,7 @@ export const NightscoutForm = () => {
 					variant='standard'
 					size='medium'
 					label='URL Nightscout'
-					helperText='Exemplo: https://url.herokuapp.com/'
+					helperText='Exemplo: https://url.fly.dev/'
 					value={userUrl}
 					onChange={handleInputChange}
 					onKeyPress={handleKeyPress}
